@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.BE
 {
-    public class User
+    public class Consumer
     {
         public string firstName;
         public string lastName;

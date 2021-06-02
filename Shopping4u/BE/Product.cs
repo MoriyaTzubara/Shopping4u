@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public class Item
+    public class Product
     {
         public int id;
         public string imageUrl;

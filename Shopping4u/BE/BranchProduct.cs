@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public class BranchItem
+    public class BranchProduct
     {
         public int itemId;
         public int branchId;
