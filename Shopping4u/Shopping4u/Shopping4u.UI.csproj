@@ -94,5 +94,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BE\Shopping4u.BE.csproj">
+      <Project>{3dd08e6f-0a28-4c65-83c8-8e2614b51652}</Project>
+      <Name>Shopping4u.BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BL\Shopping4u.BL.csproj">
+      <Project>{8e0132ca-ff20-44c2-90d6-760575c6b9a1}</Project>
+      <Name>Shopping4u.BL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
