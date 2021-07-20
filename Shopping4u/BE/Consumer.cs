@@ -8,6 +8,7 @@ namespace Shopping4u.BE
 {
     public class Consumer
     {
+        public int id;
         public string firstName;
         public string lastName;
         public string phoneNumber;
