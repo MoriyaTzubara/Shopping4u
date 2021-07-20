@@ -16,7 +16,7 @@ namespace Shopping4u.DAL
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);
-        void InsertOrderedProducts(List<OrderedProduct> orderedProducts);
+        void InsertOrderedProducts(List<OrderedProduct> orderedProducts,int shoppingList);
         #endregion
     }
 }

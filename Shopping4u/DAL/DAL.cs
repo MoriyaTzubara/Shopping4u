@@ -180,7 +180,7 @@ namespace Shopping4u.DAL
         public void InsertShoppingList(ShoppingList shoppingList)
         {
             string query = $"INSERT INTO shoppingList (consumerId, date) VALUES({shoppingList.consumerId}, {shoppingList.date})";
-
+            int shoppingListId = -1;
             //open connection
             if (this.OpenConnection() == true)
             {
@@ -189,21 +189,24 @@ namespace Shopping4u.DAL
 
                 //Execute command
                 cmd.ExecuteNonQuery();
-
+                // get auto increment primary key
+                query = "SELECT LAST_INSERT_ID() from shoppingList";
+                cmd = new MySqlCommand(query, connection);
+                shoppingListId = (int)cmd.ExecuteScalar();
                 //close connection
                 this.CloseConnection();
             }
-            InsertOrderedProducts(shoppingList.products);
+            InsertOrderedProducts(shoppingList.products,shoppingListId);
 
         }
-        public void InsertOrderedProducts(List<OrderedProduct> orderedProducts)
+        public void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId)
         {
             if (this.OpenConnection() == true)
             {
                 foreach (OrderedProduct item in orderedProducts)
                 {
                     string query = $"INSERT INTO shoppingList (ShoppingListId, branchProductId, unitPrice,quantity) " +
-                        $"VALUES({item.shoppingListId}, {item.branchProductId},{item.unitPrice}, {item.quantity})";
+                        $"VALUES({shoppingListId}, {item.branchProductId},{item.unitPrice}, {item.quantity})";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
                 }
