@@ -8,8 +8,9 @@ namespace BE
 {
     public class BranchProduct
     {
-        public int itemId;
+        public int productId;
         public int branchId;
         public double price;
+        public int branchProductId;
     }
 }
