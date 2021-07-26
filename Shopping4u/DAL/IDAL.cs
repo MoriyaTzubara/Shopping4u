@@ -1,5 +1,4 @@
 ﻿using BE;
-using Shopping4u.BE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,7 @@ namespace Shopping4u.DAL
         BranchProduct GetBranchProduct(int branchProductId);
         Product GetProduct(int productId);
         Branch GetBranch(int branchId);
+        Consumer GetConsumer(int consumerId);
         List<ShoppingList> GetConsumerHistory(int consumerId);
         #endregion
         #region INSERT
@@ -24,6 +24,7 @@ namespace Shopping4u.DAL
         void InsertBaseProduct(Product product);
         Branch InsertBranch(Branch branch);
         BranchProduct InsertBranchProduct(Product product,Branch branch, double price);
+        void InsertConsumer(Consumer consumer);
         #endregion
         #region UPDATE
         void UpdateProductPicture(string url, int productId);

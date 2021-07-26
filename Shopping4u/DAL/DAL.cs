@@ -1,5 +1,4 @@
 ﻿using BE;
-using Shopping4u.BE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -159,6 +158,33 @@ namespace Shopping4u.DAL
             }
             return result;
         }
+        public Consumer GetConsumer(int consumerId)
+        {
+            Consumer result = new Consumer();
+            string query = $"SELECT * FROM consumer where {consumerId} = consumerId";
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                result = new Consumer
+                {
+                    id = int.Parse(dataReader["consumerId"] + ""),
+                    profileImageUrl = dataReader["profileImageUrl"] + "",
+                    firstName = dataReader["firstName"] + "",
+                    lastName = dataReader["lastName"] + "",
+                    email = dataReader["email"] + "",
+                    phoneNumber = dataReader["phoneNumber"] + ""
+                };
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+            }
+            return result;
+        }
         public Branch GetBranch(int branchId)
         {
             Branch result = new Branch();
@@ -299,9 +325,9 @@ namespace Shopping4u.DAL
 
         public void InsertBaseProduct(Product product)
         {
-            if(this.OpenConnection() == true)
+            if (GetProduct(product.id) == new Product())
             {
-                if(GetProduct(product.id) == new Product())
+                if (this.OpenConnection() == true)
                 {
                     string query = $"INSERT INTO baseproduct (productId,name,itemImageUrl) " +
                         $"VALUES ({product.id},{product.name},{product.imageUrl})";
@@ -309,6 +335,20 @@ namespace Shopping4u.DAL
                     cmd.ExecuteNonQuery();
                 }
                 this.CloseConnection();
+            }
+        }
+        public void InsertConsumer(Consumer consumer)
+        {
+            if (GetConsumer(consumer.id) == new Consumer())
+            {
+                if (this.OpenConnection() == true)
+                {
+                    string query = $"INSERT INTO consumer (consumerId,profileImageUrl,phoneNumber, email, firstName,lastName) " +
+                        $"VALUES ({consumer.id},{consumer.profileImageUrl},{consumer.phoneNumber},{consumer.email},{consumer.firstName},{consumer.lastName})";
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+                    this.CloseConnection();
+                }
             }
         }
         public Branch InsertBranch(Branch branch)
