@@ -7,28 +7,34 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.IO;
+using Firebase.Storage;
+using System.Net;
+using ZXing;
+using System.Drawing;
+using MySqlX.XDevAPI.Relational;
+using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace Shopping4u.DAL
 {
     public class DAL : IDAL
     {
+        #region INITIALIZE
         private MySqlConnection connection;
-        private string server;
-        private string username;
-        private string password;
-        private string database;
         public DAL()
         {
             Initialize();
         }
         private void Initialize()
         {
-            server = "localhost";
-            username = "root";
-            password = "tratzon1";
-            database = "shopping4u";
-            connection = new MySqlConnection();
-            connection.ConnectionString = $"server={server};user id={username};password={password};database={database}";
+            using (StreamReader r = new StreamReader("databaseConnection.json"))
+            {
+                string json = r.ReadToEnd();
+                DatabaseConnection database = JsonConvert.DeserializeObject<DatabaseConnection>(json);
+                connection = new MySqlConnection();
+                connection.ConnectionString = $"server={database.server};user id={database.username};password={database.password};database={database.database}";
+            }
         }
         //open connection to database
         private bool OpenConnection()
@@ -68,6 +74,7 @@ namespace Shopping4u.DAL
                 throw new Exception(ex.Message);
             }
         }
+        #endregion
         #region SELECT
         public List<Product> GetProducts()
         {
@@ -165,7 +172,6 @@ namespace Shopping4u.DAL
                 result = new Branch
                 {
                     id = int.Parse(dataReader["id"] + ""),
-                    address = dataReader["address"] + "",
                     name = dataReader["name"] + ""
                 };
                 //close Data Reader
@@ -179,8 +185,8 @@ namespace Shopping4u.DAL
         public List<ShoppingList> GetConsumerHistory(int consumerId)
         {
             List<ShoppingList> result = new List<ShoppingList>();
-            string query = "SELECT `shoppingListId`, `consumerId`, `date`, `unitPrice`, `quantity`,`branchProductId`" +
-                "FROM `shoppinglist` natural join `orderedProduct` natural join `branchProduct` " +
+            string query = "SELECT *`" +
+                "FROM `shoppinglist` " +
                 $"where `consumerId` = {consumerId}";
             if (this.OpenConnection() == true)
             {
@@ -273,19 +279,24 @@ namespace Shopping4u.DAL
         }
         public void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId)
         {
-            if (this.OpenConnection() == true)
+            foreach (OrderedProduct item in orderedProducts)
             {
-                foreach (OrderedProduct item in orderedProducts)
-                {
-                    string query = $"INSERT INTO shoppingList (ShoppingListId, branchProductId, unitPrice,quantity) " +
-                        $"VALUES({shoppingListId}, {item.branchProductId},{item.unitPrice}, {item.quantity})";
-                    MySqlCommand cmd = new MySqlCommand(query, connection);
-                    cmd.ExecuteNonQuery();
-                }
-                this.CloseConnection();
+                InsertOrderedProduct(item, shoppingListId);
             }
 
         }
+        public void InsertOrderedProduct(OrderedProduct orderedProduct, int shoppingListId)
+        {
+            if (this.OpenConnection() == true)
+            {
+                string query = $"INSERT INTO shoppingList (ShoppingListId, branchProductId, unitPrice,quantity) " +
+                      $"VALUES({shoppingListId}, {orderedProduct.branchProductId},{orderedProduct.unitPrice}, {orderedProduct.quantity})";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+                this.CloseConnection();
+            }
+        }
+
         public void InsertBaseProduct(Product product)
         {
             if(this.OpenConnection() == true)
@@ -302,15 +313,15 @@ namespace Shopping4u.DAL
         }
         public Branch InsertBranch(Branch branch)
         {
-            string query = $"SELECT * FROM branch WHERE {branch.name} = name AND {branch.address} = address";
+            string query = $"SELECT * FROM branch WHERE {branch.name} = name";
             if (this.OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 if (!dataReader.Read())
                 {
-                    query = $"INSERT INTO branch (name,address) " +
-                        $"VALUES ({branch.name},{branch.address})";
+                    query = $"INSERT INTO branch (name) " +
+                        $"VALUES ({branch.name})";
                     cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
                     // get auto increment primary key
@@ -327,10 +338,11 @@ namespace Shopping4u.DAL
             }
             return branch;
         }
-        public void InsertBranchProduct(Product product, Branch branch,int price)
+        public BranchProduct InsertBranchProduct(Product product, Branch branch,double price)
         {
             InsertBaseProduct(product);
             branch = InsertBranch(branch);
+            BranchProduct branchProduct = new BranchProduct();
             if (branch.id != 0)
             {
                 string query = $"INSERT INTO branchProduct (branchId,productId,price) " +
@@ -339,8 +351,35 @@ namespace Shopping4u.DAL
                 {
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
+                    // get auto increment primary key
+                    query = "SELECT LAST_INSERT_ID() from branchproduct";
+                    cmd = new MySqlCommand(query, connection);
+                    branchProduct = new BranchProduct
+                    {
+                        branchProductId = (int)cmd.ExecuteScalar(),
+                        branchId = branch.id,
+                        productId = product.id,
+                        price = price
+                    };
                     this.CloseConnection();
                 }
+            }
+            return branchProduct;
+        }
+        #endregion
+        #region UPDATE
+        public void UpdateProductPicture(string url, int productId)
+        {
+            if (this.OpenConnection() == true)
+            {
+                if (GetProduct(productId) == new Product())
+                {
+                    string query = $"UPDATE baseproduct set itemImageUrl = {url} " +
+                        $"where productId = {productId}";
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+                }
+                this.CloseConnection();
             }
         }
         #endregion
@@ -420,5 +459,6 @@ namespace Shopping4u.DAL
             return result;
         }
         #endregion
+
     }
 }

@@ -19,10 +19,14 @@ namespace Shopping4u.DAL
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);
-        void InsertOrderedProducts(List<OrderedProduct> orderedProducts,int shoppingList);
+        void InsertOrderedProducts(List<OrderedProduct> orderedProducts,int shoppingListId);
+        void InsertOrderedProduct(OrderedProduct orderedProduct,int shoppingListId);
         void InsertBaseProduct(Product product);
         Branch InsertBranch(Branch branch);
-        void InsertBranchProduct(Product product,Branch branch, int price);
+        BranchProduct InsertBranchProduct(Product product,Branch branch, double price);
+        #endregion
+        #region UPDATE
+        void UpdateProductPicture(string url, int productId);
         #endregion
         #region FILTERS
         Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
