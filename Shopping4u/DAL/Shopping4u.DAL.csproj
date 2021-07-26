@@ -241,5 +241,17 @@
     <None Include="databaseConnection.json" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="barcodes\chocolate.png" />
+    <Content Include="barcodes\flour.png" />
+    <Content Include="barcodes\milk.png" />
+    <Content Include="barcodes\whiteBread.png" />
+    <Content Include="barcodes\whiteBreadLess.png" />
+    <Content Include="productsPictures\breadPicture.jpg" />
+    <Content Include="productsPictures\chocolatePicture.png" />
+    <Content Include="productsPictures\flourPicture_.jpg" />
+    <Content Include="productsPictures\milkPicture.jpg" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
