@@ -104,5 +104,11 @@
       <Name>Shopping4u.BL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\default-profile-img.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\background-img.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

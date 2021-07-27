@@ -5,8 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Shopping4u"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="1000">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Side Menu -->
+        <Grid Background="#eee" Grid.Column="0">
+            
+            
+            <Border Padding="20">
+                <StackPanel>
+                    <!--Profile Image-->
+                    <Ellipse Width="80" Height="80" Margin="0 60">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="/img/default-profile-img.png"  Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    
+                    <!-- Buttons -->
+                    <Button Content="Graphs and Statistics" Margin="0 10"/>
+                    <Button Content="Shopping List" />
+                </StackPanel>
+            
+            </Border>
+        </Grid>
+        
+        <!-- Main -->
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Background Image-->
+            <Grid.Background>
+                <ImageBrush ImageSource="/img/background-img.jpg" Stretch="UniformToFill"/>
+            </Grid.Background>
+
+            <!-- Main -->
+            <Border Padding="60 100 200 0" Grid.Column="0">
+                <StackPanel>
+                    <!-- Greeting Text -->
+                    <Viewbox>
+                        <TextBlock FontWeight="Bold"><Run Text="Good Morning,"/><LineBreak/><Run Text=" Talya"/></TextBlock>
+                    </Viewbox>
+                    
+                    <!-- Recommened Me Button -->
+                    <Button Content="reccomend me ❤" Margin="0 40 50 0" Padding="10"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Profile (left top) -->
+            <Border Grid.Column="1" Padding="10">
+                <StackPanel>
+                    <!--Profile Image-->
+                    <Ellipse Width="40" Height="40">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="/img/default-profile-img.png"  Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </StackPanel>
+            </Border>
+            
+        </Grid>
         
     </Grid>
 </Window>
