@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.IO;
-using Firebase.Storage;
 using System.Net;
 using ZXing;
 using System.Drawing;
