@@ -107,6 +107,26 @@ namespace Shopping4u.BL
         {
             return dal.GetConsumerHistory(consumerId);
         }
+        public List<string> GetBranchesNameInList(int shoppingListId)
+        {
+            return dal.GetBranchesNameInList(shoppingListId);
+        }
+
+        public string GetBranchName(int branchId)
+        {
+            return dal.GetBranchName(branchId);
+        }
+
+        public string GetProductName(int productId)
+        {
+            return dal.GetProductName(productId);
+        }
+
+        public double GetTotalOfShoppingList(int shoppingListId)
+        {
+            return dal.GetTotalOfShoppingList(shoppingListId);
+        }
+
         #endregion
         #region INSERT  
         public void InsertShoppingList(ShoppingList shoppingList)
@@ -177,6 +197,11 @@ namespace Shopping4u.BL
         public List<Product> GetProductsByName(string name)
         {
             return dal.GetProductsByName(name);
+        }
+
+        public List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId)
+        {
+            return dal.FilterByBranches(branchesNames, shoppingListId);
         }
         #endregion
     }
