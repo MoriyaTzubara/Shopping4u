@@ -6,72 +6,119 @@
         xmlns:local="clr-namespace:Shopping4u"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000">
+        WindowStartupLocation="CenterScreen" WindowStyle="None" 
+        ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True"
+        Height="650" Width="1000">
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-        
-        <!-- Side Menu -->
-        <Grid Background="#eee" Grid.Column="0">
-            
-            
-            <Border Padding="20">
-                <StackPanel>
-                    <!--Profile Image-->
-                    <Ellipse Width="80" Height="80" Margin="0 60">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="/img/default-profile-img.png"  Stretch="UniformToFill"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    
-                    <!-- Buttons -->
-                    <Button Content="Graphs and Statistics" Margin="0 10"/>
-                    <Button Content="Shopping List" />
-                </StackPanel>
-            
-            </Border>
-        </Grid>
-        
-        <!-- Main -->
-        <Grid Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <materialDesign:Card Margin="10" UniformCornerRadius="15">
 
-            <!-- Background Image-->
-            <Grid.Background>
-                <ImageBrush ImageSource="/img/background-img.jpg" Stretch="UniformToFill"/>
-            </Grid.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- Main -->
-            <Border Padding="60 100 200 0" Grid.Column="0">
-                <StackPanel>
-                    <!-- Greeting Text -->
-                    <Viewbox>
-                        <TextBlock FontWeight="Bold"><Run Text="Good Morning,"/><LineBreak/><Run Text=" Talya"/></TextBlock>
-                    </Viewbox>
-                    
-                    <!-- Recommened Me Button -->
-                    <Button Content="reccomend me ❤" Margin="0 40 50 0" Padding="10"/>
-                </StackPanel>
-            </Border>
+                <Grid.Resources>
+                    <Style TargetType="materialDesign:PackIcon">
+                        <Setter Property="Width" Value="30"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                    </Style>
+                </Grid.Resources>
 
-            <!-- Profile (left top) -->
-            <Border Grid.Column="1" Padding="10">
-                <StackPanel>
-                    <!--Profile Image-->
-                    <Ellipse Width="40" Height="40">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="/img/default-profile-img.png"  Stretch="UniformToFill"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                </StackPanel>
-            </Border>
-            
-        </Grid>
-        
+                <Grid Grid.Column="0">
+                    <ListView Margin="0 15">
+
+                        <!-- CartOutline icon-->
+                        <ListViewItem HorizontalAlignment="Center" Margin="0 0 0 30" >
+
+                            <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                                    HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
+                                    Command="{Binding GoToMyShoppingListPageCommand}"
+                                    Foreground="Black" >
+                                <StackPanel>
+                                    <materialDesign:Badged Badge="3" Padding="-5">
+                                        <materialDesign:PackIcon Kind="CartOutline" />
+                                    </materialDesign:Badged>
+                                </StackPanel>
+                            </Button>
+                        </ListViewItem>
+
+                        <!-- Home icon-->
+                        <ListViewItem HorizontalAlignment="Center" Margin="0">
+                            <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                                    Command="{Binding GoToHomePageCommand}"
+                                    CommandParameter="{x:Null}"
+                                    HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
+                                    Foreground="Black">
+                                <StackPanel Margin="-5">
+                                    <materialDesign:PackIcon Kind="Home" />
+                                </StackPanel>
+                            </Button>
+                        </ListViewItem>
+                        
+                        <!-- StarOutline icon-->
+                        <ListViewItem HorizontalAlignment="Center" Margin="0">
+                            <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                                    Command="{Binding GoToRecommendedShoppingListPageCommand}"
+                                    CommandParameter="{x:Null}"
+                                    HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
+                                    Foreground="Black">
+                                <StackPanel Margin="-5">
+                                    <materialDesign:PackIcon Kind="StarOutline" />
+                                </StackPanel>
+                            </Button>
+                        </ListViewItem>
+
+                        <!-- History icon-->
+                        <ListViewItem HorizontalAlignment="Center" Margin="0">
+                            <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                                    HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
+                                    Command="{Binding GoToShoppingHistoryPageCommand}"
+                                    Foreground="Black">
+                                <StackPanel Margin="-5">
+                                    <materialDesign:PackIcon Kind="History" />
+                                </StackPanel>
+                            </Button>
+                        </ListViewItem>
+
+                        <!-- ChartBar icon-->
+                        <ListViewItem HorizontalAlignment="Center" Margin="0">
+                            <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                                    HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
+                                    Command="{Binding GoToStatisticsPageCommand}"
+                                    Foreground="Black">
+                                <StackPanel Margin="-5">
+                                    <materialDesign:PackIcon Kind="ChartBar" />
+                                </StackPanel>
+                            </Button>
+                        </ListViewItem>
+
+
+                        <!-- ExitToApp icon-->
+                        <ListViewItem HorizontalAlignment="Center" Margin="0 50 0 0">
+                            <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                                    HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
+                                    Foreground="Black" Click="ExitApp">
+                                <StackPanel Margin="-5">
+                                    <materialDesign:PackIcon Kind="ExitToApp"/>
+                                </StackPanel>
+                            </Button>
+                        </ListViewItem>
+
+
+                    </ListView>
+                </Grid>
+
+                <!-- Render Pages -->
+                <Grid Grid.Column="1" Background="#F6F5F8" Name="RenderPages">
+
+                </Grid>
+
+            </Grid>
+
+        </materialDesign:Card>
+
     </Grid>
+
 </Window>
