@@ -16,6 +16,11 @@ namespace Shopping4u.DAL
         Branch GetBranch(int branchId);
         Consumer GetConsumer(int consumerId);
         List<ShoppingList> GetConsumerHistory(int consumerId);
+        List<string> GetBranchesNameInList(int shoppingListId);
+        string GetBranchName(int branchId);
+        string GetProductName(int productId);
+        double GetTotalOfShoppingList(int shoppingListId);
+        List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);
