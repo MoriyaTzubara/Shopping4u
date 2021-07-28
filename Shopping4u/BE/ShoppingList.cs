@@ -12,5 +12,6 @@ namespace BE
         public int consumerId;
         public List<OrderedProduct> products;
         public DateTime date;
+        public bool approved;
     }
 }

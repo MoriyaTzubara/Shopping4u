@@ -225,6 +225,7 @@ namespace Shopping4u.DAL
                     shoppingList.id = (int)dataReader["ShoppingListId"];
                     shoppingList.consumerId = (int)dataReader["consumerId"];
                     shoppingList.date = (DateTime)dataReader["date"];
+                    shoppingList.approved = (bool)dataReader["approved"];
                     if (!result.Contains(shoppingList))
                     {
                         shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
@@ -278,11 +279,94 @@ namespace Shopping4u.DAL
                 return result;
             }
         }
+        public List<string> GetBranchesNameInList(int shoppingListId)
+        {
+            List<string> result = new List<string>();
+            string query = $"SELECT branchName " +
+                $"FROM (SELECT * FROM orderedProduct WHERE {shoppingListId} = shoppingListId) products " +
+                $"natural join branchProduct " +
+                $"natural join branch";
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add(dataReader["branchName"] + "");
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+            }
+            return result;
+        }
+        public string GetBranchName(int branchId)
+        {
+            string result = "";
+            string query = $"SELECT name FROM branch where {branchId} = branchId";
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                result = dataReader["name"] + "";
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+            }
+            return result;
+        }
+        public string GetProductName(int productId)
+        {
+            string result = "";
+            string query = $"SELECT name FROM baseProduct where {productId} = productId";
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                result = dataReader["name"] + "";
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+            }
+            return result;
+        }
+        public double GetTotalOfShoppingList(int shoppingListId)
+        {
+            double result = 0;
+            string query = $"SELECT sum(quantity * unitPrice) AS total" +
+                $"FROM orderedProduct where {shoppingListId} = shoppingListId";
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                result = (double) dataReader["total"];
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+            }
+            return result;
+        }
         #endregion
         #region INSERT
         public void InsertShoppingList(ShoppingList shoppingList)
         {
-            string query = $"INSERT INTO shoppingList (consumerId, date) VALUES({shoppingList.consumerId}, {shoppingList.date})";
+            string query = $"INSERT INTO shoppingList (consumerId, date) VALUES({shoppingList.consumerId}, {shoppingList.date},{shoppingList.approved})";
             int shoppingListId = -1;
             //open connection
             if (this.OpenConnection() == true)
@@ -486,6 +570,38 @@ namespace Shopping4u.DAL
                         id = int.Parse(dataReader["productId"] + ""),
                         imageUrl = dataReader["imageUrl"] + "",
                         name = dataReader["name"] + ""
+                    });
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+            }
+            return result;
+        }
+        public List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId)
+        {
+            List<OrderedProduct> result = new List<OrderedProduct>();
+            string query = $"SELECT shoppingListId, branchProductId, unitPrice, quantity " +
+                $"FROM (SELECT * FROM orderedProduct WHERE {shoppingListId} = shoppingListId) ordered " +
+                $"NATURAL JOIN branchProduct " +
+                $"WHERE branchId IN (SELECT branchId FROM branch WHERE name IN {branchesNames})";
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add(new OrderedProduct
+                    {
+                        shoppingListId = int.Parse(dataReader["shoppingListId"] + ""),
+                        branchProductId = (int)dataReader["branchProductId"],
+                        quantity = (int)dataReader["quantity"],
+                        unitPrice = (double)dataReader["unitPrice"]
                     });
                 }
 
