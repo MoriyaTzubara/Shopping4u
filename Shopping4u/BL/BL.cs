@@ -59,10 +59,6 @@ namespace Shopping4u.BL
             //Console.WriteLine(downloadUrl);
             return downloadUrl;
         }
-        public void UpdateProductPicture(string downloadUrl, int productId)
-        {
-            dal.UpdateProductPicture(downloadUrl, productId);
-        }
         // encodes the barcodes
         public string EncodeBarcode(string downloadUrl)
         {
@@ -160,7 +156,7 @@ namespace Shopping4u.BL
                 branchProductId = branchProduct.branchProductId,
                 shoppingListId = shoppingListId
             };
-            dal.InsertOrderedProduct(orderedProduct, shoppingListId);
+            dal.InsertOrderedProduct(orderedProduct);
         }
 
         public void InsertBaseProduct(Product product)
@@ -181,6 +177,26 @@ namespace Shopping4u.BL
         public void InsertConsumer(Consumer consumer)
         {
             dal.InsertConsumer(consumer);
+        }
+        public void InsertOrderedProduct(OrderedProduct orderedProduct)
+        {
+            dal.InsertOrderedProduct(orderedProduct);
+        }
+        #endregion
+        #region UPDATE
+        public void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId)
+        {
+            dal.UpdateOrderedProduct(quantity, shoppingListId, branchProductId);
+        }
+        public void UpdateProductPicture(string downloadUrl, int productId)
+        {
+            dal.UpdateProductPicture(downloadUrl, productId);
+        }
+        #endregion
+        #region DELETE
+        public void DeleteOrderedProduct(int shoppingListId, int branchProductId)
+        {
+            dal.DeleteOrderedProduct(shoppingListId, branchProductId);
         }
         #endregion
         #region FILTERS
@@ -203,6 +219,9 @@ namespace Shopping4u.BL
         {
             return dal.FilterByBranches(branchesNames, shoppingListId);
         }
+        #endregion
+        #region APRIORI
+
         #endregion
     }
 }
