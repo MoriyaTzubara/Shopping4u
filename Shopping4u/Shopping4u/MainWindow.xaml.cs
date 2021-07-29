@@ -26,7 +26,7 @@ namespace Shopping4u
 
         private HomePage homePage = new HomePage();
         private RecommendedShoppingListPage recommendedShoppingListPage = new RecommendedShoppingListPage();
-        private MyShoppingListPage myShoppingListPage = new MyShoppingListPage();
+        private ShoppingListPage myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel().Products);
         private ShoppingHistoryPage shoppingHistoryPage = new ShoppingHistoryPage();
         private StatisticsPage statisticsPage = new StatisticsPage();
 
@@ -50,6 +50,7 @@ namespace Shopping4u
 
         public void GoToMyShoppingListPage()
         {
+            myShoppingListPage.DataContext = new MyShoppingListViewModel();
             goToPage(myShoppingListPage);
         }
 

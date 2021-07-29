@@ -63,13 +63,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\DeleteProductCommand.cs" />
     <Compile Include="Commands\GoToHomePageCommand.cs" />
     <Compile Include="Commands\GoToMyShoppingListPageCommand.cs" />
     <Compile Include="Commands\GoToRecommendedShoppingListPageCommand.cs" />
     <Compile Include="Commands\GoToShoppingHistoryPageCommand.cs" />
     <Compile Include="Commands\GoToStatisticsPageCommand.cs" />
-    <Compile Include="MyShoppingListPage.xaml.cs">
-      <DependentUpon>MyShoppingListPage.xaml</DependentUpon>
+    <Compile Include="ProductUserControl.xaml.cs">
+      <DependentUpon>ProductUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShoppingListPage.xaml.cs">
+      <DependentUpon>ShoppingListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="RecommendedShoppingListPage.xaml.cs">
       <DependentUpon>RecommendedShoppingListPage.xaml</DependentUpon>
@@ -81,6 +85,9 @@
       <DependentUpon>StatisticsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MyShoppingListViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\ShoppingListViewModel.cs" />
     <Page Include="HomePagel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -100,7 +107,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MyShoppingListPage.xaml">
+    <Page Include="ProductUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShoppingListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

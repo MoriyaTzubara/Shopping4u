@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Shopping4u.ProductUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Shopping4u"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             Height="auto" Width="800"
+             >
+    <materialDesign:Card Margin="0 1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="8*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Style="{StaticResource CrudBtn}">
+                <materialDesign:PackIcon Kind="Minus" Style="{StaticResource PlusMinusIcon}"/>
+            </Button>
+            
+            <TextBox Margin="0 10" Text="{Binding Quantity}" Grid.Column="1"/>
+
+            <Button Grid.Column="2" Style="{StaticResource CrudBtn}">
+                <materialDesign:PackIcon Kind="Plus" Style="{StaticResource PlusMinusIcon}" />
+            </Button>
+            
+            <TextBox Margin="20 10" Text="{Binding ProductName}" Grid.Column="3"/>
+            
+            <ComboBox Margin="20 10" Grid.Column="4">
+                <ComboBoxItem Content="{Binding BranchName}" IsSelected="True"></ComboBoxItem>
+            </ComboBox>
+
+            <Button Grid.Column="7" Style="{StaticResource CrudBtn}" Command="{Binding DeleteProductCommand}">
+                <materialDesign:PackIcon Kind="close" Style="{StaticResource Icon}" />
+            </Button>
+
+        </Grid>
+    </materialDesign:Card>
+
+</UserControl>
