@@ -8,12 +8,13 @@ using System.Windows.Input;
 
 namespace Shopping4u.Commands
 {
-    public class DeleteProductCommand : ICommand
+    public class CreateProductCommand : ICommand
     {
-        private ShoppingListViewModel shoppingListViewModel;
         public event EventHandler CanExecuteChanged;
 
-        public DeleteProductCommand(ShoppingListViewModel shoppingListViewModel)
+        private ShoppingListViewModel shoppingListViewModel;
+
+        public CreateProductCommand(ShoppingListViewModel shoppingListViewModel)
         {
             this.shoppingListViewModel = shoppingListViewModel;
         }
@@ -27,7 +28,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             // SHOULD BE IMPLEMENTED
-            shoppingListViewModel.DeleteProduct(-1);
+            shoppingListViewModel.CreateProduct(new ProductViewModel(new BE.OrderedProduct()));
         }
     }
 }

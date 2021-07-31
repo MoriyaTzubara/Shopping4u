@@ -36,7 +36,12 @@
                 <ComboBoxItem Content="{Binding BranchName}" IsSelected="True"></ComboBoxItem>
             </ComboBox>
 
-            <Button Grid.Column="7" Style="{StaticResource CrudBtn}" Command="{Binding DeleteProductCommand}">
+            <Button Grid.Column="7" 
+                    Style="{StaticResource CrudBtn}" 
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                      AncestorType={x:Type local:ShoppingListPage}}, 
+                                      Path=DataContext.DeleteProductCommand}">
+                
                 <materialDesign:PackIcon Kind="close" Style="{StaticResource Icon}" />
             </Button>
 
