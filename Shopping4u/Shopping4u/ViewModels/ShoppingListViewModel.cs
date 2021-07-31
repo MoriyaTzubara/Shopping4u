@@ -8,27 +8,20 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.ViewModels
 {
-    public class ShoppingListViewModel
+    public abstract class ShoppingListViewModel
     {
-        //IBL bl = new BL.BL();
+        public string Title { get { return GetTitle(); } private set { } }
+        public bool readOnly { get { return IsReadOnly(); } private set { } }
 
-        public String Title { get; set; }
-        public bool readOnly { get; set; }
-        public List<ProductViewModel> Products { get; set; }
+        public IEnumerable<ProductViewModel> Products { get { return GetProducts(); } private set { } }
 
-        public void DeleteProduct(int productId)
-        {
-            Products.RemoveAll(p => p.Product.branchProductId == productId);
-        }
 
-        public void CreateProduct(ProductViewModel productViewModel)
-        {
-            Products.Add(productViewModel);
-        }
+        public abstract string GetTitle(); 
+        public abstract bool IsReadOnly();
+        public abstract IEnumerable<ProductViewModel> GetProducts();
 
-        public void UpdateProduct(int productId)
-        {
-            
-        }
+        public abstract void CreateProduct(ProductViewModel productViewModel);
+        public abstract void UpdateProduct(int productId);
+        public abstract void DeleteProduct(int productId);
     }
 }

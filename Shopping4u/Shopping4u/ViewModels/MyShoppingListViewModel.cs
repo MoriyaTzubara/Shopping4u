@@ -9,17 +9,32 @@ namespace Shopping4u.ViewModels
 {
     class MyShoppingListViewModel : ShoppingListViewModel
     {
-        public MyShoppingListViewModel()
+        public override string GetTitle()
         {
-
-
-            Title = "My Shopping List";
-            readOnly = false;
-
+            return "My Shopping List";
+        }
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        public override IEnumerable<ProductViewModel> GetProducts()
+        {
             // SHOULD BE DELETED
-            Products = BlMock.getProducts();
+            return BlMock.getProducts();
         }
         
+        public override void CreateProduct(ProductViewModel productViewModel)
+        {
+            throw new NotImplementedException();
+        }
+        public override void UpdateProduct(int productId)
+        {
+            throw new NotImplementedException();
+        }
+        public override void DeleteProduct(int productId)
+        {
+            throw new NotImplementedException();
+        }
 
         // SHOULD BE DELETED
         private static class BlMock
