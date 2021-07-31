@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.ViewModels
 {
-    class ShoppingListViewModel
+    public class ShoppingListViewModel
     {
         //IBL bl = new BL.BL();
 

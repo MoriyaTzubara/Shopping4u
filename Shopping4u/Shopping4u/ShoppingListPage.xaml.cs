@@ -20,16 +20,12 @@ namespace Shopping4u
     /// Interaction logic for ShoppingListPage.xaml
     /// </summary>
     public partial class ShoppingListPage : UserControl
-    {
-        public ShoppingListPage()
+    {   
+        public ShoppingListPage(ShoppingListViewModel shoppingListViewModel)
         {
             InitializeComponent();
-        }
-        
-        public ShoppingListPage(IEnumerable<ProductViewModel> products)
-        {
-            InitializeComponent();
-            InitializeProducts(products);
+            InitializeProducts(shoppingListViewModel.Products);
+            DataContext = shoppingListViewModel;
         }
 
         public void InitializeProducts(IEnumerable<ProductViewModel> products)

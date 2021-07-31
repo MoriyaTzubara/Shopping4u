@@ -9,15 +9,26 @@ namespace Shopping4u.ViewModels
 {
     class MyShoppingListViewModel : ShoppingListViewModel
     {
-        //private IBL bl = new BL.BL();
-
         public MyShoppingListViewModel()
         {
-            Random random = new Random();
+
 
             Title = "My Shopping List";
             readOnly = false;
-            Products =new List<ProductViewModel>()
+
+            // SHOULD BE DELETED
+            Products = BlMock.getProducts();
+        }
+        
+
+        // SHOULD BE DELETED
+        private static class BlMock
+        {
+            static Random random = new Random();
+            
+            static public List<ProductViewModel> getProducts()
+            {
+                return  new List<ProductViewModel>()
             {
                 new ProductViewModel(new BE.OrderedProduct())
                 {
@@ -174,6 +185,8 @@ namespace Shopping4u.ViewModels
                 },
 
             };
+            }
+
         }
 
     }

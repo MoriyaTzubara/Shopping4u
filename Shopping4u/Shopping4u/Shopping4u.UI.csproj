@@ -87,7 +87,10 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MyShoppingListViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\RecommendedShoppingListViewModel.cs" />
+    <Compile Include="ViewModels\ShoppingHistoryViewModel.cs" />
     <Compile Include="ViewModels\ShoppingListViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Page Include="HomePagel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
