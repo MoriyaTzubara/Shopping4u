@@ -78,7 +78,7 @@ namespace Shopping4u.DAL
         {
             List<Product> result = new List<Product>();
             string query = "SELECT * FROM baseproduct";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -98,7 +98,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
 
                 //return list to be displayed
                 return result;
@@ -112,7 +112,7 @@ namespace Shopping4u.DAL
         {
             BranchProduct result = new BranchProduct();
             string query = $"SELECT * FROM BranchProduct where {branchProductId} = branchProductId";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -129,7 +129,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -137,7 +137,7 @@ namespace Shopping4u.DAL
         {
             Product result = new Product();
             string query = $"SELECT * FROM baseproduct where {productId} = productId";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -153,7 +153,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -161,7 +161,7 @@ namespace Shopping4u.DAL
         {
             Consumer result = new Consumer();
             string query = $"SELECT * FROM consumer where {consumerId} = consumerId";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -180,7 +180,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -188,7 +188,7 @@ namespace Shopping4u.DAL
         {
             Branch result = new Branch();
             string query = $"SELECT * FROM branch where {branchId} = branchId";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -203,7 +203,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -213,7 +213,7 @@ namespace Shopping4u.DAL
             string query = "SELECT *`" +
                 "FROM `shoppinglist` " +
                 $"where `consumerId` = {consumerId}";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -236,7 +236,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
 
                 //return list to be displayed
                 return result;
@@ -250,7 +250,7 @@ namespace Shopping4u.DAL
         {
             List<OrderedProduct> result = new List<OrderedProduct>();
             string query = $"select * from  `orderedProduct` where shoppingListId = {shoppingListId}";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -269,7 +269,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
 
                 //return list to be displayed
                 return result;
@@ -286,7 +286,7 @@ namespace Shopping4u.DAL
                 $"FROM (SELECT * FROM orderedProduct WHERE {shoppingListId} = shoppingListId) products " +
                 $"natural join branchProduct " +
                 $"natural join branch";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -300,7 +300,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -308,7 +308,7 @@ namespace Shopping4u.DAL
         {
             string result = "";
             string query = $"SELECT name FROM branch where {branchId} = branchId";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -319,7 +319,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -327,7 +327,7 @@ namespace Shopping4u.DAL
         {
             string result = "";
             string query = $"SELECT name FROM baseProduct where {productId} = productId";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -338,7 +338,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -347,7 +347,7 @@ namespace Shopping4u.DAL
             double result = 0;
             string query = $"SELECT sum(quantity * unitPrice) AS total" +
                 $"FROM orderedProduct where {shoppingListId} = shoppingListId";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -358,7 +358,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -369,7 +369,7 @@ namespace Shopping4u.DAL
             string query = $"INSERT INTO shoppingList (consumerId, date) VALUES({shoppingList.consumerId}, {shoppingList.date},{shoppingList.approved})";
             int shoppingListId = -1;
             //open connection
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //create command and assign the query and connection from the constructor
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -381,7 +381,7 @@ namespace Shopping4u.DAL
                 cmd = new MySqlCommand(query, connection);
                 shoppingListId = (int)cmd.ExecuteScalar();
                 //close connection
-                this.CloseConnection();
+                CloseConnection();
             }
             InsertOrderedProducts(shoppingList.products,shoppingListId);
 
@@ -390,54 +390,53 @@ namespace Shopping4u.DAL
         {
             foreach (OrderedProduct item in orderedProducts)
             {
-                InsertOrderedProduct(item, shoppingListId);
+                InsertOrderedProduct(item);
             }
 
         }
-        public void InsertOrderedProduct(OrderedProduct orderedProduct, int shoppingListId)
+        public void InsertOrderedProduct(OrderedProduct orderedProduct)
         {
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 string query = $"INSERT INTO shoppingList (ShoppingListId, branchProductId, unitPrice,quantity) " +
-                      $"VALUES({shoppingListId}, {orderedProduct.branchProductId},{orderedProduct.unitPrice}, {orderedProduct.quantity})";
+                      $"VALUES({orderedProduct.shoppingListId}, {orderedProduct.branchProductId},{orderedProduct.unitPrice}, {orderedProduct.quantity})";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
-                this.CloseConnection();
+                CloseConnection();
             }
         }
-
         public void InsertBaseProduct(Product product)
         {
             if (GetProduct(product.id) == new Product())
             {
-                if (this.OpenConnection() == true)
+                if (OpenConnection() == true)
                 {
                     string query = $"INSERT INTO baseproduct (productId,name,itemImageUrl) " +
                         $"VALUES ({product.id},{product.name},{product.imageUrl})";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
                 }
-                this.CloseConnection();
+                CloseConnection();
             }
         }
         public void InsertConsumer(Consumer consumer)
         {
             if (GetConsumer(consumer.id) == new Consumer())
             {
-                if (this.OpenConnection() == true)
+                if (OpenConnection() == true)
                 {
                     string query = $"INSERT INTO consumer (consumerId,profileImageUrl,phoneNumber, email, firstName,lastName) " +
                         $"VALUES ({consumer.id},{consumer.profileImageUrl},{consumer.phoneNumber},{consumer.email},{consumer.firstName},{consumer.lastName})";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
-                    this.CloseConnection();
+                    CloseConnection();
                 }
             }
         }
         public Branch InsertBranch(Branch branch)
         {
             string query = $"SELECT * FROM branch WHERE {branch.name} = name";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -456,7 +455,7 @@ namespace Shopping4u.DAL
                 {
                     branch.id = (int)dataReader["branchId"];
                 }
-                this.CloseConnection();
+                CloseConnection();
                 return branch;
             }
             return branch;
@@ -470,7 +469,7 @@ namespace Shopping4u.DAL
             {
                 string query = $"INSERT INTO branchProduct (branchId,productId,price) " +
                   $"VALUES({branch.id},{product.id},{price})";
-                if (this.OpenConnection() == true)
+                if (OpenConnection() == true)
                 {
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
@@ -484,7 +483,7 @@ namespace Shopping4u.DAL
                         productId = product.id,
                         price = price
                     };
-                    this.CloseConnection();
+                    CloseConnection();
                 }
             }
             return branchProduct;
@@ -493,16 +492,40 @@ namespace Shopping4u.DAL
         #region UPDATE
         public void UpdateProductPicture(string url, int productId)
         {
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
-                if (GetProduct(productId) == new Product())
+                if (GetProduct(productId) != new Product())
                 {
                     string query = $"UPDATE baseproduct set itemImageUrl = {url} " +
                         $"where productId = {productId}";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
                 }
-                this.CloseConnection();
+                CloseConnection();
+            }
+        }
+        public void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId)
+        {
+            if (OpenConnection() == true)
+            {
+                string query = $"UPDATE orderedProduct set quantity = {quantity} " +
+                    $"where shoppingListId = {shoppingListId} and branchProductId = {branchProductId}";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
+        }
+        #endregion
+        #region DELETE
+        public void DeleteOrderedProduct(int shoppingListId, int branchProductId)
+        {
+            if (OpenConnection() == true)
+            {
+                string query = $"DELETE FROM orderedProduct " +
+                    $"where shoppingListId = {shoppingListId} and branchProductId = {branchProductId}";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+                CloseConnection();
             }
         }
         #endregion
@@ -514,7 +537,7 @@ namespace Shopping4u.DAL
                 $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
                 $"GROUP BY branchProductId";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -526,7 +549,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             } 
             return result;
         }
@@ -537,7 +560,7 @@ namespace Shopping4u.DAL
                 $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
                 $"GROUP BY date";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -549,7 +572,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -557,7 +580,7 @@ namespace Shopping4u.DAL
         {
             List<Product> result = new List<Product>();
             string query = $"SELECT * FROM baseproduct where name LIKE '%{name}%'";
-            if(this.OpenConnection() == true)
+            if(OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -577,7 +600,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
@@ -588,7 +611,7 @@ namespace Shopping4u.DAL
                 $"FROM (SELECT * FROM orderedProduct WHERE {shoppingListId} = shoppingListId) ordered " +
                 $"NATURAL JOIN branchProduct " +
                 $"WHERE branchId IN (SELECT branchId FROM branch WHERE name IN {branchesNames})";
-            if (this.OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -609,7 +632,7 @@ namespace Shopping4u.DAL
                 dataReader.Close();
 
                 //close Connection
-                this.CloseConnection();
+                CloseConnection();
             }
             return result;
         }
