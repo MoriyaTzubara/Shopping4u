@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shopping4u.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,19 @@ using System.Windows.Shapes;
 namespace Shopping4u
 {
     /// <summary>
-    /// Interaction logic for MyShoppingListPage.xaml
+    /// Interaction logic for ProductUserControl.xaml
     /// </summary>
-    public partial class MyShoppingListPage : UserControl
+    public partial class ProductUserControl : UserControl
     {
-        public MyShoppingListPage()
+        public ProductUserControl()
         {
             InitializeComponent();
         }
+        public ProductUserControl(ProductViewModel product)
+        {
+            InitializeComponent();
+            DataContext = product;
+        }
+
     }
 }
