@@ -1,5 +1,6 @@
 ﻿using BE;
 using Shopping4u.BL;
+using Shopping4u.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace Shopping4u.ViewModels
 {
     public class ProductViewModel
     {
-
         public OrderedProduct Product { get; set; }
 
         public ProductViewModel(OrderedProduct orderedProduct)

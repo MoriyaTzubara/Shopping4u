@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Shopping4u.ViewModels
 {
@@ -25,15 +26,15 @@ namespace Shopping4u.ViewModels
 
         public override void CreateProduct(ProductViewModel productViewModel)
         {
-            throw new NotImplementedException();
+            MessageBox.Show("CreateProduct @ RecommendedShoppingList");
         }
-        public override void UpdateProduct(int productId)
+        public override void UpdateProduct(ProductViewModel productViewModel)
         {
-            throw new NotImplementedException();
+            MessageBox.Show("UpdateProduct @ RecommendedShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
-            throw new NotImplementedException();
+            MessageBox.Show("DeleteProduct @ RecommendedShoppingList");
         }
 
 
