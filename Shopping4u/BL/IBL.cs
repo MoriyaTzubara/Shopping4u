@@ -31,6 +31,10 @@ namespace Shopping4u.BL
         #endregion
         #region UPDATE
         void UpdateProductPicture(string url, int productId);
+        void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId);
+        #endregion
+        #region DELETE
+        void DeleteOrderedProduct(int shoppingListId, int branchProductId);
         #endregion
         #region FILTERS
         Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
