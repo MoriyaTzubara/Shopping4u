@@ -14,11 +14,16 @@ namespace Shopping4u.BL
         Product GetProduct(int productId);
         Branch GetBranch(int branchId);
         Consumer GetConsumer(int consumerId);
+        ShoppingList GetShoppingList(int shoppingListId);
         List<ShoppingList> GetConsumerHistory(int consumerId);
         List<string> GetBranchesNameInList(int shoppingListId);
         string GetBranchName(int branchId);
         string GetProductName(int productId);
         double GetTotalOfShoppingList(int shoppingListId);
+        string[] GetShoppingLists();
+        IEnumerable<string> GetProductsIdInList();
+        string GetProductsIdOfList(int shoppingListId);
+        IEnumerable<string> GetProductsNamesInList();
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);
@@ -41,6 +46,7 @@ namespace Shopping4u.BL
         Dictionary<DateTime, double> ShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
         List<Product> GetProductsByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
+        IEnumerable<IGrouping<int, OrderedProduct>> GroupByBranchesTheRecommendedList(List<OrderedProduct> orderedProducts);
         #endregion
         #region FIREBASE
         Task<string> StorePicture(string uploadUrl, string name);

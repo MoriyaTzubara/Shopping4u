@@ -15,11 +15,16 @@ namespace Shopping4u.DAL
         Product GetProduct(int productId);
         Branch GetBranch(int branchId);
         Consumer GetConsumer(int consumerId);
+        ShoppingList GetShoppingList(int shoppingListId);
         List<ShoppingList> GetConsumerHistory(int consumerId);
         List<string> GetBranchesNameInList(int shoppingListId);
         string GetBranchName(int branchId);
         string GetProductName(int productId);
         double GetTotalOfShoppingList(int shoppingListId);
+        string[] GetShoppingLists();
+        IEnumerable<string> GetProductsIdInList();
+        string GetProductsIdOfList(int shoppingListId);
+        IEnumerable<string> GetProductsNamesInList();
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);

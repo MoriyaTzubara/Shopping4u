@@ -1,4 +1,7 @@
 ﻿using BE;
+using BL;
+using BL.Contracts;
+using BL.Entities;
 using Firebase.Storage;
 using Shopping4u.DAL;
 using System;
@@ -122,7 +125,26 @@ namespace Shopping4u.BL
         {
             return dal.GetTotalOfShoppingList(shoppingListId);
         }
-
+        public string[] GetShoppingLists()
+        {
+            return dal.GetShoppingLists();
+        }
+        public IEnumerable<string> GetProductsIdInList()
+        {
+            return dal.GetProductsIdInList();
+        }
+        public string GetProductsIdOfList(int shoppingListId)
+        {
+            return dal.GetProductsIdOfList(shoppingListId);
+        }
+        public IEnumerable<string> GetProductsNamesInList()
+        {
+            return dal.GetProductsNamesInList();
+        }
+        public ShoppingList GetShoppingList(int shoppingListId)
+        {
+            return dal.GetShoppingList(shoppingListId);
+        }
         #endregion
         #region INSERT  
         public void InsertShoppingList(ShoppingList shoppingList)
@@ -214,10 +236,58 @@ namespace Shopping4u.BL
         {
             return dal.GetProductsByName(name);
         }
-
+        public IEnumerable<IGrouping<int, OrderedProduct>> GroupByBranchesTheRecommendedList(List<OrderedProduct> orderedProducts)
+        {
+            IEnumerable<IGrouping<int,OrderedProduct>> result = from orderedProduct in orderedProducts
+                         group orderedProduct by GetBranchProduct(orderedProduct.branchProductId).branchId into newGroup
+                         select newGroup;
+            return result;
+        }
         public List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId)
         {
             return dal.FilterByBranches(branchesNames, shoppingListId);
+        }
+        #endregion
+        #region APRIORI
+        public bool DoesProductExistsInList(List<OrderedProduct> ordered, int productId)
+        {
+            if (ordered.FindIndex(p => GetBranchProduct(p.branchProductId).productId == productId) == -1)
+            {
+                return false;
+            }
+            return true;
+        }
+        public IEnumerable<Product> AprioriRecommender(List<OrderedProduct> orderedProducts, double minSupport = 0.01, double minConfidence=0.01)
+        {
+            IApriori apriori = new Apriori();
+            Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingLists());
+            List<Product> result = new List<Product>();
+            if(rules.StrongRules.Count() != 0)
+            {
+                foreach (Rule rule in rules.StrongRules)
+                {
+                    List<int> combination = rule.X.Split(',').Select(x => int.Parse(x)).ToList();
+                    foreach (int productId in combination)
+                    {
+                        if(DoesProductExistsInList(orderedProducts,productId) == true)
+                        {
+                            result.Add(GetProduct(int.Parse(rule.Y)));
+                        }
+                    }
+                }
+            }
+            else if(rules.FrequentItems.Count() != 0)
+            {
+                foreach (Item item in rules.FrequentItems)
+                {
+                    int productId = int.Parse(item.Name);
+                    if(DoesProductExistsInList(orderedProducts, productId) == false)
+                    {
+                        result.Add(GetProduct(productId));
+                    }
+                }
+            }
+            return result;
         }
         #endregion
         //#region APRIORI

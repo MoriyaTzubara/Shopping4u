@@ -119,14 +119,16 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                result = new BranchProduct
+                if (dataReader.Read())
                 {
-                    productId = int.Parse(dataReader["productId"] + ""),
-                    branchId = (int)dataReader["imageUrl"],
-                    price = (double)dataReader["price"],
-                    branchProductId = (int)dataReader["branchProductId"]
-                };
+                    result = new BranchProduct
+                    {
+                        productId = int.Parse(dataReader["productId"] + ""),
+                        branchId = (int)dataReader["imageUrl"],
+                        price = (double)dataReader["price"],
+                        branchProductId = (int)dataReader["branchProductId"]
+                    };
+                }
                 //close Data Reader
                 dataReader.Close();
 
@@ -145,13 +147,15 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                result = new Product
+                if (dataReader.Read())
                 {
-                    id = int.Parse(dataReader["productId"] + ""),
-                    imageUrl = dataReader["imageUrl"] + "",
-                    name = dataReader["name"] + ""
-                };
+                    result = new Product
+                    {
+                        id = int.Parse(dataReader["productId"] + ""),
+                        imageUrl = dataReader["imageUrl"] + "",
+                        name = dataReader["name"] + ""
+                    };
+                }
                 //close Data Reader
                 dataReader.Close();
 
@@ -170,16 +174,18 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                result = new Consumer
+                if (dataReader.Read())
                 {
-                    id = int.Parse(dataReader["consumerId"] + ""),
-                    profileImageUrl = dataReader["profileImageUrl"] + "",
-                    firstName = dataReader["firstName"] + "",
-                    lastName = dataReader["lastName"] + "",
-                    email = dataReader["email"] + "",
-                    phoneNumber = dataReader["phoneNumber"] + ""
-                };
+                    result = new Consumer
+                    {
+                        id = int.Parse(dataReader["consumerId"] + ""),
+                        profileImageUrl = dataReader["profileImageUrl"] + "",
+                        firstName = dataReader["firstName"] + "",
+                        lastName = dataReader["lastName"] + "",
+                        email = dataReader["email"] + "",
+                        phoneNumber = dataReader["phoneNumber"] + ""
+                    };
+                }
                 //close Data Reader
                 dataReader.Close();
 
@@ -198,12 +204,14 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                result = new Branch
+                if (dataReader.Read())
                 {
-                    id = int.Parse(dataReader["id"] + ""),
-                    name = dataReader["name"] + ""
-                };
+                    result = new Branch
+                    {
+                        id = int.Parse(dataReader["id"] + ""),
+                        name = dataReader["name"] + ""
+                    };
+                }
                 //close Data Reader
                 dataReader.Close();
 
@@ -271,7 +279,7 @@ namespace Shopping4u.DAL
             }
             return result.ToArray();
         }
-        public string[] GetProductsId()
+        public IEnumerable<string> GetProductsIdInList()
         {
             List<string> result = new List<string>();
             string query = "SELECT productId" +
@@ -284,7 +292,7 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    result.Add(GetProductsIdOfList((int)dataReader["productId"]));
+                    result.Add(((string)dataReader["productId"]));
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -292,9 +300,9 @@ namespace Shopping4u.DAL
                 //close Connection
                 CloseConnection();
             }
-            return result.ToArray();
+            return result;
         }
-        private string GetProductsIdOfList(int shoppingListId)
+        public string GetProductsIdOfList(int shoppingListId)
         {
             string result = "";
             string query = "SELECT productId`" +
@@ -320,7 +328,6 @@ namespace Shopping4u.DAL
             //return list to be displayed
             return result;
         }
-
         private List<OrderedProduct> GetOrderedProductsOfList(int shoppingListId)
         {
             List<OrderedProduct> result = new List<OrderedProduct>();
@@ -389,8 +396,10 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                result = dataReader["name"] + "";
+                if (dataReader.Read())
+                {
+                    result = dataReader["name"] + "";
+                }
                 //close Data Reader
                 dataReader.Close();
 
@@ -409,8 +418,10 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                result = dataReader["name"] + "";
+                if (dataReader.Read())
+                {
+                    result = dataReader["name"] + "";
+                }
                 //close Data Reader
                 dataReader.Close();
 
@@ -430,8 +441,10 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                dataReader.Read();
-                result = (double)dataReader["total"];
+                if (dataReader.Read())
+                {
+                    result = (double)dataReader["total"];
+                }
                 //close Data Reader
                 dataReader.Close();
 
@@ -440,6 +453,59 @@ namespace Shopping4u.DAL
             }
             return result;
         }
+        public ShoppingList GetShoppingList(int shoppingListId)
+        {
+            ShoppingList shoppingList = new ShoppingList();
+            string query = "SELECT shoppingListId" +
+                "FROM shoppingList " +
+                $"WHERE shoppingListId = {shoppingListId}";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    shoppingList.id = (int)dataReader["ShoppingListId"];
+                    shoppingList.consumerId = (int)dataReader["consumerId"];
+                    shoppingList.date = (DateTime)dataReader["date"];
+                    shoppingList.approved = (bool)dataReader["approved"];
+                    shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return shoppingList;
+        }
+        public IEnumerable<string> GetProductsNamesInList()
+        {
+            List<string> result = new List<string>();
+            string query = "SELECT name" +
+                "FROM baseProduct ";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add((string)dataReader["name"]);
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+
         #endregion
         #region INSERT
         public void InsertShoppingList(ShoppingList shoppingList)
@@ -714,7 +780,9 @@ namespace Shopping4u.DAL
             }
             return result;
         }
+
         #endregion
+
         //#region APRIORI
         //public IDictionary<int, int> GetSupportOfEachItem(double minSupport)
         //{
