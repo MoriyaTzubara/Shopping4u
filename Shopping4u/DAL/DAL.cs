@@ -119,6 +119,7 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+                dataReader.Read();
                 result = new BranchProduct
                 {
                     productId = int.Parse(dataReader["productId"] + ""),
@@ -144,6 +145,7 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+                dataReader.Read();
                 result = new Product
                 {
                     id = int.Parse(dataReader["productId"] + ""),
@@ -168,6 +170,7 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+                dataReader.Read();
                 result = new Consumer
                 {
                     id = int.Parse(dataReader["consumerId"] + ""),
@@ -195,6 +198,7 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+                dataReader.Read();
                 result = new Branch
                 {
                     id = int.Parse(dataReader["id"] + ""),
@@ -247,8 +251,8 @@ namespace Shopping4u.DAL
         public string[] GetShoppingLists()
         {
             List<string> result = new List<string>();
-            string query = "SELECT shoppingListId`" +
-                "FROM `shoppinglist` ";
+            string query = "SELECT shoppingListId" +
+                "FROM shoppinglist ";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -267,7 +271,29 @@ namespace Shopping4u.DAL
             }
             return result.ToArray();
         }
+        public string[] GetProductsId()
+        {
+            List<string> result = new List<string>();
+            string query = "SELECT productId" +
+                "FROM baseProduct ";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add(GetProductsIdOfList((int)dataReader["productId"]));
+                }
+                //close Data Reader
+                dataReader.Close();
 
+                //close Connection
+                CloseConnection();
+            }
+            return result.ToArray();
+        }
         private string GetProductsIdOfList(int shoppingListId)
         {
             string result = "";
@@ -363,6 +389,7 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+                dataReader.Read();
                 result = dataReader["name"] + "";
                 //close Data Reader
                 dataReader.Close();
@@ -382,6 +409,7 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+                dataReader.Read();
                 result = dataReader["name"] + "";
                 //close Data Reader
                 dataReader.Close();
@@ -402,6 +430,7 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
+                dataReader.Read();
                 result = (double)dataReader["total"];
                 //close Data Reader
                 dataReader.Close();
