@@ -53,6 +53,8 @@ namespace Shopping4u.BL
         string EncodeBarcode(string downloadUrl);
         #endregion
         #region APRIORI
+        bool DoesProductExistsInList(List<OrderedProduct> ordered, int productId);
+        IEnumerable<Product> AprioriRecommender(List<OrderedProduct> orderedProducts, double minSupport = 0.01, double minConfidence = 0.01);
         #endregion
     }
 }
