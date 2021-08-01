@@ -43,5 +43,9 @@ namespace Shopping4u.DAL
         List<Product> GetProductsByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
         #endregion
+        //#region APRIORI
+        //IDictionary<int, int> GetSupportOfEachItem(double minSupport);
+        //List<BE.Rule> AprioriRecommender(IDictionary<int, int> forEachProduct, double minConfidence);
+        //#endregion
     }
 }

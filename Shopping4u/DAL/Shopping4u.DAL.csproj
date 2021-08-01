@@ -247,10 +247,6 @@
     <Content Include="barcodes\milk.png" />
     <Content Include="barcodes\whiteBread.png" />
     <Content Include="barcodes\whiteBreadLess.png" />
-    <Content Include="productsPictures\breadPicture.jpg" />
-    <Content Include="productsPictures\chocolatePicture.png" />
-    <Content Include="productsPictures\flourPicture_.jpg" />
-    <Content Include="productsPictures\milkPicture.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
