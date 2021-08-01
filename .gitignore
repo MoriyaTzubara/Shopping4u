@@ -9,7 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+/Shopping4u/Shopping4u/bin
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

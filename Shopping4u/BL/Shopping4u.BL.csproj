@@ -193,7 +193,7 @@
     <Compile Include="BL.cs" />
     <Compile Include="Contracts\IApriori.cs" />
     <Compile Include="Contracts\ISorter.cs" />
-    <Compile Include="Entities\Apriori.cs" />
+    <Compile Include="Apriori.cs" />
     <Compile Include="Entities\ContainerProvider.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\ItemsDictionary.cs" />
@@ -216,6 +216,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
