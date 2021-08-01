@@ -1,4 +1,5 @@
 ﻿using BL.Contracts;
+using BL.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL.Entities
+namespace BL
 {
     [Export(typeof(IApriori))]
     public class Apriori : IApriori
