@@ -13,6 +13,7 @@ using System.Drawing;
 using MySqlX.XDevAPI.Relational;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.IsisMtt.X509;
 
 namespace Shopping4u.DAL
 {
@@ -26,7 +27,7 @@ namespace Shopping4u.DAL
         }
         private void Initialize()
         {
-            using (StreamReader r = new StreamReader("databaseConnection.json"))
+            using (StreamReader r = new StreamReader(Environment.CurrentDirectory + "/databaseConnection.json"))
             {
                 string json = r.ReadToEnd();
                 DatabaseConnection database = JsonConvert.DeserializeObject<DatabaseConnection>(json);
@@ -89,7 +90,7 @@ namespace Shopping4u.DAL
                     result.Add(new Product
                     {
                         id = int.Parse(dataReader["productId"] + ""),
-                        imageUrl = dataReader["imageUrl"] + "",
+                        imageUrl = dataReader["itemImageUrl"] + "",
                         name = dataReader["name"] + ""
                     });
                 }
@@ -121,9 +122,9 @@ namespace Shopping4u.DAL
                 result = new BranchProduct
                 {
                     productId = int.Parse(dataReader["productId"] + ""),
-                    branchId =(int) dataReader["imageUrl"],
+                    branchId = (int)dataReader["imageUrl"],
                     price = (double)dataReader["price"],
-                    branchProductId = (int) dataReader["branchProductId"]
+                    branchProductId = (int)dataReader["branchProductId"]
                 };
                 //close Data Reader
                 dataReader.Close();
@@ -226,11 +227,8 @@ namespace Shopping4u.DAL
                     shoppingList.consumerId = (int)dataReader["consumerId"];
                     shoppingList.date = (DateTime)dataReader["date"];
                     shoppingList.approved = (bool)dataReader["approved"];
-                    if (!result.Contains(shoppingList))
-                    {
-                        shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
-                        result.Add(shoppingList);
-                    }
+                    shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
+                    result.Add(shoppingList);
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -246,6 +244,57 @@ namespace Shopping4u.DAL
                 return result;
             }
         }
+        public string[] GetShoppingLists()
+        {
+            List<string> result = new List<string>();
+            string query = "SELECT shoppingListId`" +
+                "FROM `shoppinglist` ";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add(GetProductsIdOfList((int)dataReader["ShoppingListId"]));
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result.ToArray();
+        }
+
+        private string GetProductsIdOfList(int shoppingListId)
+        {
+            string result = "";
+            string query = "SELECT productId`" +
+                "FROM orderedProduct " +
+                $"where shoppingListId = {shoppingListId}";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result += dataReader["productId"].ToString() + ",";
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+               
+            }
+            //return list to be displayed
+            return result;
+        }
+
         private List<OrderedProduct> GetOrderedProductsOfList(int shoppingListId)
         {
             List<OrderedProduct> result = new List<OrderedProduct>();
@@ -353,7 +402,7 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                result = (double) dataReader["total"];
+                result = (double)dataReader["total"];
                 //close Data Reader
                 dataReader.Close();
 
@@ -383,7 +432,7 @@ namespace Shopping4u.DAL
                 //close connection
                 CloseConnection();
             }
-            InsertOrderedProducts(shoppingList.products,shoppingListId);
+            InsertOrderedProducts(shoppingList.products, shoppingListId);
 
         }
         public void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId)
@@ -460,7 +509,7 @@ namespace Shopping4u.DAL
             }
             return branch;
         }
-        public BranchProduct InsertBranchProduct(Product product, Branch branch,double price)
+        public BranchProduct InsertBranchProduct(Product product, Branch branch, double price)
         {
             InsertBaseProduct(product);
             branch = InsertBranch(branch);
@@ -532,7 +581,7 @@ namespace Shopping4u.DAL
         #region FILTERS
         public Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
         {
-            Dictionary<int,int> result = new Dictionary<int, int>();
+            Dictionary<int, int> result = new Dictionary<int, int>();
             string query = $"SELECT branchProductId,SUM(quantity) AS quantity " +
                 $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
@@ -550,7 +599,7 @@ namespace Shopping4u.DAL
 
                 //close Connection
                 CloseConnection();
-            } 
+            }
             return result;
         }
         public Dictionary<DateTime, double> ShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
@@ -580,7 +629,7 @@ namespace Shopping4u.DAL
         {
             List<Product> result = new List<Product>();
             string query = $"SELECT * FROM baseproduct where name LIKE '%{name}%'";
-            if(OpenConnection() == true)
+            if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -637,6 +686,97 @@ namespace Shopping4u.DAL
             return result;
         }
         #endregion
+        //#region APRIORI
+        //public IDictionary<int, int> GetSupportOfEachItem(double minSupport)
+        //{
+        //    double numOfShoppingLists = GetNumOfShoppingLists();
+        //    IDictionary<int, int> forEachProduct = new Dictionary<int, int>();
+        //    List<BE.Rule> Rules = new List<BE.Rule>();
+        //    if (OpenConnection() == true)
+        //    {
+        //        string query = "SELECT productId,count(*) AS supportX FROM shoppingList natural join branchproduct group by productId";
+        //        //Create Command
+        //        MySqlCommand cmd = new MySqlCommand(query, connection);
+        //        //Create a data reader and Execute the command
+        //        MySqlDataReader dataReader = cmd.ExecuteReader();
+        //        while (dataReader.Read())
+        //        {
+        //            if ((double)dataReader["supportX"] / numOfShoppingLists >= minSupport)
+        //            {
+        //                forEachProduct[(int)dataReader["productId"]] = (int)dataReader["supportX"];
+        //            }
+        //        }
+        //        //close Data Reader
+        //        dataReader.Close();
 
+        //        //close Connection
+        //        CloseConnection();
+        //    }
+        //    else
+        //    {
+        //        return forEachProduct;
+        //    }
+        //    return forEachProduct;
+        //}
+
+        //public int GetNumOfShoppingLists()
+        //{
+        //    string query = "SELECT COUNT(*) FROM shoppingList";
+        //    int result = -1;
+        //    if (OpenConnection())
+        //    {
+        //        MySqlCommand cmd = new MySqlCommand(query, connection);
+        //        result = (int)cmd.ExecuteScalar();
+        //    }
+        //    return result;
+        //}
+
+        //public List<BE.Rule> AprioriRecommender(IDictionary<int, int> forEachProduct, double minConfidence)
+        //{
+        //    List<BE.Rule> result = new List<BE.Rule>();
+        //    string query = $"SELECT productId,productId1,SUM(distinct(shoppingListId)) AS supportXY " +
+        //        $"FROM orderedProduct natural join " +
+        //        $"(SELECT productId1, branchProductId FROM branchProduct) AS branchProduct1 " +
+        //        $"natural join branchProduct " +
+        //        $"where productId > productId1" +
+        //        $"GROUP BY productId, productId1";
+        //    if (OpenConnection() == true)
+        //    {
+        //        //Create Command
+        //        MySqlCommand cmd = new MySqlCommand(query, connection);
+        //        //Create a data reader and Execute the command
+        //        MySqlDataReader dataReader = cmd.ExecuteReader();
+        //        BE.Rule rule;
+        //        double confidence;
+        //        while (dataReader.Read())
+        //        {
+        //            confidence = (int)dataReader["supportXY"] / forEachProduct[(int)dataReader["productId"]];
+        //            if (confidence >= minConfidence)
+        //            {
+        //                rule = new BE.Rule
+        //                {
+        //                    firstProduct = (int)dataReader["productId"],
+        //                    secondProduct = (int)dataReader["productId1"],
+        //                    probability = confidence
+        //                };
+        //                result.Add(rule);
+        //            }
+        //        }
+
+        //        //close Data Reader
+        //        dataReader.Close();
+
+        //        //close Connection
+        //        CloseConnection();
+
+        //        //return list to be displayed
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        return result;
+        //    }
+        //}
+        //#endregion
     }
 }

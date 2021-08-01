@@ -220,8 +220,14 @@ namespace Shopping4u.BL
             return dal.FilterByBranches(branchesNames, shoppingListId);
         }
         #endregion
-        #region APRIORI
+        //#region APRIORI
+        //public IEnumerable<BE.Rule> AprioriRecommender(double minConfidence = 0.3,double minSupport = 0.2)
+        //{
+        //    IDictionary<int, int> forEachProduct = dal.GetSupportOfEachItem(minSupport);
+        //    List<BE.Rule> Rules = dal.AprioriRecommender(forEachProduct,minConfidence);
+        //    return Rules;
+        //}
+        //#endregion
 
-        #endregion
     }
 }

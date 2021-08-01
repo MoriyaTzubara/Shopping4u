@@ -191,6 +191,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BL.cs" />
+    <Compile Include="Contracts\IApriori.cs" />
+    <Compile Include="Contracts\ISorter.cs" />
+    <Compile Include="Entities\Apriori.cs" />
+    <Compile Include="Entities\ContainerProvider.cs" />
+    <Compile Include="Entities\Item.cs" />
+    <Compile Include="Entities\ItemsDictionary.cs" />
+    <Compile Include="Entities\Output.cs" />
+    <Compile Include="Entities\Rule.cs" />
+    <Compile Include="Entities\Sorter.cs" />
     <Compile Include="IBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

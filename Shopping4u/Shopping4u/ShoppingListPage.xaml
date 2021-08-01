@@ -15,7 +15,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                         Text="{Binding Title}" />
-                <Button Margin="20 10 0 0" Content="Add product" Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                <Button Command ="{Binding CreateProduct}" Margin="20 10 0 0" Content="Add product" Style="{StaticResource MaterialDesignOutlinedButton}"/>
 
             </StackPanel>
 

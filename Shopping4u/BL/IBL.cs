@@ -46,6 +46,8 @@ namespace Shopping4u.BL
         Task<string> StorePicture(string uploadUrl, string name);
         string EncodeBarcode(string downloadUrl);
         #endregion
+        #region APRIORI
+        #endregion
     }
 }
 
