@@ -1,4 +1,5 @@
 ﻿using Shopping4u.BL;
+using Shopping4u.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,18 @@ namespace Shopping4u.ViewModels
 {
     public abstract class ShoppingListViewModel
     {
+        public CreateProductCommand CreateProductCommand { get; set; }
+        public UpdateProductCommand UpdateProductCommand { get; set; }
+        public DeleteProductCommand DeleteProductCommand { get; set; }
+
+
+        public ShoppingListViewModel()
+        {
+            CreateProductCommand = new CreateProductCommand(this);
+            UpdateProductCommand = new UpdateProductCommand(this);
+            DeleteProductCommand = new DeleteProductCommand(this);
+        }
+
         public string Title { get { return GetTitle(); } private set { } }
         public bool readOnly { get { return IsReadOnly(); } private set { } }
 
@@ -21,7 +34,8 @@ namespace Shopping4u.ViewModels
         public abstract IEnumerable<ProductViewModel> GetProducts();
 
         public abstract void CreateProduct(ProductViewModel productViewModel);
-        public abstract void UpdateProduct(int productId);
+        public abstract void UpdateProduct(ProductViewModel productViewModel);
         public abstract void DeleteProduct(int productId);
+
     }
 }
