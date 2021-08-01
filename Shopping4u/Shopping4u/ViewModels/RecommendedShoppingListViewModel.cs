@@ -22,7 +22,6 @@ namespace Shopping4u.ViewModels
         }
         public override IEnumerable<ProductViewModel> GetProducts()
         {
-            // SHOULD BE DELETED
             IBL bl = new BL.BL();
             if(products == null)
                 products = bl.GetProducts().Select(p => new ProductViewModel(new OrderedProduct())).ToList();
@@ -50,35 +49,7 @@ namespace Shopping4u.ViewModels
 
             static public List<ProductViewModel> getProducts()
             {
-                return new List<ProductViewModel>()
-            {
-                new ProductViewModel(new BE.OrderedProduct())
-                {
-                    BranchName = "OSHER AD",
-                    ProductName = "Milk",
-                    Quantity = random.Next(1, 20)
-                },
-                new ProductViewModel(new BE.OrderedProduct())
-
-                {
-                    BranchName = "OSHER AD",
-                    ProductName = "Potato",
-                    Quantity = random.Next(1, 20)
-                },
-                new ProductViewModel(new BE.OrderedProduct())
-                {
-                    BranchName = "OSHER AD",
-                    ProductName = "Potato",
-                    Quantity = random.Next(1, 20)
-                },
-                new ProductViewModel(new BE.OrderedProduct())
-                {
-                    BranchName = "OSHER AD",
-                    ProductName = "Meat",
-                    Quantity = random.Next(1, 20)
-                },
-
-            };
+                return new List<ProductViewModel>();
             }
 
         }
