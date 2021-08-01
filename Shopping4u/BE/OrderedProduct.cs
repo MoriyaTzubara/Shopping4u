@@ -20,5 +20,6 @@ namespace BE
             this.unitPrice = orderedProduct.unitPrice;
             this.shoppingListId = orderedProduct.shoppingListId;
         }
+        public OrderedProduct(){}
     }
 }
