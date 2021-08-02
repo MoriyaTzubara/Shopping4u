@@ -145,6 +145,14 @@ namespace Shopping4u.BL
         {
             return dal.GetShoppingList(shoppingListId);
         }
+        public List<string> GetBranchesNameOfSpecificProduct(int productId)
+        {
+            return dal.GetBranchesNameOfSpecificProduct(productId);
+        }
+        public List<string> GetProductsNameOfSpecificBranch(int branchId)
+        {
+            return dal.GetProductsNameOfSpecificBranch(branchId);
+        }
         #endregion
         #region INSERT  
         public void InsertShoppingList(ShoppingList shoppingList)
@@ -232,9 +240,9 @@ namespace Shopping4u.BL
             return dal.ShoppingsBetweenTwoDates(start, end, consumerId);
         }
 
-        public List<Product> GetProductsByName(string name)
+        public Product GetProductByName(string name)
         {
-            return dal.GetProductsByName(name);
+            return dal.GetProductByName(name);
         }
         public IEnumerable<IGrouping<int, OrderedProduct>> GroupByBranchesTheRecommendedList(List<OrderedProduct> orderedProducts)
         {
@@ -250,6 +258,11 @@ namespace Shopping4u.BL
         public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3)
         {
             return dal.GetUsualShoppingsForEachDay(consumerId, minPrecent);
+        }
+        public double SumOfTotalShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
+        {
+            IDictionary<DateTime, double> ResultOfShoppingsBetweenTwoDates = ShoppingsBetweenTwoDates(start, end, consumerId);
+            return ResultOfShoppingsBetweenTwoDates.Sum(x => x.Value);
         }
         #endregion
         #region APRIORI

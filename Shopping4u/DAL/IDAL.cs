@@ -25,6 +25,8 @@ namespace Shopping4u.DAL
         IEnumerable<string> GetProductsIdInList();
         string GetProductsIdOfList(int shoppingListId);
         IEnumerable<string> GetProductsNamesInList();
+        List<string> GetBranchesNameOfSpecificProduct(int productId);
+        List<string> GetProductsNameOfSpecificBranch(int branchId);
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);
@@ -45,7 +47,7 @@ namespace Shopping4u.DAL
         #region FILTERS
         Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
         Dictionary<DateTime, double> ShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
-        List<Product> GetProductsByName(string name);
+        Product GetProductByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
         IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3);
         #endregion
