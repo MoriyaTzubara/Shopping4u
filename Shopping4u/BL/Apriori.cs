@@ -48,10 +48,12 @@ namespace BL
 
             HashSet<Rule> rules = GenerateRules(allFrequentItems);
             IList<Rule> strongRules = GetStrongRules(minConfidence, rules, allFrequentItems);
+            Dictionary<string, Dictionary<string, double>> closedItemSets = GetClosedItemSets(allFrequentItems);
             return new Output
             {
                 StrongRules = strongRules,
-                FrequentItems = allFrequentItems
+                FrequentItems = allFrequentItems,
+                ClosedItemSets = closedItemSets
             };
         }
 
@@ -165,56 +167,56 @@ namespace BL
             return frequentItems;
         }
 
-        //private Dictionary<string, Dictionary<string, double>> GetClosedItemSets(ItemsDictionary allFrequentItems)
-        //{
-        //    var closedItemSets = new Dictionary<string, Dictionary<string, double>>();
-        //    int i = 0;
+        private Dictionary<string, Dictionary<string, double>> GetClosedItemSets(ItemsDictionary allFrequentItems)
+        {
+            var closedItemSets = new Dictionary<string, Dictionary<string, double>>();
+            int i = 0;
 
-        //    foreach (var item in allFrequentItems)
-        //    {
-        //        Dictionary<string, double> parents = GetItemParents(item.Name, ++i, allFrequentItems);
+            foreach (var item in allFrequentItems)
+            {
+                Dictionary<string, double> parents = GetItemParents(item.Name, ++i, allFrequentItems);
 
-        //        if (CheckIsClosed(item.Name, parents, allFrequentItems))
-        //        {
-        //            closedItemSets.Add(item.Name, parents);
-        //        }
-        //    }
+                if (CheckIsClosed(item.Name, parents, allFrequentItems))
+                {
+                    closedItemSets.Add(item.Name, parents);
+                }
+            }
 
-        //    return closedItemSets;
-        //}
+            return closedItemSets;
+        }
 
-        //private Dictionary<string, double> GetItemParents(string child, int index, ItemsDictionary allFrequentItems)
-        //{
-        //    var parents = new Dictionary<string, double>();
+        private Dictionary<string, double> GetItemParents(string child, int index, ItemsDictionary allFrequentItems)
+        {
+            var parents = new Dictionary<string, double>();
 
-        //    for (int j = index; j < allFrequentItems.Count; j++)
-        //    {
-        //        string parent = allFrequentItems[j].Name;
+            for (int j = index; j < allFrequentItems.Count; j++)
+            {
+                string parent = allFrequentItems[j].Name;
 
-        //        if (parent.Length == child.Length + 1)
-        //        {
-        //            if (CheckIsSubset(child, parent))
-        //            {
-        //                parents.Add(parent, allFrequentItems[parent].Support);
-        //            }
-        //        }
-        //    }
+                if (parent.Length == child.Length + 1)
+                {
+                    if (CheckIsSubset(child, parent))
+                    {
+                        parents.Add(parent, allFrequentItems[parent].Support);
+                    }
+                }
+            }
 
-        //    return parents;
-        //}
+            return parents;
+        }
 
-        //private bool CheckIsClosed(string child, Dictionary<string, double> parents, ItemsDictionary allFrequentItems)
-        //{
-        //    foreach (string parent in parents.Keys)
-        //    {
-        //        if (allFrequentItems[child].Support == allFrequentItems[parent].Support)
-        //        {
-        //            return false;
-        //        }
-        //    }
+        private bool CheckIsClosed(string child, Dictionary<string, double> parents, ItemsDictionary allFrequentItems)
+        {
+            foreach (string parent in parents.Keys)
+            {
+                if (allFrequentItems[child].Support == allFrequentItems[parent].Support)
+                {
+                    return false;
+                }
+            }
 
-        //    return true;
-        //}
+            return true;
+        }
 
         //private IList<string> GetMaximalItemSets(Dictionary<string, Dictionary<string, double>> closedItemSets)
         //{

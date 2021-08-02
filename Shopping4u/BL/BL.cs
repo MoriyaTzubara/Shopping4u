@@ -125,6 +125,10 @@ namespace Shopping4u.BL
         {
             return dal.GetTotalOfShoppingList(shoppingListId);
         }
+        public string[] GetShoppingListsOfConsumer(int consumerId)
+        {
+            return dal.GetShoppingListsOfConsumer(consumerId);
+        }
         public string[] GetShoppingLists()
         {
             return dal.GetShoppingLists();
@@ -152,6 +156,10 @@ namespace Shopping4u.BL
         public List<string> GetProductsNameOfSpecificBranch(int branchId)
         {
             return dal.GetProductsNameOfSpecificBranch(branchId);
+        }
+        public List<string> GetCategoriesNames()
+        {
+            return dal.GetCategoriesNames();
         }
         #endregion
         #region INSERT  
@@ -264,6 +272,14 @@ namespace Shopping4u.BL
             IDictionary<DateTime, double> ResultOfShoppingsBetweenTwoDates = ShoppingsBetweenTwoDates(start, end, consumerId);
             return ResultOfShoppingsBetweenTwoDates.Sum(x => x.Value);
         }
+        public IDictionary<DateTime, double> GetShoppingsInBranchBetweenTwoDates(DateTime start, DateTime end, int consumerId, int BranchId)
+        {
+            return dal.GetShoppingsInBranchBetweenTwoDates(start, end, consumerId, BranchId);
+        }
+        public IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName)
+        {
+            return dal.GetShoppingsInCategoryBetweenTwoDates(start, end, consumerId, categoryName);
+        }
         #endregion
         #region APRIORI
         public bool DoesProductExistsInList(List<OrderedProduct> ordered, int productId)
@@ -279,6 +295,7 @@ namespace Shopping4u.BL
             IApriori apriori = new Apriori();
             Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingLists());
             List<Product> result = new List<Product>();
+            bool Xexists = true;
             if(rules.StrongRules.Count() != 0)
             {
                 foreach (Rule rule in rules.StrongRules)
@@ -286,11 +303,14 @@ namespace Shopping4u.BL
                     List<int> combination = rule.X.Split(',').Select(x => int.Parse(x)).ToList();
                     foreach (int productId in combination)
                     {
-                        if(DoesProductExistsInList(orderedProducts,productId) == true)
+                        if(DoesProductExistsInList(orderedProducts,productId) == false)
                         {
-                            result.Add(GetProduct(int.Parse(rule.Y)));
+                            Xexists = false;
+                            break;
                         }
                     }
+                    if (Xexists && !result.Exists(p => p.id == int.Parse(rule.Y)))
+                        result.Add(GetProduct(int.Parse(rule.Y)));
                 }
             }
             else if(rules.FrequentItems.Count() != 0)
@@ -305,6 +325,36 @@ namespace Shopping4u.BL
                 }
             }
             return result;
+        }
+        public List<List<Product>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
+        {
+            List<List<Product>> result = new List<List<Product>>();
+            IApriori apriori = new Apriori();
+            Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingListsOfConsumer(consumerId));
+            List<Product> ProductsTogether;
+            if (rules.ClosedItemSets.Count() != 0)
+            {
+                foreach (KeyValuePair<string,Dictionary<string,double>> closedItems in rules.ClosedItemSets)
+                {
+                    List<List<int>> ListOfClosedItems = closedItems.Value.Keys.ToList().Select(k => k.Split(',').Select(x => int.Parse(x)).ToList()).ToList();
+                    
+                    foreach (List<int> listOfProductsId in ListOfClosedItems)
+                    {
+                        ProductsTogether = new List<Product>();
+                        foreach (int productId in listOfProductsId)
+                        {
+                            ProductsTogether.Add(GetProduct(productId));
+                        }
+                        result.Add(ProductsTogether);
+                    }
+                    
+                }
+            }
+            return result;
+        }
+        public IDictionary<List<Product>, double> ProductsThatGoTogether(double minConfidence = 0.01)
+        {
+            return dal.ProductsThatGoTogether(minConfidence);
         }
         #endregion
         //#region APRIORI

@@ -26,6 +26,7 @@ namespace Shopping4u.BL
         IEnumerable<string> GetProductsNamesInList();
         List<string> GetBranchesNameOfSpecificProduct(int productId);
         List<string> GetProductsNameOfSpecificBranch(int branchId);
+        List<string> GetCategoriesNames();
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);
@@ -51,6 +52,8 @@ namespace Shopping4u.BL
         IEnumerable<IGrouping<int, OrderedProduct>> GroupByBranchesTheRecommendedList(List<OrderedProduct> orderedProducts);
         IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3);
         double SumOfTotalShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
+        IDictionary<DateTime, double> GetShoppingsInBranchBetweenTwoDates(DateTime start, DateTime end, int consumerId, int BranchId);
+        IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName);
         #endregion
         #region FIREBASE
         Task<string> StorePicture(string uploadUrl, string name);
@@ -59,6 +62,8 @@ namespace Shopping4u.BL
         #region APRIORI
         bool DoesProductExistsInList(List<OrderedProduct> ordered, int productId);
         IEnumerable<Product> AprioriRecommender(List<OrderedProduct> orderedProducts, double minSupport = 0.01, double minConfidence = 0.01);
+        List<List<Product>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01);
+        IDictionary<List<Product>, double> ProductsThatGoTogether(double minConfidence = 0.01);
         #endregion
     }
 }

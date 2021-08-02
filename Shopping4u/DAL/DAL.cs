@@ -91,7 +91,8 @@ namespace Shopping4u.DAL
                     {
                         id = int.Parse(dataReader["productId"] + ""),
                         imageUrl = dataReader["itemImageUrl"] + "",
-                        name = dataReader["name"] + ""
+                        name = dataReader["name"] + "",
+                        category = dataReader["categoryName"] + ""
                     });
                 }
 
@@ -153,7 +154,8 @@ namespace Shopping4u.DAL
                     {
                         id = int.Parse(dataReader["productId"] + ""),
                         imageUrl = dataReader["imageUrl"] + "",
-                        name = dataReader["name"] + ""
+                        name = dataReader["name"] + "",
+                        category = dataReader["categoryName"] + ""
                     };
                 }
                 //close Data Reader
@@ -255,6 +257,30 @@ namespace Shopping4u.DAL
             {
                 return result;
             }
+        }
+        public string[] GetShoppingListsOfConsumer(int consumerId)
+        {
+            List<string> result = new List<string>();
+            string query = "SELECT shoppingListId" +
+                "FROM shoppinglist " +
+                $"WHERE consumerId = {consumerId}";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add(GetProductsIdOfList((int)dataReader["ShoppingListId"]));
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result.ToArray();
         }
         public string[] GetShoppingLists()
         {
@@ -551,6 +577,21 @@ namespace Shopping4u.DAL
             }
             return result;
         }
+        public List<string> GetCategoriesNames()
+        {
+            List<string> result = new List<string>();
+            string query = "select * from category";
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add((string)dataReader["categoryName"]);
+                }
+            }
+            return result;
+        }
 
         #endregion
         #region INSERT
@@ -594,14 +635,38 @@ namespace Shopping4u.DAL
                 CloseConnection();
             }
         }
+
+        public bool DoesCategoryExists(string category)
+        {
+            if (GetCategoriesNames().Contains(category))
+                return true;
+            return false;
+        }
+        public void InsertCategory(string category)
+        {
+            if (DoesCategoryExists(category) == false)
+            {
+                if (OpenConnection() == true)
+                {
+
+                    string query = $"INSERT INTO category (categoryName) " +
+                        $"VALUES ({category})";
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+                }
+                CloseConnection();
+            }
+        }
         public void InsertBaseProduct(Product product)
         {
+            InsertCategory(product.category);
             if (GetProduct(product.id) == new Product())
             {
                 if (OpenConnection() == true)
                 {
-                    string query = $"INSERT INTO baseproduct (productId,name,itemImageUrl) " +
-                        $"VALUES ({product.id},{product.name},{product.imageUrl})";
+
+                    string query = $"INSERT INTO baseproduct (productId,name,itemImageUrl,categoryName) " +
+                        $"VALUES ({product.id},{product.name},{product.imageUrl},{product.category})";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
                 }
@@ -785,7 +850,8 @@ namespace Shopping4u.DAL
                     {
                         id = int.Parse(dataReader["productId"] + ""),
                         imageUrl = dataReader["imageUrl"] + "",
-                        name = dataReader["name"] + ""
+                        name = dataReader["name"] + "",
+                        category = dataReader["categoryName"] + ""
                     };
                 }
 
@@ -857,99 +923,169 @@ namespace Shopping4u.DAL
             }
             return result;
         }
+        public IDictionary<DateTime, int> GetProductBetweenTwoDates(DateTime start, DateTime end, int consumerId, int productId)
+        {
+            IDictionary<DateTime, int> result = new Dictionary<DateTime, int>();
+            string query = $"SELECT date(date) AS date,SUM(quantity) AS quantity " +
+                           $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
+                           $"where productId = {productId} AND {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                           $"GROUP BY date(date)";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result[(DateTime)dataReader["date"]] = (int)dataReader["quantity"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public IDictionary<DateTime, double> GetShoppingsInBranchBetweenTwoDates(DateTime start, DateTime end, int consumerId, int BranchId)
+        {
+            IDictionary<DateTime, double> result = new Dictionary<DateTime, double>();
+            string query = $"SELECT date(date) AS date,SUM(quantity * unitPrice) AS expenses " +
+                $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where branchId = {BranchId} AND {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY date(date)";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((DateTime)dataReader["date"]))
+                        result[(DateTime)dataReader["date"]] = 0;
+                    result[(DateTime)dataReader["date"]] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName)
+        {
+            IDictionary<DateTime, double> result = new Dictionary<DateTime, double>();
+            string query = $"SELECT date(date) AS date,SUM(quantity * unitPrice) AS expenses " +
+                $"FROM baseProduct NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where categoryName = {categoryName} AND {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY date(date)";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((DateTime)dataReader["date"]))
+                        result[(DateTime)dataReader["date"]] = 0;
+                    result[(DateTime)dataReader["date"]] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
         #endregion
 
-        //#region APRIORI
-        //public IDictionary<int, int> GetSupportOfEachItem(double minSupport)
-        //{
-        //    double numOfShoppingLists = GetNumOfShoppingLists();
-        //    IDictionary<int, int> forEachProduct = new Dictionary<int, int>();
-        //    List<BE.Rule> Rules = new List<BE.Rule>();
-        //    if (OpenConnection() == true)
-        //    {
-        //        string query = "SELECT productId,count(*) AS supportX FROM shoppingList natural join branchproduct group by productId";
-        //        //Create Command
-        //        MySqlCommand cmd = new MySqlCommand(query, connection);
-        //        //Create a data reader and Execute the command
-        //        MySqlDataReader dataReader = cmd.ExecuteReader();
-        //        while (dataReader.Read())
-        //        {
-        //            if ((double)dataReader["supportX"] / numOfShoppingLists >= minSupport)
-        //            {
-        //                forEachProduct[(int)dataReader["productId"]] = (int)dataReader["supportX"];
-        //            }
-        //        }
-        //        //close Data Reader
-        //        dataReader.Close();
+        #region APRIORI
+        public IDictionary<int, int> GetSupportOfEachItem()
+        {
+            IDictionary<int, int> forEachProduct = new Dictionary<int, int>();
+            if (OpenConnection() == true)
+            {
+                string query = "SELECT productId,count(*) AS supportX FROM shoppingList natural join branchproduct group by productId";
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if ((double)dataReader["supportX"]  > 0)
+                    {
+                        forEachProduct[(int)dataReader["productId"]] = (int)dataReader["supportX"];
+                    }
+                }
+                //close Data Reader
+                dataReader.Close();
 
-        //        //close Connection
-        //        CloseConnection();
-        //    }
-        //    else
-        //    {
-        //        return forEachProduct;
-        //    }
-        //    return forEachProduct;
-        //}
+                //close Connection
+                CloseConnection();
+            }
+            else
+            {
+                return forEachProduct;
+            }
+            return forEachProduct;
+        }
 
-        //public int GetNumOfShoppingLists()
-        //{
-        //    string query = "SELECT COUNT(*) FROM shoppingList";
-        //    int result = -1;
-        //    if (OpenConnection())
-        //    {
-        //        MySqlCommand cmd = new MySqlCommand(query, connection);
-        //        result = (int)cmd.ExecuteScalar();
-        //    }
-        //    return result;
-        //}
+        public int GetNumOfShoppingLists()
+        {
+            string query = "SELECT COUNT(*) FROM shoppingList";
+            int result = -1;
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                result = (int)cmd.ExecuteScalar();
+            }
+            return result;
+        }
 
-        //public List<BE.Rule> AprioriRecommender(IDictionary<int, int> forEachProduct, double minConfidence)
-        //{
-        //    List<BE.Rule> result = new List<BE.Rule>();
-        //    string query = $"SELECT productId,productId1,SUM(distinct(shoppingListId)) AS supportXY " +
-        //        $"FROM orderedProduct natural join " +
-        //        $"(SELECT productId1, branchProductId FROM branchProduct) AS branchProduct1 " +
-        //        $"natural join branchProduct " +
-        //        $"where productId > productId1" +
-        //        $"GROUP BY productId, productId1";
-        //    if (OpenConnection() == true)
-        //    {
-        //        //Create Command
-        //        MySqlCommand cmd = new MySqlCommand(query, connection);
-        //        //Create a data reader and Execute the command
-        //        MySqlDataReader dataReader = cmd.ExecuteReader();
-        //        BE.Rule rule;
-        //        double confidence;
-        //        while (dataReader.Read())
-        //        {
-        //            confidence = (int)dataReader["supportXY"] / forEachProduct[(int)dataReader["productId"]];
-        //            if (confidence >= minConfidence)
-        //            {
-        //                rule = new BE.Rule
-        //                {
-        //                    firstProduct = (int)dataReader["productId"],
-        //                    secondProduct = (int)dataReader["productId1"],
-        //                    probability = confidence
-        //                };
-        //                result.Add(rule);
-        //            }
-        //        }
+        public IDictionary<List<Product>,double> ProductsThatGoTogether(double minConfidence = 0.01)
+        {
+            IDictionary<int, int>  forEachProduct = GetSupportOfEachItem();
+            IDictionary<List<Product>, double> result = new Dictionary<List<Product>, double>();
+            string query = $"SELECT productId,productId1,SUM(distinct(shoppingListId)) AS supportXY " +
+                $"FROM orderedProduct natural join " +
+                $"(SELECT productId1, branchProductId FROM branchProduct) AS branchProduct1 " +
+                $"natural join branchProduct " +
+                $"where productId > productId1" +
+                $"GROUP BY productId, productId1";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                List<Product> products;
+                double confidence;
+                while (dataReader.Read())
+                {
+                    if (forEachProduct.ContainsKey((int)dataReader["productId"]))
+                    {
+                        confidence = (int)dataReader["supportXY"] / forEachProduct[(int)dataReader["productId"]];
+                        if (confidence >= minConfidence)
+                        {
+                            products = new List<Product> { GetProduct((int)dataReader["productId"]), GetProduct((int)dataReader["productId1"]) };
+                            result[products] = confidence;
+                        }
+                    }
+                }
 
-        //        //close Data Reader
-        //        dataReader.Close();
+                //close Data Reader
+                dataReader.Close();
 
-        //        //close Connection
-        //        CloseConnection();
+                //close Connection
+                CloseConnection();
 
-        //        //return list to be displayed
-        //        return result;
-        //    }
-        //    else
-        //    {
-        //        return result;
-        //    }
-        //}
-        //#endregion
+                //return list to be displayed
+                return result;
+            }
+            else
+            {
+                return result;
+            }
+        }
+        #endregion
     }
 }
