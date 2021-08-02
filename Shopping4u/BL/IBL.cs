@@ -24,6 +24,8 @@ namespace Shopping4u.BL
         IEnumerable<string> GetProductsIdInList();
         string GetProductsIdOfList(int shoppingListId);
         IEnumerable<string> GetProductsNamesInList();
+        List<string> GetBranchesNameOfSpecificProduct(int productId);
+        List<string> GetProductsNameOfSpecificBranch(int branchId);
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);
@@ -44,10 +46,11 @@ namespace Shopping4u.BL
         #region FILTERS
         Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
         Dictionary<DateTime, double> ShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
-        List<Product> GetProductsByName(string name);
+        Product GetProductByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
         IEnumerable<IGrouping<int, OrderedProduct>> GroupByBranchesTheRecommendedList(List<OrderedProduct> orderedProducts);
         IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3);
+        double SumOfTotalShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
         #endregion
         #region FIREBASE
         Task<string> StorePicture(string uploadUrl, string name);

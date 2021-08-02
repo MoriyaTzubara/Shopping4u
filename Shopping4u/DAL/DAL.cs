@@ -323,7 +323,7 @@ namespace Shopping4u.DAL
 
                 //close Connection
                 CloseConnection();
-               
+
             }
             //return list to be displayed
             return result;
@@ -505,6 +505,52 @@ namespace Shopping4u.DAL
             }
             return result;
         }
+        public List<string> GetBranchesNameOfSpecificProduct(int productId)
+        {
+            List<string> result = new List<string>();
+            string query = $"SELECT name FROM branchProduct natural join branch where productId = {productId}";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    result.Add((string)dataReader["name"]);
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public List<string> GetProductsNameOfSpecificBranch(int branchId)
+        {
+            List<string> result = new List<string>();
+            string query = $"SELECT name FROM branchProduct natural join baseProduct where branchId = {branchId}";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    result.Add((string)dataReader["name"]);
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
 
         #endregion
         #region INSERT
@@ -528,7 +574,6 @@ namespace Shopping4u.DAL
                 CloseConnection();
             }
             InsertOrderedProducts(shoppingList.products, shoppingListId);
-
         }
         public void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId)
         {
@@ -724,9 +769,9 @@ namespace Shopping4u.DAL
             }
             return result;
         }
-        public List<Product> GetProductsByName(string name)
+        public Product GetProductByName(string name)
         {
-            List<Product> result = new List<Product>();
+            Product result = new Product();
             string query = $"SELECT * FROM baseproduct where name LIKE '%{name}%'";
             if (OpenConnection() == true)
             {
@@ -734,14 +779,14 @@ namespace Shopping4u.DAL
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
+                if (dataReader.Read())
                 {
-                    result.Add(new Product
+                    result = new Product
                     {
                         id = int.Parse(dataReader["productId"] + ""),
                         imageUrl = dataReader["imageUrl"] + "",
                         name = dataReader["name"] + ""
-                    });
+                    };
                 }
 
                 //close Data Reader
