@@ -247,6 +247,10 @@ namespace Shopping4u.BL
         {
             return dal.FilterByBranches(branchesNames, shoppingListId);
         }
+        public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3)
+        {
+            return dal.GetUsualShoppingsForEachDay(consumerId, minPrecent);
+        }
         #endregion
         #region APRIORI
         public bool DoesProductExistsInList(List<OrderedProduct> ordered, int productId)

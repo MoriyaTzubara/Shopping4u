@@ -47,6 +47,7 @@ namespace Shopping4u.DAL
         Dictionary<DateTime, double> ShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
         List<Product> GetProductsByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
+        IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3);
         #endregion
         //#region APRIORI
         //IDictionary<int, int> GetSupportOfEachItem(double minSupport);
