@@ -21,12 +21,14 @@ namespace Shopping4u.DAL
         string GetBranchName(int branchId);
         string GetProductName(int productId);
         double GetTotalOfShoppingList(int shoppingListId);
+        string[] GetShoppingListsOfConsumer(int consumerId);
         string[] GetShoppingLists();
         IEnumerable<string> GetProductsIdInList();
         string GetProductsIdOfList(int shoppingListId);
         IEnumerable<string> GetProductsNamesInList();
         List<string> GetBranchesNameOfSpecificProduct(int productId);
         List<string> GetProductsNameOfSpecificBranch(int branchId);
+        List<string> GetCategoriesNames();
         #endregion
         #region INSERT
         void InsertShoppingList(ShoppingList shoppingList);
@@ -50,10 +52,12 @@ namespace Shopping4u.DAL
         Product GetProductByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
         IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3);
+        IDictionary<DateTime, double> GetShoppingsInBranchBetweenTwoDates(DateTime start, DateTime end, int consumerId, int BranchId);
+        IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName);
         #endregion
-        //#region APRIORI
-        //IDictionary<int, int> GetSupportOfEachItem(double minSupport);
-        //List<BE.Rule> AprioriRecommender(IDictionary<int, int> forEachProduct, double minConfidence);
-        //#endregion
+        #region APRIORI
+        IDictionary<int, int> GetSupportOfEachItem();
+        IDictionary<List<Product>, double> ProductsThatGoTogether(double minConfidence = 0.01);
+        #endregion
     }
 }
