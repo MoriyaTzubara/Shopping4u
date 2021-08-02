@@ -687,7 +687,9 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    result[(int)dataReader["branchProductId"]] = (int)dataReader["quantity"];
+                    if (!result.ContainsKey((int)dataReader["branchProductId"]))
+                        result[(int)dataReader["branchProductId"]] = 0;
+                    result[(int)dataReader["branchProductId"]] += (int)dataReader["quantity"];
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -710,7 +712,9 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    result[(DateTime)dataReader["date"]] = (double)dataReader["expenses"];
+                    if (!result.ContainsKey((DateTime)dataReader["date"]))
+                        result[(DateTime)dataReader["date"]] = 0;
+                    result[(DateTime)dataReader["date"]] += (double)dataReader["expenses"];
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -779,8 +783,35 @@ namespace Shopping4u.DAL
                 CloseConnection();
             }
             return result;
+        } 
+        public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId,double minPrecent = 0.3)
+        {
+            IDictionary<string,List<string>> result = new Dictionary<string, List<string>>();
+            string query = $"select dayOfWeek, name, numOfTimesBuyingProduct/numOfShoppings as precent " +
+                $"from (select dayname(date) as dayOfWeek, sum(distinct(shoppingListId)) as numOfShoppings " +
+                $"from orderedProduct natural join shoppingList " +
+                $"where consumerId = {consumerId} " +
+                $"group by dayname(date)) " +
+                $"natural join " +
+                $"(select dayname(date) as dayOfWeek, name, sum(distinct(shoppingListId)) as numOfTimesBuyingProduct " +
+                $"from orderedProduct natural join shoppingList " +
+                $"where consumerId = {consumerId} " +
+                $"group by dayname(date)) " +
+                $"order by dayOfWeek, precent";
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((string)dataReader["dayOfWeek"]))
+                        result[(string)dataReader["dayOfWeek"]] = new List<string>();
+                    if ((double)dataReader["precent"] >= minPrecent)
+                        result[(string)dataReader["dayOfWeek"]].Add((string)dataReader["name"]);
+                }
+            }
+            return result;
         }
-
         #endregion
 
         //#region APRIORI

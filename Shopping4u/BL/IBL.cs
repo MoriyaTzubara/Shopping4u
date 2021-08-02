@@ -47,6 +47,7 @@ namespace Shopping4u.BL
         List<Product> GetProductsByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
         IEnumerable<IGrouping<int, OrderedProduct>> GroupByBranchesTheRecommendedList(List<OrderedProduct> orderedProducts);
+        IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3);
         #endregion
         #region FIREBASE
         Task<string> StorePicture(string uploadUrl, string name);
