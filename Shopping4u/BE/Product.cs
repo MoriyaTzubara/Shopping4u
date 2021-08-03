@@ -11,5 +11,6 @@ namespace BE
         public int id;
         public string imageUrl;
         public string name;
+        public string category;
     }
 }
