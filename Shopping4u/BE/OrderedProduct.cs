@@ -12,14 +12,10 @@ namespace BE
         public int branchProductId;
         public double unitPrice;
         public int quantity;
-        
-        public OrderedProduct(OrderedProduct orderedProduct)
+
+        public override string ToString()
         {
-            this.quantity = orderedProduct.quantity;
-            this.branchProductId = orderedProduct.branchProductId;
-            this.unitPrice = orderedProduct.unitPrice;
-            this.shoppingListId = orderedProduct.shoppingListId;
+            return $"shoppingListId: {shoppingListId}, branchProductId: {branchProductId}, unitPrice: {unitPrice}, quantity: {quantity}";
         }
-        public OrderedProduct(){}
     }
 }

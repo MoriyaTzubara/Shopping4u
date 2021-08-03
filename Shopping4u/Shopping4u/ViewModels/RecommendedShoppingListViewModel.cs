@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Shopping4u.Extensions;
 
 namespace Shopping4u.ViewModels
 {
@@ -28,16 +29,20 @@ namespace Shopping4u.ViewModels
             return products;
         }
 
-        public override void CreateProduct(ProductViewModel productViewModel)
+        public override void CreateProduct(OrderedProduct orderedProduct)
         {
+            MessageBox.Show($"Command parameter: {orderedProduct.getOrElae("null")}");
+
             MessageBox.Show("CreateProduct @ RecommendedShoppingList");
         }
-        public override void UpdateProduct(ProductViewModel productViewModel)
+        public override void UpdateProduct(OrderedProduct orderedProduct)
         {
+            MessageBox.Show($"Command parameter: {orderedProduct.getOrElae("null")}");
             MessageBox.Show("UpdateProduct @ RecommendedShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
+            MessageBox.Show($"Command parameter: {productId.getOrElae("null")}");
             MessageBox.Show("DeleteProduct @ RecommendedShoppingList");
         }
 

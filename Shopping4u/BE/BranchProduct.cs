@@ -12,5 +12,10 @@ namespace BE
         public int branchId;
         public double price;
         public int branchProductId;
+
+        public override string ToString()
+        {
+            return $"productId: {productId}, branchId: {branchId}, price: {price}, branchProductId: {branchProductId}";
+        }
     }
 }
