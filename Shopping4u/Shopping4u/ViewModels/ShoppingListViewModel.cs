@@ -1,5 +1,7 @@
-﻿using Shopping4u.BL;
+﻿using BE;
+using Shopping4u.BL;
 using Shopping4u.Commands;
+using Shopping4u.Converters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,12 +17,16 @@ namespace Shopping4u.ViewModels
         public UpdateProductCommand UpdateProductCommand { get; set; }
         public DeleteProductCommand DeleteProductCommand { get; set; }
 
+        public ProductConverter ProductConverter { get; set; }
+
 
         public ShoppingListViewModel()
         {
             CreateProductCommand = new CreateProductCommand(this);
             UpdateProductCommand = new UpdateProductCommand(this);
             DeleteProductCommand = new DeleteProductCommand(this);
+
+            ProductConverter = new ProductConverter();
         }
 
         public string Title { get { return GetTitle(); } private set { } }
@@ -33,8 +39,8 @@ namespace Shopping4u.ViewModels
         public abstract bool IsReadOnly();
         public abstract IEnumerable<ProductViewModel> GetProducts();
 
-        public abstract void CreateProduct(ProductViewModel productViewModel);
-        public abstract void UpdateProduct(ProductViewModel productViewModel);
+        public abstract void CreateProduct(OrderedProduct orderedProduct);
+        public abstract void UpdateProduct(OrderedProduct orderedProduct);
         public abstract void DeleteProduct(int productId);
 
     }
