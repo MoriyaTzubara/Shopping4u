@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Shopping4u"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:Shopping4u.Converters"
              mc:Ignorable="d" 
              Height="auto" Width="800"
              >
+    
     <materialDesign:Card Margin="0 1">
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
@@ -16,32 +19,75 @@
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="10*" />
                 <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="10*" />
                 <ColumnDefinition Width="8*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Style="{StaticResource CrudBtn}">
+            <Grid.Resources>
+                <converters:ProductConverter x:Key="ProductConverter"/>
+            </Grid.Resources>
+
+            <TextBlock x:Name="shoppingListId" Style="{StaticResource Hidden}" Text="{Binding ShoppingListId}"/>
+            <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="{Binding BranchProductId}"/>
+
+            <Button Grid.Column="0" Style="{StaticResource CrudBtn}" 
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                      AncestorType={x:Type local:ShoppingListPage}}, 
+                                      Path=DataContext.UpdateProductCommand}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource ProductConverter}">
+                        <Binding Path="Text" ElementName="branchProductId" />
+                        <Binding Path="Text" ElementName="unitPrice"/>
+                        <Binding Path="Text" ElementName="quantity"/>
+                        <Binding Path="Text" ElementName="shoppingListId"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 <materialDesign:PackIcon Kind="Minus" Style="{StaticResource PlusMinusIcon}"/>
             </Button>
-            
-            <TextBox Margin="0 10" Text="{Binding Quantity}" Grid.Column="1"/>
 
-            <Button Grid.Column="2" Style="{StaticResource CrudBtn}">
+            <TextBox x:Name="quantity" Margin="0 10" Text="{Binding Quantity}" Grid.Column="1"/>
+
+            <Button Grid.Column="2" Style="{StaticResource CrudBtn}"
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                      AncestorType={x:Type local:ShoppingListPage}}, 
+                                      Path=DataContext.UpdateProductCommand}">
                 <materialDesign:PackIcon Kind="Plus" Style="{StaticResource PlusMinusIcon}" />
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource ProductConverter}">
+                        <Binding Path="Text" ElementName="branchProductId" />
+                        <Binding Path="Text" ElementName="unitPrice"/>
+                        <Binding Path="Text" ElementName="quantity"/>
+                        <Binding Path="Text" ElementName="shoppingListId"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+
             </Button>
             
-            <TextBox Margin="20 10" Text="{Binding ProductName}" Grid.Column="3"/>
+            <TextBox Margin="20 10" Text="{Binding ProductName}" Grid.Column="3" IsReadOnly="True"/>
+            <TextBox x:Name="unitPrice" Margin="20 10" Text="{Binding UnitPrice}" Grid.Column="3"/>
+            
+            
             
             <ComboBox Margin="20 10" Grid.Column="4">
                 <ComboBoxItem Content="{Binding BranchName}" IsSelected="True"></ComboBoxItem>
             </ComboBox>
 
-            <Button Grid.Column="7" 
+            <Button Grid.Column="8" 
                     Style="{StaticResource CrudBtn}" 
                     Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                       AncestorType={x:Type local:ShoppingListPage}}, 
                                       Path=DataContext.DeleteProductCommand}">
-                
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource ProductConverter}">
+                        <Binding Path="Text" ElementName="branchProductId" />
+                        <Binding Path="Text" ElementName="unitPrice"/>
+                        <Binding Path="Text" ElementName="quantity"/>
+                        <Binding Path="Text" ElementName="shoppingListId"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+
+
                 <materialDesign:PackIcon Kind="close" Style="{StaticResource Icon}" />
             </Button>
 

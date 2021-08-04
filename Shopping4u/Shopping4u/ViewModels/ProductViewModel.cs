@@ -1,6 +1,7 @@
 ﻿using BE;
 using Shopping4u.BL;
 using Shopping4u.Commands;
+using Shopping4u.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,19 @@ namespace Shopping4u.ViewModels
     {
         public OrderedProduct orderedProduct { get; set; }
 
+        public int ShoppingListId {get; set;}
+        public int Quantity { get; set; }
+        public double UnitPrice { get; set; }
+        public int BranchProductId { get; set; }
+
         public ProductViewModel(OrderedProduct orderedProduct)
         {
             this.orderedProduct = orderedProduct;
+
+            ShoppingListId = orderedProduct.shoppingListId;
+            UnitPrice = orderedProduct.unitPrice;
+            Quantity = orderedProduct.quantity;
+            BranchProductId = orderedProduct.branchProductId;
         }
 
         public String BranchName { 
@@ -32,8 +43,6 @@ namespace Shopping4u.ViewModels
                 //return bl.GetProductName(Product.);
             }
             set { } }
-        
-        public int Quantity { get { return orderedProduct.quantity; } set { orderedProduct.quantity = value; } }
-        
+
     }
 }

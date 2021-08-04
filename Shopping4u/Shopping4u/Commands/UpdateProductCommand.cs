@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using Shopping4u.Extensions;
+using BE;
 
 namespace Shopping4u.Commands
 {
@@ -28,7 +31,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             // SHOULD BE IMPLEMENTED
-            shoppingListViewModel.UpdateProduct(new ProductViewModel(new BE.OrderedProduct()));
+            shoppingListViewModel.UpdateProduct(parameter as OrderedProduct);
         }
     }
 }
