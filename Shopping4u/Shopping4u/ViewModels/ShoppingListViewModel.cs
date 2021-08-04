@@ -30,13 +30,10 @@ namespace Shopping4u.ViewModels
         }
 
         public string Title { get { return GetTitle(); } private set { } }
-        public bool readOnly { get { return IsReadOnly(); } private set { } }
-
         public IEnumerable<ProductViewModel> Products { get { return GetProducts(); } private set { } }
 
 
         public abstract string GetTitle(); 
-        public abstract bool IsReadOnly();
         public abstract IEnumerable<ProductViewModel> GetProducts();
 
         public abstract void CreateProduct(OrderedProduct orderedProduct);
