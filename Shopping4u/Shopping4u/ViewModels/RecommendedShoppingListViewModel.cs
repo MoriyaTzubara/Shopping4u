@@ -17,10 +17,6 @@ namespace Shopping4u.ViewModels
         {
             return "Recommended Shopping List";
         }
-        public override bool IsReadOnly()
-        {
-            return false;
-        }
         public override IEnumerable<ProductViewModel> GetProducts()
         {
             IBL bl = new BL.BL();

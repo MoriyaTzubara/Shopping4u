@@ -35,11 +35,13 @@
             </Border>
 
             <!-- Products -->
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <StackPanel Name="Products" >
+            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Auto">
+                <WrapPanel Name="Products" >
                     
-                </StackPanel>
+                </WrapPanel>
             </ScrollViewer>
+            
             
             <!--
             <StackPanel>

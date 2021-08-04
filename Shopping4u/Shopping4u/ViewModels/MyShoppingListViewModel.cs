@@ -16,10 +16,6 @@ namespace Shopping4u.ViewModels
         {
             return "My Shopping List";
         }
-        public override bool IsReadOnly()
-        {
-            return false;
-        }
         public override IEnumerable<ProductViewModel> GetProducts()
         {
             // SHOULD BE DELETED

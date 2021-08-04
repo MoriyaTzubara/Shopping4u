@@ -55,7 +55,7 @@
             </Button>
 
             <!--Product Name-->
-            <TextBox Margin="20 10" Text="{Binding ProductName}" Grid.Column="3" IsReadOnly="True"/>
+            <TextBlock Margin="20 10" Text="{Binding ProductName}" Grid.Column="3"/>
             
             <!--Unit Price-->
             <TextBox x:Name="unitPrice" Margin="20 10" Text="{Binding UnitPrice}" Grid.Column="4"/>
