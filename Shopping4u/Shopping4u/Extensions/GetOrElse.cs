@@ -14,5 +14,11 @@ namespace Shopping4u.Extensions
                 return fallback;
             return val;
         }
+        public static object getOrElae(this bool val, object fallback)
+        {
+            if (!val)
+                return fallback;
+            return val;
+        }
     }
 }

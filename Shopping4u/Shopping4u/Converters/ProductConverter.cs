@@ -22,7 +22,7 @@ namespace Shopping4u.Converters
                 return new OrderedProduct()
                 {
                     branchProductId = Int32.Parse(values[0].ToString()),
-                    unitPrice = Int32.Parse(values[1].ToString()),
+                    unitPrice = double.Parse(values[1].ToString()),
                     quantity = Int32.Parse(values[2].ToString()),
                     shoppingListId = Int32.Parse(values[3].ToString()),
                 };
