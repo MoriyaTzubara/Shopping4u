@@ -163,9 +163,13 @@ namespace Shopping4u.BL
         }
         #endregion
         #region INSERT  
-        public void InsertShoppingList(ShoppingList shoppingList)
+        public ShoppingList CreateUnapprovedShoppingList(int consumerId)
         {
-            dal.InsertShoppingList(shoppingList);
+            return dal.CreateUnapprovedShoppingList(consumerId);
+        }
+        public void InsertApprovedShoppingList(ShoppingList shoppingList)
+        {
+            dal.InsertApprovedShoppingList(shoppingList);
         }
 
         public void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId)
@@ -230,11 +234,19 @@ namespace Shopping4u.BL
         {
             dal.UpdateProductPicture(downloadUrl, productId);
         }
+        public void UpdateShoppingList(int shoppingListId)
+        {
+            dal.UpdateShoppingList(shoppingListId);
+        }
         #endregion
         #region DELETE
         public void DeleteOrderedProduct(int shoppingListId, int branchProductId)
         {
             dal.DeleteOrderedProduct(shoppingListId, branchProductId);
+        }
+        public void DeleteUnapprovedShoppingList(int consumerId)
+        {
+            dal.DeleteUnapprovedShoppingList(consumerId);
         }
         #endregion
         #region FILTERS

@@ -263,7 +263,7 @@ namespace Shopping4u.DAL
             List<string> result = new List<string>();
             string query = "SELECT shoppingListId" +
                 "FROM shoppinglist " +
-                $"WHERE consumerId = {consumerId}";
+                $"WHERE consumerId = {consumerId} and approved = {true}";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -508,6 +508,36 @@ namespace Shopping4u.DAL
             }
             return shoppingList;
         }
+        public ShoppingList GetUnapprovedShoppingListOfConsumer(int consumerId)
+        {
+            ShoppingList shoppingList = new ShoppingList();
+            string query = "SELECT shoppingListId" +
+                "FROM shoppingList " +
+                $"WHERE consumerId = {consumerId} and approved = {false}" +
+                $"order by date desc";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    shoppingList.id = (int)dataReader["ShoppingListId"];
+                    shoppingList.consumerId = (int)dataReader["consumerId"];
+                    shoppingList.date = (DateTime)dataReader["date"];
+                    shoppingList.approved = (bool)dataReader["approved"];
+                    shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return shoppingList;
+        }
         public IEnumerable<string> GetProductsNamesInList()
         {
             List<string> result = new List<string>();
@@ -595,9 +625,35 @@ namespace Shopping4u.DAL
 
         #endregion
         #region INSERT
-        public void InsertShoppingList(ShoppingList shoppingList)
+        public ShoppingList CreateUnapprovedShoppingList(int consumerId)
         {
-            string query = $"INSERT INTO shoppingList (consumerId, date) VALUES({shoppingList.consumerId}, {shoppingList.date},{shoppingList.approved})";
+            ShoppingList result = GetUnapprovedShoppingListOfConsumer(consumerId);
+            if (result.id != 0)
+                return result;
+            result = new ShoppingList { date = DateTime.Now, consumerId = consumerId, approved = false, products = new List<OrderedProduct>() };
+            string query = $"INSERT INTO shoppingList (consumerId, date,approved) VALUES({result.consumerId}, {result.date},{result.approved})";
+            //open connection
+            if (OpenConnection() == true)
+            {
+                //create command and assign the query and connection from the constructor
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                //Execute command
+                cmd.ExecuteNonQuery();
+                // get auto increment primary key
+                query = "SELECT LAST_INSERT_ID() from shoppingList";
+                cmd = new MySqlCommand(query, connection);
+                result.id = (int)cmd.ExecuteScalar();
+                //close connection
+                CloseConnection();
+            }
+            return result;
+        }
+        //NOT NEEDED
+        public void InsertApprovedShoppingList(ShoppingList shoppingList)
+        {
+            
+            string query = $"INSERT INTO shoppingList (consumerId, date,approved) VALUES({shoppingList.consumerId}, {shoppingList.date},{true})";
             int shoppingListId = -1;
             //open connection
             if (OpenConnection() == true)
@@ -635,7 +691,6 @@ namespace Shopping4u.DAL
                 CloseConnection();
             }
         }
-
         public bool DoesCategoryExists(string category)
         {
             if (GetCategoriesNames().Contains(category))
@@ -769,6 +824,17 @@ namespace Shopping4u.DAL
                 CloseConnection();
             }
         }
+        public void UpdateShoppingList(int shoppingListId)
+        {
+            if (OpenConnection() == true)
+            {
+                string query = $"UPDATE shoppingList set approved = {true} " +
+                    $"where shoppingListId = {shoppingListId}";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
+        }
         #endregion
         #region DELETE
         public void DeleteOrderedProduct(int shoppingListId, int branchProductId)
@@ -777,6 +843,17 @@ namespace Shopping4u.DAL
             {
                 string query = $"DELETE FROM orderedProduct " +
                     $"where shoppingListId = {shoppingListId} and branchProductId = {branchProductId}";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
+        }
+        public void DeleteUnapprovedShoppingList(int consumerId)
+        {
+            if (OpenConnection() == true)
+            {
+                string query = $"DELETE FROM shoppingList " +
+                    $"where shoppingListId = {1} and consumerId = {consumerId}";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
                 CloseConnection();

@@ -29,7 +29,8 @@ namespace Shopping4u.BL
         List<string> GetCategoriesNames();
         #endregion
         #region INSERT
-        void InsertShoppingList(ShoppingList shoppingList);
+        ShoppingList CreateUnapprovedShoppingList(int consumerId);
+        void InsertApprovedShoppingList(ShoppingList shoppingList);
         void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId);
         void InsertOrderedProduct(string orderedProductText, int shoppingListId);
         void InsertBaseProduct(Product product);
@@ -40,9 +41,11 @@ namespace Shopping4u.BL
         #region UPDATE
         void UpdateProductPicture(string url, int productId);
         void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId);
+        void UpdateShoppingList(int shoppingListId);
         #endregion
         #region DELETE
         void DeleteOrderedProduct(int shoppingListId, int branchProductId);
+        void DeleteUnapprovedShoppingList(int consumerId);
         #endregion
         #region FILTERS
         Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
