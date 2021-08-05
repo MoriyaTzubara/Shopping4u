@@ -7,6 +7,7 @@ using Shopping4u.DAL;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -163,9 +164,13 @@ namespace Shopping4u.BL
         }
         #endregion
         #region INSERT  
-        public void InsertShoppingList(ShoppingList shoppingList)
+        public ShoppingList CreateUnapprovedShoppingList(int consumerId)
         {
-            dal.InsertShoppingList(shoppingList);
+            return dal.CreateUnapprovedShoppingList(consumerId);
+        }
+        public void InsertApprovedShoppingList(ShoppingList shoppingList)
+        {
+            dal.InsertApprovedShoppingList(shoppingList);
         }
 
         public void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId)
@@ -196,7 +201,10 @@ namespace Shopping4u.BL
             };
             dal.InsertOrderedProduct(orderedProduct);
         }
-
+        public void InsertOrderedProduct(OrderedProduct orderedProduct)
+        {
+            dal.InsertOrderedProduct(orderedProduct);
+        }
         public void InsertBaseProduct(Product product)
         {
             dal.InsertBaseProduct(product);
@@ -216,10 +224,6 @@ namespace Shopping4u.BL
         {
             dal.InsertConsumer(consumer);
         }
-        public void InsertOrderedProduct(OrderedProduct orderedProduct)
-        {
-            dal.InsertOrderedProduct(orderedProduct);
-        }
         #endregion
         #region UPDATE
         public void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId)
@@ -230,11 +234,19 @@ namespace Shopping4u.BL
         {
             dal.UpdateProductPicture(downloadUrl, productId);
         }
+        public void UpdateShoppingList(int shoppingListId)
+        {
+            dal.UpdateShoppingList(shoppingListId);
+        }
         #endregion
         #region DELETE
         public void DeleteOrderedProduct(int shoppingListId, int branchProductId)
         {
             dal.DeleteOrderedProduct(shoppingListId, branchProductId);
+        }
+        public void DeleteUnapprovedShoppingList(int consumerId)
+        {
+            dal.DeleteUnapprovedShoppingList(consumerId);
         }
         #endregion
         #region FILTERS
@@ -262,6 +274,20 @@ namespace Shopping4u.BL
         public List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId)
         {
             return dal.FilterByBranches(branchesNames, shoppingListId);
+        }
+        public int FindBranchProductIdForThisProduct(int id)
+        {
+            return dal.FindBranchProductIdForThisProduct(id);
+        }
+        public OrderedProduct ConvertProductToOrderedProduct(Product product)
+        {
+            OrderedProduct result = new OrderedProduct();
+            int branchProductId = FindBranchProductIdForThisProduct(product.id);
+            return result;
+        }
+        public List<Product> GetRecommendedList(int consumerId)
+        {
+            return GetUsualShoppingsForEachDay(consumerId)[DateTime.Now.DayOfWeek.ToString()].Select(p => GetProductByName(p)).ToList();
         }
         public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3)
         {
