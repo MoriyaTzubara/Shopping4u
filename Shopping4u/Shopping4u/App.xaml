@@ -13,16 +13,24 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
                 <ResourceDictionary>
                     <Style x:Key="CrudBtn" TargetType="Button" BasedOn="{StaticResource MaterialDesignIconButton}">
+                        <Setter Property="Width" Value="15"/>
+                        <Setter Property="Height" Value="15"/>
+                    </Style>
+                    <Style x:Key="CRUD" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
                         <Setter Property="Width" Value="30"/>
                         <Setter Property="Height" Value="30"/>
+                        <Setter Property="Margin" Value="5"/>
                     </Style>
                     <Style x:Key="PlusMinusIcon" TargetType="materialDesign:PackIcon">
                         <Setter Property="Width" Value="15"/>
                         <Setter Property="Height" Value="15"/>
                     </Style>
                     <Style x:Key="Icon" TargetType="materialDesign:PackIcon">
-                        <Setter Property="Width" Value="20"/>
-                        <Setter Property="Height" Value="20"/>
+                        <Setter Property="Width" Value="15"/>
+                        <Setter Property="Height" Value="15"/>
+                    </Style>
+                    <Style x:Key="Hidden" TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Hidden"/>
                     </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

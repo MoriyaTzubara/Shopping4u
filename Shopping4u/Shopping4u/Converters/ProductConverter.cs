@@ -7,29 +7,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using Shopping4u.Extensions;
 
 namespace Shopping4u.Converters
 {
-    class ProductConverter : IMultiValueConverter
+    public class ProductConverter : IMultiValueConverter 
     {
-        private OrderedProduct orderedProduct;
-
-        public ProductConverter(OrderedProduct orderedProduct)
-        {
-            this.orderedProduct = orderedProduct;
-        }
-
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null)
-                return orderedProduct;
-
-            return new OrderedProduct(orderedProduct)
+            if (values == null || values.Length < 4)
+                return new OrderedProduct();
+            try
             {
-                branchProductId = (int) values[0],
-                unitPrice = (double) values[1],
-                quantity = (int) values[2]                
-            };
+                return new OrderedProduct()
+                {
+                    branchProductId = Int32.Parse(values[0].ToString()),
+                    unitPrice = double.Parse(values[1].ToString()),
+                    quantity = Int32.Parse(values[2].ToString()),
+                    shoppingListId = Int32.Parse(values[3].ToString()),
+                };
+
+            }
+            catch
+            {
+                return new OrderedProduct();
+            }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
