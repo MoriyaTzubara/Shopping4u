@@ -1,4 +1,5 @@
-﻿using Shopping4u.ViewModels;
+﻿using BE;
+using Shopping4u.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             // SHOULD BE IMPLEMENTED
-            shoppingListViewModel.CreateProduct(new ProductViewModel(new BE.OrderedProduct()));
+            shoppingListViewModel.CreateProduct(parameter as OrderedProduct);
         }
     }
 }

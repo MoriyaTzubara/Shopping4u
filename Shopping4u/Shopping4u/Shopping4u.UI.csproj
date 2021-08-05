@@ -37,6 +37,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=2.0.1.2556, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.2.0.1\lib\net452\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -71,16 +77,15 @@
     <Compile Include="Commands\GoToShoppingHistoryPageCommand.cs" />
     <Compile Include="Commands\GoToStatisticsPageCommand.cs" />
     <Compile Include="Commands\UpdateProductCommand.cs" />
+    <Compile Include="Commands\UpdateQuantityCommand.cs" />
     <Compile Include="Converters\ProductConverter.cs" />
+    <Compile Include="Extensions\GetOrElse.cs" />
     <Compile Include="Extensions\OrderedProductExtension.cs" />
     <Compile Include="ProductUserControl.xaml.cs">
       <DependentUpon>ProductUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShoppingListPage.xaml.cs">
       <DependentUpon>ShoppingListPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RecommendedShoppingListPage.xaml.cs">
-      <DependentUpon>RecommendedShoppingListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShoppingHistoryPage.xaml.cs">
       <DependentUpon>ShoppingHistoryPage.xaml</DependentUpon>
@@ -119,10 +124,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ShoppingListPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RecommendedShoppingListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -174,6 +175,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Img\milk.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />

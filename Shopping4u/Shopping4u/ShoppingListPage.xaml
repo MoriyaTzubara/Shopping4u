@@ -9,10 +9,13 @@
              d:DesignHeight="850" d:DesignWidth="1100">
 
     <Grid Background="#F6F6F8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel Margin="30">
-
-            <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Margin="10">
+            <StackPanel Orientation="Horizontal" >
                 <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                         Text="{Binding Title}" />
 
@@ -22,8 +25,6 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"/>
 
             </StackPanel>
-
-
             <!-- Filters -->
             <Border Margin="0 20">
                 <ListBox Style="{StaticResource MaterialDesignFilterChipAccentListBox}">
@@ -34,12 +35,18 @@
                 </ListBox>
             </Border>
 
-            <!-- Products -->
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <StackPanel Name="Products" >
-                    
-                </StackPanel>
+        </StackPanel>
+
+
+        <Border Grid.Row="1" Margin="10">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+
+                <!-- Products -->
+                <WrapPanel Name="Products" HorizontalAlignment="Center">
+                </WrapPanel>
             </ScrollViewer>
+        </Border>
+            
             
             <!--
             <StackPanel>
@@ -61,7 +68,6 @@
             </StackPanel>
         -->
             
-        </StackPanel>
 
 
     </Grid>

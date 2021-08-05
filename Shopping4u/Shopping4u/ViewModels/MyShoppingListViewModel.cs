@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Shopping4u.Extensions;
+using BE;
 
 namespace Shopping4u.ViewModels
 {
@@ -14,10 +16,6 @@ namespace Shopping4u.ViewModels
         public override string GetTitle()
         {
             return "My Shopping List";
-        }
-        public override bool IsReadOnly()
-        {
-            return false;
         }
         public override IEnumerable<ProductViewModel> GetProducts()
         {
@@ -31,17 +29,19 @@ namespace Shopping4u.ViewModels
             return products;
         }
         
-        public override void CreateProduct(ProductViewModel productViewModel)
+        public override void CreateProduct(OrderedProduct orderedProduct)
         {
             // needs to get the source of the image of the barcode
             MessageBox.Show("CreateProduct @ MyShoppingList");
         }
-        public override void UpdateProduct(ProductViewModel productViewModel)
+        public override void UpdateProduct(OrderedProduct orderedProduct)
         {
+            MessageBox.Show($"Command parameter: {orderedProduct.getOrElae("null")}");
             MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
+            MessageBox.Show($"Command parameter: {productId.getOrElae("null")}");
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 
