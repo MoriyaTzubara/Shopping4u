@@ -11,7 +11,7 @@
     <Grid Background="#F6F6F8">
 
         <StackPanel Margin="20">
-            <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+            <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                         Text="Graphs and Statistics" />
 
 

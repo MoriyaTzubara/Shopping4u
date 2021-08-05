@@ -29,9 +29,11 @@ namespace Shopping4u.BL
         List<string> GetCategoriesNames();
         #endregion
         #region INSERT
-        void InsertShoppingList(ShoppingList shoppingList);
+        ShoppingList CreateUnapprovedShoppingList(int consumerId);
+        void InsertApprovedShoppingList(ShoppingList shoppingList);
         void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId);
         void InsertOrderedProduct(string orderedProductText, int shoppingListId);
+        void InsertOrderedProduct(OrderedProduct orderedProduct);
         void InsertBaseProduct(Product product);
         Branch InsertBranch(Branch branch);
         BranchProduct InsertBranchProduct(Product product, Branch branch, double price);
@@ -40,9 +42,11 @@ namespace Shopping4u.BL
         #region UPDATE
         void UpdateProductPicture(string url, int productId);
         void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId);
+        void UpdateShoppingList(int shoppingListId);
         #endregion
         #region DELETE
         void DeleteOrderedProduct(int shoppingListId, int branchProductId);
+        void DeleteUnapprovedShoppingList(int consumerId);
         #endregion
         #region FILTERS
         Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
@@ -50,6 +54,7 @@ namespace Shopping4u.BL
         Product GetProductByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
         IEnumerable<IGrouping<int, OrderedProduct>> GroupByBranchesTheRecommendedList(List<OrderedProduct> orderedProducts);
+        List<Product> GetRecommendedList(int consumerId);
         IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3);
         double SumOfTotalShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
         IDictionary<DateTime, double> GetShoppingsInBranchBetweenTwoDates(DateTime start, DateTime end, int consumerId, int BranchId);
@@ -64,6 +69,10 @@ namespace Shopping4u.BL
         IEnumerable<Product> AprioriRecommender(List<OrderedProduct> orderedProducts, double minSupport = 0.01, double minConfidence = 0.01);
         List<List<Product>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01);
         IDictionary<List<Product>, double> ProductsThatGoTogether(double minConfidence = 0.01);
+        #endregion
+        #region CONVERT
+        OrderedProduct ConvertProductToOrderedProduct(Product product);
+        int FindBranchProductIdForThisProduct(int id);
         #endregion
     }
 }

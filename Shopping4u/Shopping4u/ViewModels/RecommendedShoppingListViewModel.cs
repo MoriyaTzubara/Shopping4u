@@ -12,28 +12,23 @@ namespace Shopping4u.ViewModels
 {
     class RecommendedShoppingListViewModel : ShoppingListViewModel
     {
-        public static List<ProductViewModel> products;
         public override string GetTitle()
         {
             return "Recommended Shopping List";
         }
-        public override bool IsReadOnly()
-        {
-            return false;
-        }
         public override IEnumerable<ProductViewModel> GetProducts()
         {
             IBL bl = new BL.BL();
-            if(products == null)
-                products = bl.GetProducts().Select(p => new ProductViewModel(new OrderedProduct())).ToList();
+            List<ProductViewModel>  products = bl.GetRecommendedList(123).Select(p => new ProductViewModel(bl.ConvertProductToOrderedProduct(p))).ToList();
             return products;
         }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
-            MessageBox.Show($"Command parameter: {orderedProduct.getOrElae("null")}");
-
+            IBL bl = new BL.BL();
+            bl.InsertOrderedProduct(productViewModel.orderedProduct);
             MessageBox.Show("CreateProduct @ RecommendedShoppingList");
+
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
