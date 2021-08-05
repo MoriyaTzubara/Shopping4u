@@ -36,12 +36,15 @@ namespace Shopping4u.ViewModels
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
-            MessageBox.Show($"Command parameter: {orderedProduct.getOrElae("null")}");
+            IBL bl = new BL.BL();
+            bl.UpdateOrderedProduct(orderedProduct.quantity, orderedProduct.shoppingListId, orderedProduct.branchProductId);
             MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
-            MessageBox.Show($"Command parameter: {productId.getOrElae("null")}");
+            //I need to  get shoppingListId and BranchProductId, or orderedProduct if it is more easier 
+            IBL bl = new BL.BL();
+            //bl.DeleteOrderedProduct(productId);
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 
