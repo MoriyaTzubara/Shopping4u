@@ -26,7 +26,7 @@ namespace Shopping4u.ViewModels
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             IBL bl = new BL.BL();
-            bl.InsertOrderedProduct(productViewModel.orderedProduct);
+            bl.InsertOrderedProduct(orderedProduct);
             MessageBox.Show("CreateProduct @ RecommendedShoppingList");
 
         }
