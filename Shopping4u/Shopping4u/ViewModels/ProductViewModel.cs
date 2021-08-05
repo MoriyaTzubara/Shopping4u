@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Shopping4u.Extensions;
 
 namespace Shopping4u.ViewModels
 {
@@ -51,9 +52,7 @@ namespace Shopping4u.ViewModels
 
         public String ProductName {
             get {
-                IBL bl = new BL.BL();
-                return "";
-                //return bl.GetProductName(Product.);
+                return orderedProduct.GetProduct().name;
             }
             set { } }
 
