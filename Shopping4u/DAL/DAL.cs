@@ -240,7 +240,7 @@ namespace Shopping4u.DAL
                     shoppingList.id = (int)dataReader["ShoppingListId"];
                     shoppingList.consumerId = (int)dataReader["consumerId"];
                     shoppingList.date = (DateTime)dataReader["date"];
-                    shoppingList.approved = (bool)dataReader["approved"];
+                    shoppingList.approved = dataReader.GetBoolean("approved");
                     shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
                     result.Add(shoppingList);
                 }
@@ -482,7 +482,7 @@ namespace Shopping4u.DAL
         public ShoppingList GetShoppingList(int shoppingListId)
         {
             ShoppingList shoppingList = new ShoppingList();
-            string query = "SELECT shoppingListId" +
+            string query = "SELECT * " +
                 "FROM shoppingList " +
                 $"WHERE shoppingListId = {shoppingListId}";
             if (OpenConnection() == true)
@@ -496,8 +496,7 @@ namespace Shopping4u.DAL
                     shoppingList.id = (int)dataReader["ShoppingListId"];
                     shoppingList.consumerId = (int)dataReader["consumerId"];
                     shoppingList.date = (DateTime)dataReader["date"];
-                    shoppingList.approved = (bool)dataReader["approved"];
-                    shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
+                    shoppingList.approved = dataReader.GetBoolean("approved");
                 }
 
                 //close Data Reader
@@ -506,15 +505,15 @@ namespace Shopping4u.DAL
                 //close Connection
                 CloseConnection();
             }
+            shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
             return shoppingList;
         }
         public ShoppingList GetUnapprovedShoppingListOfConsumer(int consumerId)
         {
             ShoppingList shoppingList = new ShoppingList();
-            string query = "SELECT shoppingListId" +
+            string query = "SELECT * " +
                 "FROM shoppingList " +
-                $"WHERE consumerId = {consumerId} and approved = {false}" +
-                $"order by date desc";
+                $"WHERE consumerId = {consumerId} and approved = {false}";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -526,16 +525,15 @@ namespace Shopping4u.DAL
                     shoppingList.id = (int)dataReader["ShoppingListId"];
                     shoppingList.consumerId = (int)dataReader["consumerId"];
                     shoppingList.date = (DateTime)dataReader["date"];
-                    shoppingList.approved = (bool)dataReader["approved"];
-                    shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
+                    shoppingList.approved = dataReader.GetBoolean("approved");
                 }
-
                 //close Data Reader
                 dataReader.Close();
 
                 //close Connection
                 CloseConnection();
             }
+            shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
             return shoppingList;
         }
         public IEnumerable<string> GetProductsNamesInList()
@@ -926,7 +924,7 @@ namespace Shopping4u.DAL
                     result = new Product
                     {
                         id = int.Parse(dataReader["productId"] + ""),
-                        imageUrl = dataReader["imageUrl"] + "",
+                        imageUrl = dataReader["itemImageUrl"] + "",
                         name = dataReader["name"] + "",
                         category = dataReader["categoryName"] + ""
                     };
@@ -975,16 +973,16 @@ namespace Shopping4u.DAL
         public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId,double minPrecent = 0.3)
         {
             IDictionary<string,List<string>> result = new Dictionary<string, List<string>>();
-            string query = $"select dayOfWeek, name, numOfTimesBuyingProduct/numOfShoppings as precent " +
+            string query = $"select dayOfWeek, name, CAST(numOfTimesBuyingProduct AS decimal)/CAST(numOfShoppings AS decimal) as precent " +
                 $"from (select dayname(date) as dayOfWeek, sum(distinct(shoppingListId)) as numOfShoppings " +
                 $"from orderedProduct natural join shoppingList " +
                 $"where consumerId = {consumerId} " +
-                $"group by dayname(date)) " +
+                $"group by dayname(date)) as denominator " +
                 $"natural join " +
                 $"(select dayname(date) as dayOfWeek, name, sum(distinct(shoppingListId)) as numOfTimesBuyingProduct " +
-                $"from orderedProduct natural join shoppingList " +
+                $"from orderedProduct natural join shoppingList natural join baseproduct " +
                 $"where consumerId = {consumerId} " +
-                $"group by dayname(date)) " +
+                $"group by dayname(date)) as Numerator " +
                 $"order by dayOfWeek, precent";
             if (OpenConnection())
             {
@@ -994,9 +992,14 @@ namespace Shopping4u.DAL
                 {
                     if (!result.ContainsKey((string)dataReader["dayOfWeek"]))
                         result[(string)dataReader["dayOfWeek"]] = new List<string>();
-                    if ((double)dataReader["precent"] >= minPrecent)
+                    if (dataReader.GetDouble("precent") >= minPrecent)
                         result[(string)dataReader["dayOfWeek"]].Add((string)dataReader["name"]);
                 }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
             }
             return result;
         }
@@ -1162,6 +1165,30 @@ namespace Shopping4u.DAL
             {
                 return result;
             }
+        }
+        #endregion
+        #region CONVERT
+        public int FindBranchProductIdForThisProduct(int id)
+        {
+            int result = -1;
+            string query = $"SELECT branchProductId FROM BranchProduct NATURAL JOIN baseProduct where productId = {id} limit 1";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    result = (int)dataReader["branchProductId"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
         }
         #endregion
     }

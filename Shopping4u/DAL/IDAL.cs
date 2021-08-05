@@ -62,5 +62,8 @@ namespace Shopping4u.DAL
         IDictionary<int, int> GetSupportOfEachItem();
         IDictionary<List<Product>, double> ProductsThatGoTogether(double minConfidence = 0.01);
         #endregion
+        #region CONVERT
+        int FindBranchProductIdForThisProduct(int id);
+        #endregion
     }
 }

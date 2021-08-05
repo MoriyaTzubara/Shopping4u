@@ -7,6 +7,7 @@ using Shopping4u.DAL;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -200,7 +201,10 @@ namespace Shopping4u.BL
             };
             dal.InsertOrderedProduct(orderedProduct);
         }
-
+        public void InsertOrderedProduct(OrderedProduct orderedProduct)
+        {
+            dal.InsertOrderedProduct(orderedProduct);
+        }
         public void InsertBaseProduct(Product product)
         {
             dal.InsertBaseProduct(product);
@@ -219,10 +223,6 @@ namespace Shopping4u.BL
         public void InsertConsumer(Consumer consumer)
         {
             dal.InsertConsumer(consumer);
-        }
-        public void InsertOrderedProduct(OrderedProduct orderedProduct)
-        {
-            dal.InsertOrderedProduct(orderedProduct);
         }
         #endregion
         #region UPDATE
@@ -274,6 +274,20 @@ namespace Shopping4u.BL
         public List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId)
         {
             return dal.FilterByBranches(branchesNames, shoppingListId);
+        }
+        public int FindBranchProductIdForThisProduct(int id)
+        {
+            return dal.FindBranchProductIdForThisProduct(id);
+        }
+        public OrderedProduct ConvertProductToOrderedProduct(Product product)
+        {
+            OrderedProduct result = new OrderedProduct();
+            int branchProductId = FindBranchProductIdForThisProduct(product.id);
+            return result;
+        }
+        public List<Product> GetRecommendedList(int consumerId)
+        {
+            return GetUsualShoppingsForEachDay(consumerId)[DateTime.Now.DayOfWeek.ToString()].Select(p => GetProductByName(p)).ToList();
         }
         public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3)
         {
