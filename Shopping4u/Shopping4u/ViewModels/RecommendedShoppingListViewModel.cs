@@ -28,8 +28,8 @@ namespace Shopping4u.ViewModels
 
         public override void CreateProduct(ProductViewModel productViewModel)
         {
-            IBL bl = new BL.BL();
-            bl.InsertOrderedProduct(productViewModel.orderedProduct);
+            //IBL bl = new BL.BL();
+            //bl.InsertOrderedProduct(productViewModel.orderedProduct);
         }
         public override void UpdateProduct(ProductViewModel productViewModel)
         {
@@ -42,16 +42,16 @@ namespace Shopping4u.ViewModels
 
 
         // SHOULD BE DELETED
-        private static class BlMock
-        {
-            static Random random = new Random();
+        //private static class BlMock
+        //{
+        //    static Random random = new Random();
 
-            static public List<ProductViewModel> getProducts()
-            {
-                return new List<ProductViewModel>();
-            }
+        //    static public List<ProductViewModel> getProducts()
+        //    {
+        //        return new List<ProductViewModel>();
+        //    }
 
-        }
+        //}
 
     }
 }

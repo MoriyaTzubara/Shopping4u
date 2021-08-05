@@ -38,10 +38,15 @@ namespace Shopping4u.ViewModels
         }
         public override void UpdateProduct(ProductViewModel productViewModel)
         {
+            IBL bl = new BL.BL();
+            bl.UpdateOrderedProduct(productViewModel.Quantity, productViewModel.orderedProduct.shoppingListId, productViewModel.orderedProduct.branchProductId);
             MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
+            //I need to  get shoppingListId and BranchProductId, or orderedProduct if it is more easier 
+            IBL bl = new BL.BL();
+            //bl.DeleteOrderedProduct(productId);
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 

@@ -287,7 +287,10 @@ namespace Shopping4u.BL
         }
         public List<Product> GetRecommendedList(int consumerId)
         {
-            return GetUsualShoppingsForEachDay(consumerId)[DateTime.Now.DayOfWeek.ToString()].Select(p => GetProductByName(p)).ToList();
+            var result = GetUsualShoppingsForEachDay(consumerId);
+            if(result.ContainsKey(DateTime.Now.DayOfWeek.ToString()))
+                return result[DateTime.Now.DayOfWeek.ToString()].Select(p => GetProductByName(p)).ToList();
+            return new List<Product>();
         }
         public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3)
         {
