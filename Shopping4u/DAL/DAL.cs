@@ -593,10 +593,10 @@ namespace Shopping4u.DAL
             }
             return result;
         }
-        public List<string> GetBranchesNameOfSpecificProduct(int productId)
+        public List<Branch> GetBranchesOfSpecificProduct(int productId)
         {
-            List<string> result = new List<string>();
-            string query = $"SELECT name FROM branchProduct natural join branch where productId = {productId}";
+            List<Branch> result = new List<Branch>();
+            string query = $"SELECT branchId,name FROM branchProduct natural join branch where productId = {productId}";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -605,7 +605,9 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 if (dataReader.Read())
                 {
-                    result.Add((string)dataReader["name"]);
+                    result.Add(new Branch { 
+                        name = (string)dataReader["name"] ,
+                    id = (int)dataReader["branchId"]});
                 }
 
                 //close Data Reader

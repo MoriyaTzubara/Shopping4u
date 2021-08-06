@@ -25,7 +25,7 @@ namespace Shopping4u.BL
         IEnumerable<string> GetProductsIdInList();
         string GetProductsIdOfList(int shoppingListId);
         IEnumerable<string> GetProductsNamesInList();
-        List<string> GetBranchesNameOfSpecificProduct(int productId);
+        List<Branch> GetBranchesOfSpecificProduct(int productId);
         List<string> GetProductsNameOfSpecificBranch(int branchId);
         List<string> GetCategoriesNames();
         string GetProductNameByBranchProductId(int branchProductId);
