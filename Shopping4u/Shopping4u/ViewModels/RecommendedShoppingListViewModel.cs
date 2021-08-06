@@ -12,6 +12,7 @@ namespace Shopping4u.ViewModels
 {
     class RecommendedShoppingListViewModel : ShoppingListViewModel
     {
+        List<ProductViewModel> products;
         public override string GetTitle()
         {
             return "Recommended Shopping List";
@@ -19,25 +20,28 @@ namespace Shopping4u.ViewModels
         public override IEnumerable<ProductViewModel> GetProducts()
         {
             IBL bl = new BL.BL();
-            List<ProductViewModel>  products = bl.GetRecommendedList(123).Select(p => new ProductViewModel(bl.ConvertProductToOrderedProduct(p))).ToList();
+            if (products == null)
+                products = bl.GetRecommendedList(123).Select(p => new ProductViewModel(bl.ConvertProductToOrderedProduct(p))).ToList();
             return products;
         }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
-            IBL bl = new BL.BL();
-            bl.InsertOrderedProduct(orderedProduct);
-            MessageBox.Show("CreateProduct @ RecommendedShoppingList");
-
+            products.Add(new ProductViewModel(orderedProduct));
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
-            MessageBox.Show($"Command parameter: {orderedProduct.getOrElae("null")}");
-            MessageBox.Show("UpdateProduct @ RecommendedShoppingList");
+            //It doesn't come here but still do the job well
+            //int deleteIndex = products.FindIndex(o => o.ShoppingListId == orderedProduct.shoppingListId && o.BranchProductId == orderedProduct.branchProductId);
+            //products[deleteIndex] =new ProductViewModel(orderedProduct);
+            //MessageBox.Show($"Command parameter: {orderedProduct.getOrElse("null")}");
+            //MessageBox.Show("UpdateProduct @ RecommendedShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
-            MessageBox.Show($"Command parameter: {productId.getOrElae("null")}");
+            //int deleteIndex = products.FindIndex(o => o.ShoppingListId == orderedProduct.shoppingListId && o.BranchProductId == orderedProduct.branchProductId);
+            //products.RemoveAt(deleteIndex);
+            MessageBox.Show($"Command parameter: {productId.getOrElse("null")}");
             MessageBox.Show("DeleteProduct @ RecommendedShoppingList");
         }
 

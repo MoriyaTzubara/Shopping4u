@@ -162,6 +162,10 @@ namespace Shopping4u.BL
         {
             return dal.GetCategoriesNames();
         }
+        public string GetProductNameByBranchProductId(int branchProductId)
+        {
+            return dal.GetProductNameByBranchProductId(branchProductId);
+        }
         #endregion
         #region INSERT  
         public ShoppingList CreateUnapprovedShoppingList(int consumerId)
@@ -283,6 +287,9 @@ namespace Shopping4u.BL
         {
             OrderedProduct result = new OrderedProduct();
             int branchProductId = FindBranchProductIdForThisProduct(product.id);
+            result.branchProductId = branchProductId;
+            result.quantity = 1;
+            result.unitPrice = GetBranchProduct(branchProductId).price;
             return result;
         }
         public List<Product> GetRecommendedList(int consumerId)
@@ -290,7 +297,7 @@ namespace Shopping4u.BL
             var result = GetUsualShoppingsForEachDay(consumerId);
             if(result.ContainsKey(DateTime.Now.DayOfWeek.ToString()))
                 return result[DateTime.Now.DayOfWeek.ToString()].Select(p => GetProductByName(p)).ToList();
-            return new List<Product>();
+            return null;
         }
         public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId, double minPrecent = 0.3)
         {
