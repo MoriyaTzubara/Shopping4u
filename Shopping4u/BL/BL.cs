@@ -82,7 +82,10 @@ namespace Shopping4u.BL
         {
             return dal.GetProducts();
         }
-
+        public List<Branch> GetBranches()
+        {
+            return dal.GetBranches();
+        }
         public BranchProduct GetBranchProduct(int branchProductId)
         {
             return dal.GetBranchProduct(branchProductId);

@@ -10,6 +10,7 @@ namespace Shopping4u.BL
     {
         #region SELECT
         List<Product> GetProducts();
+        List<Branch> GetBranches();
         BranchProduct GetBranchProduct(int branchProductId);
         Product GetProduct(int productId);
         Branch GetBranch(int branchId);
