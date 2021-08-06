@@ -2,6 +2,7 @@
 using Shopping4u.BL;
 using Shopping4u.Commands;
 using Shopping4u.Converters;
+using Shopping4u.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,16 +45,13 @@ namespace Shopping4u.ViewModels
 
         public String BranchName { 
             get { 
-                IBL bl = new BL.BL();
-                return bl.GetBranchName(orderedProduct.branchProductId);
+                return orderedProduct.GetBranch().name;
             }
             private set { } }
 
         public String ProductName {
             get {
-                IBL bl = new BL.BL();
-                return "";
-                //return bl.GetProductName(Product.);
+                return orderedProduct.GetProduct().name;
             }
             set { } }
 
