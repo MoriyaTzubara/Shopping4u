@@ -35,7 +35,7 @@ namespace Shopping4u
         public void InitializeBrachesComboBox()
         {
             IBL bl = new BL.BL();
-            var branches = bl.getbr
+            // TO DO
         }
 
     }
