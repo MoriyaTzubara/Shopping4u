@@ -153,9 +153,9 @@ namespace Shopping4u.BL
         {
             return dal.GetShoppingList(shoppingListId);
         }
-        public List<Branch> GetBranchesOfSpecificProduct(int productId)
+        public List<BranchProduct> GetBranchProductsOfSpecificProduct(int productId)
         {
-            return dal.GetBranchesOfSpecificProduct(productId);
+            return dal.GetBranchProductsOfSpecificProduct(productId);
         }
         public List<string> GetProductsNameOfSpecificBranch(int branchId)
         {
@@ -233,9 +233,9 @@ namespace Shopping4u.BL
         }
         #endregion
         #region UPDATE
-        public void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId)
+        public void UpdateOrderedProduct(OrderedProduct orderedProduct)
         {
-            dal.UpdateOrderedProduct(quantity, shoppingListId, branchProductId);
+            dal.UpdateOrderedProduct(orderedProduct);
         }
         public void UpdateProductPicture(string downloadUrl, int productId)
         {
@@ -247,9 +247,9 @@ namespace Shopping4u.BL
         }
         #endregion
         #region DELETE
-        public void DeleteOrderedProduct(int shoppingListId, int branchProductId)
+        public void DeleteOrderedProduct(int orderedProductId)
         {
-            dal.DeleteOrderedProduct(shoppingListId, branchProductId);
+            dal.DeleteOrderedProduct(orderedProductId);
         }
         public void DeleteUnapprovedShoppingList(int consumerId)
         {

@@ -25,7 +25,7 @@ namespace Shopping4u.BL
         IEnumerable<string> GetProductsIdInList();
         string GetProductsIdOfList(int shoppingListId);
         IEnumerable<string> GetProductsNamesInList();
-        List<Branch> GetBranchesOfSpecificProduct(int productId);
+        List<BranchProduct> GetBranchProductsOfSpecificProduct(int productId);
         List<string> GetProductsNameOfSpecificBranch(int branchId);
         List<string> GetCategoriesNames();
         string GetProductNameByBranchProductId(int branchProductId);
@@ -43,11 +43,11 @@ namespace Shopping4u.BL
         #endregion
         #region UPDATE
         void UpdateProductPicture(string url, int productId);
-        void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId);
+        void UpdateOrderedProduct(OrderedProduct orderedProduct);
         void UpdateShoppingList(int shoppingListId);
         #endregion
         #region DELETE
-        void DeleteOrderedProduct(int shoppingListId, int branchProductId);
+        void DeleteOrderedProduct(int orderedProductId);
         void DeleteUnapprovedShoppingList(int consumerId);
         #endregion
         #region FILTERS

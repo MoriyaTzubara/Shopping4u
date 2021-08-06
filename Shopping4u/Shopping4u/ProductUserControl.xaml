@@ -31,7 +31,8 @@
             <TextBlock x:Name="shoppingListId" Style="{StaticResource Hidden}" Text="{Binding ShoppingListId}"/>
             <!--BranchProductId (hidden field only for the converter)-->
             <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="{Binding BranchProductId}"/>
-
+            <!--id (hidden field only for the converter)-->
+            <TextBlock x:Name="id" Style="{StaticResource Hidden}" Text="{Binding id}"/>
             
             
             <!--Image-->
