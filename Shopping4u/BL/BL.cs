@@ -153,9 +153,9 @@ namespace Shopping4u.BL
         {
             return dal.GetShoppingList(shoppingListId);
         }
-        public List<string> GetBranchesNameOfSpecificProduct(int productId)
+        public List<Branch> GetBranchesOfSpecificProduct(int productId)
         {
-            return dal.GetBranchesNameOfSpecificProduct(productId);
+            return dal.GetBranchesOfSpecificProduct(productId);
         }
         public List<string> GetProductsNameOfSpecificBranch(int branchId)
         {
