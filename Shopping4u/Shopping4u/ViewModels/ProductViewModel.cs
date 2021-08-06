@@ -20,7 +20,12 @@ namespace Shopping4u.ViewModels
 
         public OrderedProduct orderedProduct { get; set; }
 
-        public int ShoppingListId {get; set;}
+        
+        public int ShoppingListId {
+            get { return orderedProduct.shoppingListId; }
+            set { }
+        }
+        
         private int quantity;
         public int Quantity { 
             get { return quantity;}
@@ -29,18 +34,27 @@ namespace Shopping4u.ViewModels
                 OnPropertyChanged();
             }
         }
-        public double UnitPrice { get; set; }
-        public int BranchProductId { get; set; }
+        
+        public string UnitPrice { 
+            get { return $"{orderedProduct.unitPrice}$"; } 
+            set { } 
+        }
+        
+        public int BranchProductId {
+            get{ return orderedProduct.branchProductId; }
+            set { } 
+        }
+
+        public string ImgUrl
+        {
+            get { return orderedProduct.GetProduct().imageUrl; }
+            set { }
+        }
 
         public ProductViewModel(OrderedProduct orderedProduct)
         {
             this.orderedProduct = orderedProduct;
-
-            ShoppingListId = orderedProduct.shoppingListId;
-            UnitPrice = orderedProduct.unitPrice;
-            Quantity = orderedProduct.quantity;
-            BranchProductId = orderedProduct.branchProductId;
-
+            this.quantity = orderedProduct.quantity;
             UpdateQuantityCommand = new UpdateQuantityCommand(this);
         }
 
