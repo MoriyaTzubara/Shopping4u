@@ -125,7 +125,7 @@ namespace Shopping4u.DAL
                     result = new BranchProduct
                     {
                         productId = int.Parse(dataReader["productId"] + ""),
-                        branchId = (int)dataReader["imageUrl"],
+                        branchId = (int)dataReader["branchId"],
                         price = (double)dataReader["price"],
                         branchProductId = (int)dataReader["branchProductId"]
                     };
@@ -153,7 +153,7 @@ namespace Shopping4u.DAL
                     result = new Product
                     {
                         id = int.Parse(dataReader["productId"] + ""),
-                        imageUrl = dataReader["imageUrl"] + "",
+                        imageUrl = dataReader["itemImageUrl"] + "",
                         name = dataReader["name"] + "",
                         category = dataReader["categoryName"] + ""
                     };
@@ -210,7 +210,7 @@ namespace Shopping4u.DAL
                 {
                     result = new Branch
                     {
-                        id = int.Parse(dataReader["id"] + ""),
+                        id = int.Parse(dataReader["branchId"] + ""),
                         name = dataReader["name"] + ""
                     };
                 }
@@ -617,6 +617,30 @@ namespace Shopping4u.DAL
                 {
                     result.Add((string)dataReader["categoryName"]);
                 }
+            }
+            return result;
+        }
+        public string GetProductNameByBranchProductId(int branchProductId)
+        {
+            string result = "";
+            string query = "SELECT name " +
+                "FROM branchProduct natural join baseProduct " +
+                $"WHERE branchProductId = {branchProductId}";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    result = (string)dataReader["name"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
             }
             return result;
         }

@@ -29,6 +29,7 @@ namespace Shopping4u.DAL
         List<string> GetBranchesNameOfSpecificProduct(int productId);
         List<string> GetProductsNameOfSpecificBranch(int branchId);
         List<string> GetCategoriesNames();
+        string GetProductNameByBranchProductId(int branchProductId);
         #endregion
         #region INSERT
         ShoppingList CreateUnapprovedShoppingList(int consumerId);

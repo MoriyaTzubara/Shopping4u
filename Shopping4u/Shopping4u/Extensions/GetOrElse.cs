@@ -8,13 +8,13 @@ namespace Shopping4u.Extensions
 {
     static class GetOrElse
     {
-        public static object getOrElae(this object val, object fallback)
+        public static object getOrElse(this object val, object fallback)
         {
             if (val == null)
                 return fallback;
             return val;
         }
-        public static object getOrElae(this bool val, object fallback)
+        public static object getOrElse(this bool val, object fallback)
         {
             if (!val)
                 return fallback;
