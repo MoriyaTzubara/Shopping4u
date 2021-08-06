@@ -27,7 +27,10 @@ namespace Shopping4u.ViewModels
 
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
-            products.Add(new ProductViewModel(orderedProduct));
+            IBL bl = new BL.BL();
+            MessageBox.Show("CreateProduct @ RecommendedShoppingListViewModel");
+
+            //products.Add(new ProductViewModel(orderedProduct));
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
@@ -45,6 +48,10 @@ namespace Shopping4u.ViewModels
             MessageBox.Show("DeleteProduct @ RecommendedShoppingList");
         }
 
+        public override void ShowCreateProduct(bool isShow)
+        {
+            IsShowCreateProduct = isShow;
+        }
 
         // SHOULD BE DELETED
         //private static class BlMock

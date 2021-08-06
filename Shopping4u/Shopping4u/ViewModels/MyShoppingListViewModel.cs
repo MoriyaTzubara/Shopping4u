@@ -48,6 +48,11 @@ namespace Shopping4u.ViewModels
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 
+        public override void ShowCreateProduct(bool isShow)
+        {
+            IsShowCreateProduct = isShow;
+        }
+
         //SHOULD BE DELETED
         //private static class BlMock
         //{
