@@ -405,6 +405,7 @@ namespace Shopping4u.DAL
                     orderedProduct.branchProductId = (int)dataReader["branchProductId"];
                     orderedProduct.unitPrice = (double)dataReader["unitPrice"];
                     orderedProduct.quantity = (int)dataReader["quantity"];
+                    orderedProduct.id = (int)dataReader["orderedProductid"];
                     result.Add(orderedProduct);
                 }
                 //close Data Reader
@@ -593,21 +594,25 @@ namespace Shopping4u.DAL
             }
             return result;
         }
-        public List<Branch> GetBranchesOfSpecificProduct(int productId)
+        public List<BranchProduct> GetBranchProductsOfSpecificProduct(int productId)
         {
-            List<Branch> result = new List<Branch>();
-            string query = $"SELECT branchId,name FROM branchProduct natural join branch where productId = {productId}";
+            List<BranchProduct> result = new List<BranchProduct>();
+            string query = $"SELECT * FROM branchProduct where productId = {productId}";
             if (OpenConnection() == true)
             {
                 //Create Command
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 //Create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
-                if (dataReader.Read())
+                while (dataReader.Read())
                 {
-                    result.Add(new Branch { 
-                        name = (string)dataReader["name"] ,
-                    id = (int)dataReader["branchId"]});
+                    result.Add(new BranchProduct
+                    {
+                        branchId = (int)dataReader["branchId"],
+                        branchProductId = (int)dataReader["branchProductId"],
+                        price = dataReader.GetDouble("price"),
+                        productId = (int)dataReader["productId"]
+                    });
                 }
 
                 //close Data Reader
@@ -871,12 +876,12 @@ namespace Shopping4u.DAL
                 CloseConnection();
             }
         }
-        public void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId)
+        public void UpdateOrderedProduct(OrderedProduct orderedProduct)
         {
             if (OpenConnection() == true)
             {
-                string query = $"UPDATE orderedProduct set quantity = {quantity} " +
-                    $"where shoppingListId = {shoppingListId} and branchProductId = {branchProductId}";
+                string query = $"UPDATE orderedProduct set quantity = {orderedProduct.quantity}, branchProductId = {orderedProduct.branchProductId} " +
+                    $"where orderedProductId = {orderedProduct.id}";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
                 CloseConnection();
@@ -895,12 +900,12 @@ namespace Shopping4u.DAL
         }
         #endregion
         #region DELETE
-        public void DeleteOrderedProduct(int shoppingListId, int branchProductId)
+        public void DeleteOrderedProduct(int orderedProductId)
         {
             if (OpenConnection() == true)
             {
                 string query = $"DELETE FROM orderedProduct " +
-                    $"where shoppingListId = {shoppingListId} and branchProductId = {branchProductId}";
+                    $"where OrderedProductId = {orderedProductId}";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
                 CloseConnection();
@@ -1018,7 +1023,8 @@ namespace Shopping4u.DAL
                         shoppingListId = int.Parse(dataReader["shoppingListId"] + ""),
                         branchProductId = (int)dataReader["branchProductId"],
                         quantity = (int)dataReader["quantity"],
-                        unitPrice = (double)dataReader["unitPrice"]
+                        unitPrice = (double)dataReader["unitPrice"],
+                        id = (int)dataReader["orderedProductid"]
                     });
                 }
 

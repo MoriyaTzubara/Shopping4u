@@ -82,6 +82,7 @@
     <Compile Include="Commands\UpdateProductCommand.cs" />
     <Compile Include="Commands\UpdateQuantityCommand.cs" />
     <Compile Include="Converters\ProductConverter.cs" />
+    <Compile Include="Extensions\BranchProductExtension.cs" />
     <Compile Include="Extensions\GetOrElse.cs" />
     <Compile Include="Extensions\OrderedProductExtension.cs" />
     <Compile Include="ProductUserControl.xaml.cs">

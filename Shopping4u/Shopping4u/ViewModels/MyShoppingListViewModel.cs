@@ -37,7 +37,7 @@ namespace Shopping4u.ViewModels
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
             IBL bl = new BL.BL();
-            bl.UpdateOrderedProduct(orderedProduct.quantity, orderedProduct.shoppingListId, orderedProduct.branchProductId);
+            bl.UpdateOrderedProduct(orderedProduct);
             MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int productId)

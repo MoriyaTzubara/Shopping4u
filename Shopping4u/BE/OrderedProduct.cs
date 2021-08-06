@@ -8,6 +8,7 @@ namespace BE
 {
     public class OrderedProduct
     {
+        public int id;
         public int shoppingListId;
         public int branchProductId;
         public double unitPrice;
