@@ -110,6 +110,40 @@ namespace Shopping4u.DAL
                 return result;
             }
         }
+        public List<Branch> GetBranches()
+        {
+            List<Branch> result = new List<Branch>();
+            string query = "SELECT * FROM branch";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add(new Branch
+                    {
+                        id = int.Parse(dataReader["branchId"] + ""),
+                        name = dataReader["name"] + ""
+                    });
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+
+                //return list to be displayed
+                return result;
+            }
+            else
+            {
+                return result;
+            }
+        }
+
         public BranchProduct GetBranchProduct(int branchProductId)
         {
             BranchProduct result = new BranchProduct();
@@ -125,7 +159,7 @@ namespace Shopping4u.DAL
                     result = new BranchProduct
                     {
                         productId = int.Parse(dataReader["productId"] + ""),
-                        branchId = (int)dataReader["imageUrl"],
+                        branchId = (int)dataReader["branchId"],
                         price = (double)dataReader["price"],
                         branchProductId = (int)dataReader["branchProductId"]
                     };
@@ -153,7 +187,7 @@ namespace Shopping4u.DAL
                     result = new Product
                     {
                         id = int.Parse(dataReader["productId"] + ""),
-                        imageUrl = dataReader["imageUrl"] + "",
+                        imageUrl = dataReader["itemImageUrl"] + "",
                         name = dataReader["name"] + "",
                         category = dataReader["categoryName"] + ""
                     };
@@ -210,7 +244,7 @@ namespace Shopping4u.DAL
                 {
                     result = new Branch
                     {
-                        id = int.Parse(dataReader["id"] + ""),
+                        id = int.Parse(dataReader["branchId"] + ""),
                         name = dataReader["name"] + ""
                     };
                 }
@@ -559,10 +593,10 @@ namespace Shopping4u.DAL
             }
             return result;
         }
-        public List<string> GetBranchesNameOfSpecificProduct(int productId)
+        public List<Branch> GetBranchesOfSpecificProduct(int productId)
         {
-            List<string> result = new List<string>();
-            string query = $"SELECT name FROM branchProduct natural join branch where productId = {productId}";
+            List<Branch> result = new List<Branch>();
+            string query = $"SELECT branchId,name FROM branchProduct natural join branch where productId = {productId}";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -571,7 +605,9 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 if (dataReader.Read())
                 {
-                    result.Add((string)dataReader["name"]);
+                    result.Add(new Branch { 
+                        name = (string)dataReader["name"] ,
+                    id = (int)dataReader["branchId"]});
                 }
 
                 //close Data Reader
@@ -617,6 +653,30 @@ namespace Shopping4u.DAL
                 {
                     result.Add((string)dataReader["categoryName"]);
                 }
+            }
+            return result;
+        }
+        public string GetProductNameByBranchProductId(int branchProductId)
+        {
+            string result = "";
+            string query = "SELECT name " +
+                "FROM branchProduct natural join baseProduct " +
+                $"WHERE branchProductId = {branchProductId}";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    result = (string)dataReader["name"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
             }
             return result;
         }

@@ -11,6 +11,7 @@ namespace Shopping4u.DAL
     {
         #region SELECT
         List<Product> GetProducts();
+        List<Branch> GetBranches();
         BranchProduct GetBranchProduct(int branchProductId);
         Product GetProduct(int productId);
         Branch GetBranch(int branchId);
@@ -26,9 +27,10 @@ namespace Shopping4u.DAL
         IEnumerable<string> GetProductsIdInList();
         string GetProductsIdOfList(int shoppingListId);
         IEnumerable<string> GetProductsNamesInList();
-        List<string> GetBranchesNameOfSpecificProduct(int productId);
+        List<Branch> GetBranchesOfSpecificProduct(int productId);
         List<string> GetProductsNameOfSpecificBranch(int branchId);
         List<string> GetCategoriesNames();
+        string GetProductNameByBranchProductId(int branchProductId);
         #endregion
         #region INSERT
         ShoppingList CreateUnapprovedShoppingList(int consumerId);
