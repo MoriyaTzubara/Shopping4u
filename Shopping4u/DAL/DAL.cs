@@ -110,6 +110,40 @@ namespace Shopping4u.DAL
                 return result;
             }
         }
+        public List<Branch> GetBranches()
+        {
+            List<Branch> result = new List<Branch>();
+            string query = "SELECT * FROM branch";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add(new Branch
+                    {
+                        id = int.Parse(dataReader["branchId"] + ""),
+                        name = dataReader["name"] + ""
+                    });
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+
+                //return list to be displayed
+                return result;
+            }
+            else
+            {
+                return result;
+            }
+        }
+
         public BranchProduct GetBranchProduct(int branchProductId)
         {
             BranchProduct result = new BranchProduct();
