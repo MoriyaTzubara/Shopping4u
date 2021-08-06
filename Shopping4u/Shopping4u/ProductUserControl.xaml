@@ -35,12 +35,12 @@
             
             <!--Image-->
             <Grid Grid.Row="0">
-                <Image Source="Img\milk.jpg"/>
+                <Image Source="{Binding ImgUrl}"/>
             </Grid>
             
             <!--Product Name-->
             <Grid Grid.Row="1">
-                <TextBlock Text="{Binding ProductName}" FontWeight="Bold" TextAlignment="Center" />
+                <TextBlock Text="{Binding ProductName}" FontWeight="Bold" FontSize="20" TextAlignment="Center" />
             </Grid>
             
             <!--Price Per Unit-->

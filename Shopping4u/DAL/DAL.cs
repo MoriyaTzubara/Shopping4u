@@ -125,7 +125,7 @@ namespace Shopping4u.DAL
                     result = new BranchProduct
                     {
                         productId = int.Parse(dataReader["productId"] + ""),
-                        branchId = (int)dataReader["imageUrl"],
+                        branchId = (int)dataReader["branchId"],
                         price = (double)dataReader["price"],
                         branchProductId = (int)dataReader["branchProductId"]
                     };
@@ -153,7 +153,7 @@ namespace Shopping4u.DAL
                     result = new Product
                     {
                         id = int.Parse(dataReader["productId"] + ""),
-                        imageUrl = dataReader["imageUrl"] + "",
+                        imageUrl = dataReader["itemImageUrl"] + "",
                         name = dataReader["name"] + "",
                         category = dataReader["categoryName"] + ""
                     };

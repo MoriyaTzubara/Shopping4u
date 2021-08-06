@@ -1,4 +1,5 @@
-﻿using Shopping4u.ViewModels;
+﻿using Shopping4u.BL;
+using Shopping4u.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,11 @@ namespace Shopping4u
         {
             InitializeComponent();
             DataContext = product;
+        }
+        public void InitializeBrachesComboBox()
+        {
+            IBL bl = new BL.BL();
+            var branches = bl.getbr
         }
 
     }
