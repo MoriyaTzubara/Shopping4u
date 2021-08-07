@@ -25,7 +25,7 @@ namespace Shopping4u
         public CreateProductUserControl()
         {
             InitializeComponent();
-            InitializeBrachesComboBox();
+            InitializeProductsComboBox();
         }
         public void InitializeBrachesComboBox()
         {
