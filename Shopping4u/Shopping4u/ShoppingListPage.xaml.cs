@@ -26,6 +26,8 @@ namespace Shopping4u
             InitializeComponent();
             InitializeProducts(shoppingListViewModel.Products);
             DataContext = shoppingListViewModel;
+
+            CreateProductCard.Child = new CreateProductUserControl();
         }
 
         public void InitializeProducts(IEnumerable<ProductViewModel> products)
@@ -38,8 +40,13 @@ namespace Shopping4u
 
         private void addProduct(ProductViewModel product)
         {
-            Products.Children.Add(new ProductUserControl(product));
-        } 
+            ProductsPanel.Children.Add(new ProductUserControl(product));
+        }
+
+        public void AppendAddProductUserControl(UserControl addProductUserControl)
+        {
+            ProductsPanel.Children.Add(addProductUserControl);
+        }
 
     }
 }

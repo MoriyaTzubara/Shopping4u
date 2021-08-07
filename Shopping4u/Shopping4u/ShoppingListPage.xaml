@@ -19,8 +19,9 @@
                 <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                         Text="{Binding Title}" />
 
+                <!--Add Product-->
                 <Button Margin="20 10 0 0" 
-                        Command="{Binding CreateProductCommand}"
+                        Command="{Binding ShowCreateProductCommand}"
                         Content="Add product" 
                         Style="{StaticResource MaterialDesignOutlinedButton}"/>
 
@@ -42,7 +43,8 @@
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 
                 <!-- Products -->
-                <WrapPanel Name="Products" HorizontalAlignment="Center">
+                <WrapPanel Name="ProductsPanel" HorizontalAlignment="Center">
+                    <Border x:Name="CreateProductCard" Visibility="{Binding CreateProductVisibility}"/>
                 </WrapPanel>
             </ScrollViewer>
         </Border>

@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreateProductUserControl.xaml.cs">
+      <DependentUpon>CreateProductUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Commands\CreateProductCommand.cs" />
     <Compile Include="Commands\DeleteProductCommand.cs" />
     <Compile Include="Commands\GoToHomePageCommand.cs" />
@@ -79,6 +82,7 @@
     <Compile Include="Commands\GoToRecommendedShoppingListPageCommand.cs" />
     <Compile Include="Commands\GoToShoppingHistoryPageCommand.cs" />
     <Compile Include="Commands\GoToStatisticsPageCommand.cs" />
+    <Compile Include="Commands\ShowCreateProductCommand.cs" />
     <Compile Include="Commands\UpdateProductCommand.cs" />
     <Compile Include="Commands\UpdateQuantityCommand.cs" />
     <Compile Include="Converters\ProductConverter.cs" />
@@ -97,6 +101,7 @@
     <Compile Include="StatisticsPage.xaml.cs">
       <DependentUpon>StatisticsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\CreateProductViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MyShoppingListViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
@@ -104,6 +109,10 @@
     <Compile Include="ViewModels\ShoppingHistoryViewModel.cs" />
     <Compile Include="ViewModels\ShoppingListViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
+    <Page Include="CreateProductUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="HomePagel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
