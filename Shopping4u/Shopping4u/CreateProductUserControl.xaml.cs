@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Shopping4u.ViewModels;
 
 namespace Shopping4u
 {
@@ -25,40 +26,7 @@ namespace Shopping4u
         public CreateProductUserControl()
         {
             InitializeComponent();
-            InitializeProductsComboBox();
-        }
-        public void InitializeBrachesComboBox()
-        {
-            IBL bl = new BL.BL();
-            foreach (Branch branch in bl.GetBranches())
-            {
-                addBranchToComboBox(branch);
-            }
-        }
-        private void addBranchToComboBox(Branch branch)
-        {
-            //TO DO - show only the relevant branches  
-            ComboBoxItem item = new ComboBoxItem();
-            item.Content = branch.name;
-            item.Tag = branch.id;
-
-            Branches.Items.Add(item);
-        }
-        private void InitializeProductsComboBox()
-        {
-            IBL bl = new BL.BL();
-            foreach (var product in bl.GetProducts())
-            {
-                addProductToComboBox(product);
-            }
-        }
-        private void addProductToComboBox(Product product)
-        {
-            ComboBoxItem item = new ComboBoxItem();
-            item.Content = $"{product.name} ({product.category})";
-            item.Tag = product.id;
-
-            Products.Items.Add(item);
+            DataContext = new CreateProductViewModel();
         }
     }
 }

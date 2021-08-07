@@ -34,6 +34,7 @@ namespace Shopping4u.ViewModels
             ShowCreateProductCommand = new ShowCreateProductCommand(this);
 
             ProductConverter = new ProductConverter();
+            Products = new ObservableCollection<ProductViewModel>(GetProducts());
             IsShowCreateProduct = false;
         }
 
@@ -63,7 +64,7 @@ namespace Shopping4u.ViewModels
         public abstract void ShowCreateProduct(bool isShow);
 
         public string Title { get { return GetTitle(); } private set { } }
-        public IEnumerable<ProductViewModel> Products { get { return GetProducts(); } private set { } }
+        public ObservableCollection<ProductViewModel> Products { get; set; }
 
 
         public abstract string GetTitle(); 

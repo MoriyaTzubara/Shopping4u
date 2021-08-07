@@ -12,5 +12,10 @@ namespace BE
         public string imageUrl;
         public string name;
         public string category;
+
+        public override string ToString()
+        {
+            return $"{name} ({category})";
+        }
     }
 }

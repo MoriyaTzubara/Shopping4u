@@ -14,11 +14,11 @@ namespace Shopping4u.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        private ProductViewModel productViewModel;
+        private IProductViewModel iProductViewModel;
 
-        public UpdateQuantityCommand(ProductViewModel productViewModel)
+        public UpdateQuantityCommand(IProductViewModel iProductViewModel)
         {
-            this.productViewModel = productViewModel;
+            this.iProductViewModel = iProductViewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -28,12 +28,10 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            //MessageBox.Show($"UpdateQuantityCommand parameter: {parameter}");
-
             int num = 0;
             Int32.TryParse(parameter.ToString(), out num);
 
-            productViewModel.Quantity += num;
+            iProductViewModel.Quantity += num;
         }
     }
 }

@@ -43,9 +43,21 @@
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 
                 <!-- Products -->
-                <WrapPanel Name="ProductsPanel" HorizontalAlignment="Center">
+                <StackPanel>
                     <Border x:Name="CreateProductCard" Visibility="{Binding CreateProductVisibility}"/>
-                </WrapPanel>
+                    <ListView Name="ProductsPanel" HorizontalAlignment="Center" ItemsSource="{Binding Products}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                    <WrapPanel HorizontalAlignment="Center">
+                                        <local:ProductUserControl />
+                                    </WrapPanel>
+                                </ScrollViewer>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                </StackPanel>
             </ScrollViewer>
         </Border>
             
