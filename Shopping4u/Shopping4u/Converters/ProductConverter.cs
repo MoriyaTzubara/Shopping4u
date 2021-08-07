@@ -25,6 +25,7 @@ namespace Shopping4u.Converters
                     unitPrice = double.Parse(values[1].ToString().Replace("$", "")),
                     quantity = Int32.Parse(values[2].ToString()),
                     shoppingListId = Int32.Parse(values[3].ToString()),
+                    id = Int32.Parse(values[4].ToString()),
                 };
 
             }
