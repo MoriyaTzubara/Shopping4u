@@ -20,7 +20,11 @@ namespace Shopping4u.ViewModels
 
         public OrderedProduct orderedProduct { get; set; }
 
-        
+        public int Id
+        {
+            get { return orderedProduct.id; }
+            set { }
+        }
         public int ShoppingListId {
             get { return orderedProduct.shoppingListId; }
             set { }

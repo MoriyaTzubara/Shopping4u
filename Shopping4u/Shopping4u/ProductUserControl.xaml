@@ -31,8 +31,8 @@
             <TextBlock x:Name="shoppingListId" Style="{StaticResource Hidden}" Text="{Binding ShoppingListId}"/>
             <!--BranchProductId (hidden field only for the converter)-->
             <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="{Binding BranchProductId}"/>
-            <!--id (hidden field only for the converter)-->
-            <TextBlock x:Name="id" Style="{StaticResource Hidden}" Text="{Binding id}"/>
+            <!--Id (hidden field only for the converter)-->
+            <TextBlock x:Name="id" Style="{StaticResource Hidden}" Text="{Binding Id}"/>
             
             
             <!--Image-->
@@ -74,6 +74,7 @@
                                         <Binding Path="Text" ElementName="unitPrice"/>
                                         <Binding Path="Text" ElementName="quantity"/>
                                         <Binding Path="Text" ElementName="shoppingListId"/>
+                                        <Binding Path="Text" ElementName="id"/>
                                     </MultiBinding>
                                 </i:InvokeCommandAction.CommandParameter>
                             </i:InvokeCommandAction>
@@ -102,6 +103,7 @@
                                         <Binding Path="Text" ElementName="unitPrice"/>
                                         <Binding Path="Text" ElementName="quantity"/>
                                         <Binding Path="Text" ElementName="shoppingListId"/>
+                                        <Binding Path="Text" ElementName="id"/>
                                     </MultiBinding>
                                 </i:InvokeCommandAction.CommandParameter>
                             </i:InvokeCommandAction>
@@ -137,6 +139,7 @@
                                 <Binding Path="Text" ElementName="unitPrice"/>
                                 <Binding Path="Text" ElementName="quantity"/>
                                 <Binding Path="Text" ElementName="shoppingListId"/>
+                                <Binding Path="Text" ElementName="id"/>
                             </MultiBinding>
                         </Button.CommandParameter>
 

@@ -20,9 +20,10 @@ namespace Shopping4u.ViewModels
         public override IEnumerable<ProductViewModel> GetProducts()
         {
             IBL bl = new BL.BL();
-            if (products == null)
-                products = bl.GetRecommendedList(123).Select(p => new ProductViewModel(bl.ConvertProductToOrderedProduct(p))).ToList();
-            return products;
+            var result = bl.GetRecommendedList(123);
+            if (products == null && result != null)
+                products = result.Select(p => new ProductViewModel(bl.ConvertProductToOrderedProduct(p))).ToList();
+            return (List<ProductViewModel>)products.getOrElse(new List<ProductViewModel>());
         }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
