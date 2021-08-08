@@ -14,7 +14,7 @@ using Shopping4u.Extensions;
 
 namespace Shopping4u.ViewModels
 {
-    public class ProductViewModel: INotifyPropertyChanged
+    public class ProductViewModel: IProductViewModel, INotifyPropertyChanged
     {
         public UpdateQuantityCommand UpdateQuantityCommand { get; set; }
 
@@ -25,13 +25,15 @@ namespace Shopping4u.ViewModels
             get { return orderedProduct.id; }
             set { }
         }
+
         public int ShoppingListId {
             get { return orderedProduct.shoppingListId; }
             set { }
         }
         
         private int quantity;
-        public int Quantity { 
+        public int Quantity
+        {
             get { return quantity;}
             set { 
                 quantity = value;
@@ -75,7 +77,6 @@ namespace Shopping4u.ViewModels
             set { } }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
