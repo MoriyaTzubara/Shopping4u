@@ -7,23 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Shopping4u.Extensions;
+using Shopping4u.Models;
 
 namespace Shopping4u.ViewModels
 {
-    class RecommendedShoppingListViewModel : ShoppingListViewModel
+    public class RecommendedShoppingListViewModel : ShoppingListViewModel
     {
-        List<ProductViewModel> products;
-        public override string GetTitle()
+        public RecommendedShoppingListViewModel(ReccomendedShoppingListModel reccomendedShoppingListModel): base(reccomendedShoppingListModel)
         {
-            return "Recommended Shopping List";
-        }
-        public override IEnumerable<ProductViewModel> GetProducts()
-        {
-            IBL bl = new BL.BL();
-            var result = bl.GetRecommendedList(123);
-            if (products == null && result != null)
-                products = result.Select(p => new ProductViewModel(bl.ConvertProductToOrderedProduct(p))).ToList();
-            return (List<ProductViewModel>)products.getOrElse(new List<ProductViewModel>());
+            Title = "Reccomended Shopping List";
         }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
@@ -49,23 +41,6 @@ namespace Shopping4u.ViewModels
             MessageBox.Show($"Command parameter: {productId.getOrElse("null")}");
             MessageBox.Show("DeleteProduct @ RecommendedShoppingList");
         }
-
-        public override void ShowCreateProduct(bool isShow)
-        {
-            IsShowCreateProduct = isShow;
-        }
-
-        // SHOULD BE DELETED
-        //private static class BlMock
-        //{
-        //    static Random random = new Random();
-
-        //    static public List<ProductViewModel> getProducts()
-        //    {
-        //        return new List<ProductViewModel>();
-        //    }
-
-        //}
 
     }
 }

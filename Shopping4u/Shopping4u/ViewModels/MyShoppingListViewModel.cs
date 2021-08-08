@@ -8,27 +8,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using Shopping4u.Extensions;
 using BE;
+using Shopping4u.Models;
 
 namespace Shopping4u.ViewModels
 {
     class MyShoppingListViewModel : ShoppingListViewModel
-    {
-        public override string GetTitle()
+    {       
+
+        public MyShoppingListViewModel(MyShoppingListModel myShoppingListModel): base(myShoppingListModel)
         {
-            return "My Shopping List";
+            Title = "My Shopping List";
         }
-        public override IEnumerable<ProductViewModel> GetProducts()
-        {
-            IBL bl = new BL.BL();
-            // SHOULD BE DELETED
-            List<ProductViewModel> products = new List<ProductViewModel>();
-            foreach (OrderedProduct item in bl.CreateUnapprovedShoppingList(123).products)
-            {
-                products.Add(new ProductViewModel(item));
-            }
-            return products;
-        }
-        
+
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             // needs to get the source of the image of the barcode
@@ -36,34 +27,13 @@ namespace Shopping4u.ViewModels
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
-            IBL bl = new BL.BL();
-            bl.UpdateOrderedProduct(orderedProduct);
             MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
             //I need to  get shoppingListId and BranchProductId, or orderedProduct if it is more easier 
-            IBL bl = new BL.BL();
             //bl.DeleteOrderedProduct(productId);
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
-
-        public override void ShowCreateProduct(bool isShow)
-        {
-            IsShowCreateProduct = isShow;
-        }
-
-        //SHOULD BE DELETED
-        //private static class BlMock
-        //{
-        //    static Random random = new Random();
-
-        //    static public List<ProductViewModel> getProducts()
-        //    {
-        //        return new List<ProductViewModel>();
-        //    }
-
-        //}
-
     }
 }
