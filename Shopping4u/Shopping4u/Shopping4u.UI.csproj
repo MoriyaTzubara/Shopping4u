@@ -74,6 +74,10 @@
     </ApplicationDefinition>
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
+    <Compile Include="Extensions\ProductExtension.cs" />
+    <Compile Include="Models\MyShoppingListModel.cs" />
+    <Compile Include="Models\ReccomendedShoppingListModel.cs" />
+    <Compile Include="Models\ShoppingListModel.cs" />
     <Compile Include="Views\CreateProductUserControl.xaml.cs">
       <DependentUpon>CreateProductUserControl.xaml</DependentUpon>
     </Compile>
@@ -190,9 +194,7 @@
       <Name>Shopping4u.BL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Img\milk.jpg" />
   </ItemGroup>

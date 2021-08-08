@@ -10,23 +10,21 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Shopping4u.Models;
 
 namespace Shopping4u.ViewModels
 {
-    public abstract class ShoppingListViewModel: INotifyPropertyChanged
+    public abstract class ShoppingListViewModel : INotifyPropertyChanged
     {
-        public ShowCreateProductCommand ShowCreateProductCommand { get; set; }
 
-        public CreateProductCommand CreateProductCommand { get; set; }
-        public UpdateProductCommand UpdateProductCommand { get; set; }
-        public DeleteProductCommand DeleteProductCommand { get; set; }
+        public ShoppingListModel ShoppingListModel;
 
-        public ProductConverter ProductConverter { get; set; }
-
-
-
-        public ShoppingListViewModel()
+        public ShoppingListViewModel(ShoppingListModel shoppingListModel)
         {
+            ShoppingListModel = shoppingListModel;
+
+            Products = new ObservableCollection<ProductViewModel>(shoppingListModel.GetProducts().Select(x => new ProductViewModel(x)));
+            
             CreateProductCommand = new CreateProductCommand(this);
             UpdateProductCommand = new UpdateProductCommand(this);
             DeleteProductCommand = new DeleteProductCommand(this);
@@ -34,41 +32,66 @@ namespace Shopping4u.ViewModels
             ShowCreateProductCommand = new ShowCreateProductCommand(this);
 
             ProductConverter = new ProductConverter();
-            Products = new ObservableCollection<ProductViewModel>(GetProducts());
             IsShowCreateProduct = false;
         }
 
+
+        public ShowCreateProductCommand ShowCreateProductCommand { get; set; }
+        public CreateProductCommand CreateProductCommand { get; set; }
+        public UpdateProductCommand UpdateProductCommand { get; set; }
+        public DeleteProductCommand DeleteProductCommand { get; set; }
+
+        public ProductConverter ProductConverter { get; set; }
+
+        public void ShowCreateProduct(bool isShow)
+        {
+            IsShowCreateProduct = isShow;
+        }
+
+
         private bool isShowCreateProduct;
-        public bool IsShowCreateProduct { 
-            get { return isShowCreateProduct; } 
-            set 
+        public bool IsShowCreateProduct {
+            get { return isShowCreateProduct; }
+            set
             {
                 isShowCreateProduct = value;
                 CreateProductVisibility = value ? "Visible" : "Collapsed";
-                OnPropertyChanged(); 
-            } 
+                OnPropertyChanged();
+            }
         }
 
         private string createProductVisibility;
-        public string CreateProductVisibility 
-        { 
-            get { return createProductVisibility; } 
-            set { 
+        public string CreateProductVisibility
+        {
+            get { return createProductVisibility; }
+            set {
                 createProductVisibility = value;
                 OnPropertyChanged();
-            } 
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public abstract void ShowCreateProduct(bool isShow);
 
-        public string Title { get { return GetTitle(); } private set { } }
-        public ObservableCollection<ProductViewModel> Products { get; set; }
+        public string Title { get; set; }
 
+        private ObservableCollection<ProductViewModel> products;
+        public ObservableCollection<ProductViewModel> Products
+        {
+            get
+            {
+                return products;
+            }
+            set
+            {
+                products = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public abstract string GetTitle(); 
-        public abstract IEnumerable<ProductViewModel> GetProducts();
+        public IEnumerable<ProductViewModel> GetProducts() {
+            return ShoppingListModel.GetProducts().Select(x => new ProductViewModel(x));
+        }
         
         public abstract void CreateProduct(OrderedProduct orderedProduct);
         public abstract void UpdateProduct(OrderedProduct orderedProduct);

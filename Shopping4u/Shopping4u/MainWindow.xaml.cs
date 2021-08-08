@@ -1,5 +1,6 @@
 ﻿using Shopping4u.Commands;
 using Shopping4u.ViewModels;
+using Shopping4u.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,8 @@ namespace Shopping4u
         private UserControl currentPage;
 
         private HomePage homePage = new HomePage();
-        private ShoppingListPage recommendedShoppingListPage = new ShoppingListPage(new RecommendedShoppingListViewModel());
-        private ShoppingListPage myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel());
+        private ShoppingListPage recommendedShoppingListPage = new ShoppingListPage(new RecommendedShoppingListViewModel(new ReccomendedShoppingListModel()));
+        private ShoppingListPage myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel(new MyShoppingListModel()));
         private ShoppingHistoryPage shoppingHistoryPage = new ShoppingHistoryPage();
         private StatisticsPage statisticsPage = new StatisticsPage();
 
@@ -50,7 +51,7 @@ namespace Shopping4u
 
         public void GoToMyShoppingListPage()
         {
-            myShoppingListPage.DataContext = new MyShoppingListViewModel();
+            myShoppingListPage.DataContext = new MyShoppingListViewModel(new MyShoppingListModel());
             goToPage(myShoppingListPage);
         }
 
