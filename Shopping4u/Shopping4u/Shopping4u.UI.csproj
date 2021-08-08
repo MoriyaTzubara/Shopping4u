@@ -74,7 +74,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
-    <Compile Include="CreateProductUserControl.xaml.cs">
+    <Compile Include="Views\CreateProductUserControl.xaml.cs">
       <DependentUpon>CreateProductUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Commands\CreateProductCommand.cs" />
@@ -91,16 +91,16 @@
     <Compile Include="Extensions\BranchProductExtension.cs" />
     <Compile Include="Extensions\GetOrElse.cs" />
     <Compile Include="Extensions\OrderedProductExtension.cs" />
-    <Compile Include="ProductUserControl.xaml.cs">
+    <Compile Include="Views\ProductUserControl.xaml.cs">
       <DependentUpon>ProductUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShoppingListPage.xaml.cs">
+    <Compile Include="Views\ShoppingListPage.xaml.cs">
       <DependentUpon>ShoppingListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShoppingHistoryPage.xaml.cs">
+    <Compile Include="Views\ShoppingHistoryPage.xaml.cs">
       <DependentUpon>ShoppingHistoryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StatisticsPage.xaml.cs">
+    <Compile Include="Views\StatisticsPage.xaml.cs">
       <DependentUpon>StatisticsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BranchProductViewModel.cs" />
@@ -113,11 +113,11 @@
     <Compile Include="ViewModels\ShoppingHistoryViewModel.cs" />
     <Compile Include="ViewModels\ShoppingListViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
-    <Page Include="CreateProductUserControl.xaml">
+    <Page Include="Views\CreateProductUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HomePagel.xaml">
+    <Page Include="Views\HomePagel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,26 +129,26 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HomePagel.xaml.cs">
+    <Compile Include="Views\HomePagel.xaml.cs">
       <DependentUpon>HomePagel.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProductUserControl.xaml">
+    <Page Include="Views\ProductUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShoppingListPage.xaml">
+    <Page Include="Views\ShoppingListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShoppingHistoryPage.xaml">
+    <Page Include="Views\ShoppingHistoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StatisticsPage.xaml">
+    <Page Include="Views\StatisticsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
