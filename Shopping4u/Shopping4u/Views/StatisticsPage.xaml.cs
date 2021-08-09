@@ -28,16 +28,37 @@ namespace Shopping4u
         {
             InitializeComponent();
 
-            TotalPriceStatisticModel totalPriceStatisticModel = new TotalPriceStatisticModel();
-            ProductsStatisticModel productsStatisticModel = new ProductsStatisticModel();
-            CatagoryStatisticModel catagoryStatisticModel = new CatagoryStatisticModel();
-            BranchesStatisticModel branchesStatisticModel = new BranchesStatisticModel();
+            Panel1.Children.Add(new CartesianChartUserControl());
 
-            Panel1.Children.Add(new StatisticUserControl(new LineChartViewModel(totalPriceStatisticModel)));
-            Panel2.Children.Add(new StatisticUserControl(new LineChartViewModel(productsStatisticModel)));
-            Panel3.Children.Add(new StatisticUserControl(new LineChartViewModel(productsStatisticModel)));
-            Panel4.Children.Add(new StatisticUserControl(new LineChartViewModel(catagoryStatisticModel)));
-            Panel5.Children.Add(new StatisticUserControl(new LineChartViewModel(branchesStatisticModel)));
+            Panel2.Children.Add(new PieChartUserControl(new PieChartViewModel(new PieChartModel()
+            {
+                Title = "Barnches Freq",
+                Data = new List<TitleValue>()
+                {
+                    new TitleValue(){title = "OSER-AD", value = .2},
+                    new TitleValue(){title = "YEYNOT-BITAN", value = .3},
+                    new TitleValue(){title = "SUPAR-PAHARM", value = .5},
+                }
+            })));
+            
+            Panel3.Children.Add(new LineChartUserControl(new LineChartViewModel(new LineChartModel()
+            {
+                Title = "Total Price History",
+                Data = new List<double>() { 2.2, -44.5, 0.3, 67.0, 20.8 }
+            })));
+            
+            Panel4.Children.Add(new LineChartUserControl(new LineChartViewModel(new LineChartModel()
+            {
+                Title = "Total Price History",
+                Data = new List<double>() { 2.2, 44.5, 100.3, 180.0, 20.8 }
+            })));
+            
+            Panel5.Children.Add(new LineChartUserControl(new LineChartViewModel(new LineChartModel()
+            {
+                Title = "Total Price History",
+                Data = new List<double>() { 2.2, 44.5, 0.0, 67.0, 20.8 }
+            })));
+
         }                                                
     }
 }

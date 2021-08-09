@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Shopping4u.Views.StatisticUserControl"
+﻿<UserControl x:Class="Shopping4u.Views.PieChartUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,7 +19,7 @@
 
 
                 <Grid Grid.Row="1">
-                    <lvc:CartesianChart Series="{Binding SeriesCollection}" />
+                    <lvc:PieChart Series="{Binding SeriesCollection}" />
                 </Grid>
             </Grid>
         </Border>

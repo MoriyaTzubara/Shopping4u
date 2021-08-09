@@ -86,20 +86,22 @@
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
     <Compile Include="Extensions\ProductExtension.cs" />
-    <Compile Include="Models\BranchesStatisticModel.cs" />
-    <Compile Include="Models\CatagoryStatisticModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\MyShoppingListModel.cs" />
-    <Compile Include="Models\ProductsStatisticModel.cs" />
+    <Compile Include="Models\PieChartModel.cs" />
+    <Compile Include="Models\LineChartModel.cs" />
     <Compile Include="Models\ReccomendedShoppingListModel.cs" />
     <Compile Include="Models\RecommendtionModel.cs" />
     <Compile Include="Models\ShoppingListModel.cs" />
     <Compile Include="Models\StatisticModel.cs" />
     <Compile Include="ViewModels\BranchProductViewModel.cs" />
+    <Compile Include="ViewModels\PieChartViewModel.cs" />
     <Compile Include="ViewModels\RecommendtionViewModel.cs" />
     <Compile Include="ViewModels\LineChartViewModel.cs" />
     <Compile Include="ViewModels\StatisticViewModel.cs" />
-    <Compile Include="Models\TotalPriceStatisticModel.cs" />
+    <Compile Include="Views\CartesianChartUserControl.xaml.cs">
+      <DependentUpon>CartesianChartUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreateProductUserControl.xaml.cs">
       <DependentUpon>CreateProductUserControl.xaml</DependentUpon>
     </Compile>
@@ -117,8 +119,8 @@
     <Compile Include="Extensions\BranchProductExtension.cs" />
     <Compile Include="Extensions\GetOrElse.cs" />
     <Compile Include="Extensions\OrderedProductExtension.cs" />
-    <Compile Include="Views\FreqProductsGroupUserControl.xaml.cs">
-      <DependentUpon>FreqProductsGroupUserControl.xaml</DependentUpon>
+    <Compile Include="Views\PieChartUserControl.xaml.cs">
+      <DependentUpon>PieChartUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProductUserControl.xaml.cs">
       <DependentUpon>ProductUserControl.xaml</DependentUpon>
@@ -143,14 +145,14 @@
     <Compile Include="ViewModels\RecommendedShoppingListViewModel.cs" />
     <Compile Include="ViewModels\ShoppingHistoryViewModel.cs" />
     <Compile Include="ViewModels\ShoppingListViewModel.cs" />
-    <Compile Include="Views\StatisticUserControl.xaml.cs">
-      <DependentUpon>StatisticUserControl.xaml</DependentUpon>
+    <Compile Include="Views\LineChartUserControl.xaml.cs">
+      <DependentUpon>LineChartUserControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\CreateProductUserControl.xaml">
+    <Page Include="Views\CartesianChartUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FreqProductsGroupUserControl.xaml">
+    <Page Include="Views\CreateProductUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,6 +175,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PieChartUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ProductUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,7 +199,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StatisticUserControl.xaml">
+    <Page Include="Views\LineChartUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shopping4u.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,14 @@ using System.Windows.Shapes;
 namespace Shopping4u.Views
 {
     /// <summary>
-    /// Interaction logic for FreqProductsGroupUserControl.xaml
+    /// Interaction logic for PieChartUserControl.xaml
     /// </summary>
-    public partial class FreqProductsGroupUserControl : UserControl
+    public partial class PieChartUserControl : UserControl
     {
-        public FreqProductsGroupUserControl()
+        public PieChartUserControl(StatisticViewModel<TitleValue> statisticViewModel)
         {
             InitializeComponent();
+            DataContext = statisticViewModel;
         }
     }
 }

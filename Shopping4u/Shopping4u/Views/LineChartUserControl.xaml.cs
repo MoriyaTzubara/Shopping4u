@@ -19,9 +19,9 @@ namespace Shopping4u.Views
     /// <summary>
     /// Interaction logic for StatisticUserControl.xaml
     /// </summary>
-    public partial class StatisticUserControl : UserControl
+    public partial class LineChartUserControl : UserControl
     {
-        public StatisticUserControl(StatisticViewModel statisticViewModel)
+        public LineChartUserControl(StatisticViewModel<double> statisticViewModel)
         {
             InitializeComponent();
             DataContext = statisticViewModel;
