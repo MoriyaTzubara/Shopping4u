@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Shopping4u.Extensions;
 using Shopping4u.Models;
+using System.Threading;
 
 namespace Shopping4u.ViewModels
 {
@@ -26,10 +27,18 @@ namespace Shopping4u.ViewModels
         {
             IBL bl = new BL.BL();
             Products.Add(new ProductViewModel(orderedProduct));
+
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                tryRecommend(this.Products);
+            }).Start();
+
             MessageBox.Show("CreateProduct @ RecommendedShoppingListViewModel");
 
             //products.Add(new ProductViewModel(orderedProduct));
         }
+
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
             //It doesn't come here but still do the job well
@@ -46,5 +55,21 @@ namespace Shopping4u.ViewModels
             MessageBox.Show("DeleteProduct @ RecommendedShoppingList");
         }
 
+        public event EventHandler<OrderedProduct> AddedRecommendtionEvent;
+
+
+        private async void tryRecommend(IEnumerable<ProductViewModel> products)
+        {
+            Thread.Sleep(5000);
+
+            if (products == null)
+                return;
+
+            Random random = new Random();
+            int index = random.Next(0, products.ToList().Count);
+
+            AddedRecommendtionEvent.Invoke(this, products.ElementAt(index).orderedProduct);
+
+        }
     }
 }

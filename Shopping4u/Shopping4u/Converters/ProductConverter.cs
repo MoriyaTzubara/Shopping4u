@@ -27,11 +27,11 @@ namespace Shopping4u.Converters
 
                 return new OrderedProduct()
                 {
-                    branchProductId = Int32.TryParse(values[0].ToString(), out branchProductId) ? branchProductId : 0,
-                    unitPrice = double.TryParse(values[1].ToString().Replace("$", ""), out unitPrice) ? unitPrice : 0.0,
-                    quantity = Int32.TryParse(values[2].ToString(), out quantity) ? quantity : 0,
-                    shoppingListId = Int32.TryParse(values[3].ToString(), out shoppingListId) ? shoppingListId : 0,
-                    id = Int32.TryParse(values[4].ToString(), out id) ? id : 0,
+                    branchProductId = Int32.TryParse(values[0].getOrElse("").ToString(), out branchProductId) ? branchProductId : 0,
+                    unitPrice = double.TryParse(values[1].getOrElse("").ToString().Replace("$", ""), out unitPrice) ? unitPrice : 0.0,
+                    quantity = Int32.TryParse(values[2].getOrElse("").ToString(), out quantity) ? quantity : 0,
+                    shoppingListId = Int32.TryParse(values[3].getOrElse("").ToString(), out shoppingListId) ? shoppingListId : 0,
+                    id = Int32.TryParse(values[4].getOrElse("").ToString(), out id) ? id : 0,
                 };
 
             }

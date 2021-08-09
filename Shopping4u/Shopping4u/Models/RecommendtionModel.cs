@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shopping4u.ViewModels;
+using Shopping4u.Extensions;
 using BE;
 
 namespace Shopping4u.Models
 {
     public class RecommendtionModel
     { 
-        public OrderedProduct OrderedProduct { get; set; }
+        public ProductViewModel Product { get; set; }
+        public OrderedProduct orderedProduct { get; set; }
         
-        public RecommendtionModel(OrderedProduct orderedProduct)
+        public RecommendtionModel(ProductViewModel product)
         {
-            this.OrderedProduct = orderedProduct;
+            this.Product = product;
+            this.orderedProduct = product.orderedProduct;
         }
     }
 }

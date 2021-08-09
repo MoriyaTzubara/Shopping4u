@@ -25,45 +25,43 @@ namespace Shopping4u
     public partial class MainWindow : Window
     {
         private UserControl currentPage;
-
-        private HomePage homePage = new HomePage();
-        private ShoppingListPage recommendedShoppingListPage = new ShoppingListPage(new RecommendedShoppingListViewModel(new ReccomendedShoppingListModel()));
-        private ShoppingListPage myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel(new MyShoppingListModel()));
-        private ShoppingHistoryPage shoppingHistoryPage = new ShoppingHistoryPage();
-        private StatisticsPage statisticsPage = new StatisticsPage();
+        public MainWindowViewModel MainWindowViewModel { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            goToPage(homePage);
             
-            DataContext = new MainWindowViewModel(this);
+            MainWindowViewModel = new MainWindowViewModel(this);
+            DataContext = MainWindowViewModel;
+
+            goToPage(MainWindowViewModel.homePage);
+            MainWindowViewModel.AddedRecommendtionEvent += addRecommendtion;
         }
 
         public void GoToHomePage()
         {
-            goToPage(homePage);
+            goToPage(MainWindowViewModel.homePage);
         }
 
         public void GoToRecommendedShoppingListPage()
         {
-            goToPage(recommendedShoppingListPage);
+            goToPage(MainWindowViewModel.recommendedShoppingListPage);
         }
 
         public void GoToMyShoppingListPage()
         {
-            myShoppingListPage.DataContext = new MyShoppingListViewModel(new MyShoppingListModel());
-            goToPage(myShoppingListPage);
+            MainWindowViewModel.myShoppingListPage.DataContext = new MyShoppingListViewModel(new MyShoppingListModel());
+            goToPage(MainWindowViewModel.myShoppingListPage);
         }
 
         public void GoToShoppingHistoryPage()
         {
-            goToPage(shoppingHistoryPage);
+            goToPage(MainWindowViewModel.shoppingHistoryPage);
         }
 
         public void GoToStatisticsPage()
         {
-            goToPage(statisticsPage);
+            goToPage(MainWindowViewModel.statisticsPage);
         }
 
         private void goToPage(UserControl page)
@@ -78,10 +76,14 @@ namespace Shopping4u
             Application.Current.Shutdown();
         }
 
-        private void addRecommendtion(RecommendtionViewModel recommendtionViewModel)
+        private void addRecommendtion(object sender, RecommendtionViewModel recommendtionViewModel)
         {
-            Recommendtion.Children.Add(new RecommendtionUserControl(recommendtionViewModel));
+            this.Dispatcher.Invoke(() =>
+            {
+                Recommendtion.Children.Add(new RecommendtionUserControl(recommendtionViewModel));
+            });
         }
+
 
     }
 }
