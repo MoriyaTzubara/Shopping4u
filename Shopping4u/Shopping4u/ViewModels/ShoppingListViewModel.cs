@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Shopping4u.Models;
+using System.Windows;
 
 namespace Shopping4u.ViewModels
 {
@@ -28,6 +29,7 @@ namespace Shopping4u.ViewModels
             CreateProductCommand = new CreateProductCommand(this);
             UpdateProductCommand = new UpdateProductCommand(this);
             DeleteProductCommand = new DeleteProductCommand(this);
+            ExportRecommendedListToPDFCommand = new ExportRecommendedListToPDFCommand(this);
 
             ShowCreateProductCommand = new ShowCreateProductCommand(this);
 
@@ -35,11 +37,17 @@ namespace Shopping4u.ViewModels
             IsShowCreateProduct = false;
         }
 
+        internal void ExportRecommendedListToPDF()
+        {
+            MessageBox.Show("Export to PDF");
+        }
 
         public ShowCreateProductCommand ShowCreateProductCommand { get; set; }
         public CreateProductCommand CreateProductCommand { get; set; }
         public UpdateProductCommand UpdateProductCommand { get; set; }
         public DeleteProductCommand DeleteProductCommand { get; set; }
+        public ExportRecommendedListToPDFCommand ExportRecommendedListToPDFCommand { get; set; }
+
 
         public ProductConverter ProductConverter { get; set; }
 

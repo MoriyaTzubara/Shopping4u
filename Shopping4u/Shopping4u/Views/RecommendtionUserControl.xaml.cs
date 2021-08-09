@@ -26,5 +26,6 @@ namespace Shopping4u.Views
             InitializeComponent();
             DataContext = recommendtionViewModel;
         }
+
     }
 }

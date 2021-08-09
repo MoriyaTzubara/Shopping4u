@@ -10,8 +10,8 @@
 
     <Grid Background="#F6F6F8">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="10">
@@ -19,11 +19,20 @@
                 <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                         Text="{Binding Title}" />
 
-                <!--Add Product-->
+                <!--PDF-->
                 <Button Margin="20 10 0 0" 
-                        Command="{Binding ShowCreateProductCommand}"
-                        Content="Add product" 
-                        Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                        Command="{Binding ExportRecommendedListToPDFCommand}"
+                        Style="{StaticResource MaterialDesignOutlinedButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="80*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:PackIcon Kind="FilePdf" Grid.Column="0"/>
+                        <TextBlock Text="Export PDF" Margin="5 0" Grid.Column="1"/>
+                    </Grid>
+                </Button>
 
             </StackPanel>
             <!-- Filters -->
@@ -35,16 +44,36 @@
                     <ListBoxItem Margin="5" Content="Pluto" />
                 </ListBox>
             </Border>
-
+            
+            
         </StackPanel>
+
+
 
 
         <Border Grid.Row="1" Margin="10">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 
-                <!-- Products -->
-                <StackPanel>
-                    <Border x:Name="CreateProductCard" Visibility="{Binding CreateProductVisibility}"/>
+            <StackPanel>
+            <!--Add Product-->
+            <Button Command="{Binding ShowCreateProductCommand}"
+                    Margin="30 20"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource NEW-BTN}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <materialDesign:PackIcon Kind="Plus" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Add product" Margin="5 0" Grid.Column="1" VerticalAlignment="Center"/>
+                </Grid>
+
+            </Button>
+        <Border x:Name="CreateProductCard" Visibility="{Binding CreateProductVisibility}"/>
+
+             <!-- Products -->
                     <ListView Name="ProductsPanel" HorizontalAlignment="Center" ItemsSource="{Binding Products}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -56,7 +85,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    
+
                 </StackPanel>
             </ScrollViewer>
         </Border>

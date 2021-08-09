@@ -3,11 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Shopping4u.Views"
+             xmlns:local="clr-namespace:Shopping4u"
              mc:Ignorable="d" 
+             xmlns:converters="clr-namespace:Shopping4u.Converters"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DesignHeight="150" d:DesignWidth="300"
-             Margin="10">
+             Margin="10"
+             x:Name="this"
+             >
     <Grid>
         <materialDesign:Card  UniformCornerRadius="15" >
             <Border Margin="10">
@@ -19,8 +23,12 @@
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
 
+                    <Grid.Resources>
+                            <converters:ProductConverter x:Key="ProductConverter"/>
+                    </Grid.Resources>
+
                     <!--Title-->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Recommendtion" FontWeight="Bold"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Recommendation" FontWeight="Bold"/>
 
                     <!--Question-->
                     <TextBlock Grid.Row="1" Text="Do you want to add this to your recommended list?"/>
@@ -33,11 +41,11 @@
 
                         <Border CornerRadius="8,8,8,8" Grid.Column="0">
                             <Border.Background>
-                                <ImageBrush Stretch="UniformToFill" ImageSource="https://kerenagam.co.il/wp-content/uploads/2020/10/OQ2A2912.jpg"/>
+                                <ImageBrush Stretch="UniformToFill" ImageSource="{Binding ImgUrl}"/>
                             </Border.Background>
                         </Border>
 
-                        <TextBlock Grid.Column="1" Text="Bread" Margin="10 0" VerticalAlignment="Center" FontSize="15" FontWeight="Medium"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ProductName}" Margin="10 0" VerticalAlignment="Center" FontSize="15" FontWeight="Medium"/>
 
                     </Grid>
 
@@ -49,10 +57,47 @@
                         </Grid.ColumnDefinitions>
 
 
-                        <Button Grid.Column="0" Height="25" Margin="2 0" Style="{StaticResource MaterialDesignRaisedLightButton}" Content="IGNORE" FontSize="10" VerticalAlignment="Center" />
-                        <Button Grid.Column="1" Height="25" Margin="2 0" Style="{StaticResource MaterialDesignRaisedButton}" Content="ADD" FontSize="10" VerticalAlignment="Center" />
+                        <Button Grid.Column="0" Command="{Binding IgnoreRecommendationCommand}" CommandParameter="{Binding ElementName=this}" Height="25" Margin="2 0" Style="{StaticResource MaterialDesignRaisedLightButton}" Content="IGNORE" FontSize="10" VerticalAlignment="Center" >
+
+                        </Button>
+                        <Button Grid.Column="1"
+                                Height="25" Margin="2 0" 
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Content="ADD" FontSize="10" VerticalAlignment="Center">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding IgnoreRecommendationCommand}" CommandParameter="{Binding ElementName=this}"/>
+                                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                          AncestorType={x:Type local:MainWindow}}, 
+                                          Path=DataContext.CreateProductCommand}">
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource ProductConverter}">
+                                                <Binding Path="Text" ElementName="branchProductId"/>
+                                                <Binding Path="Text" ElementName="unitPrice"/>
+                                                <Binding Path="Text" ElementName="quantity"/>
+                                                <Binding Path="Text" ElementName="shoppingListId"/>
+                                                <Binding Path="Text" ElementName="id"/>
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                        </Button>
+
+
                     </Grid>
 
+                    <!--Hiddens-->
+                    <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="{Binding branchProductId}"/>
+                    <TextBlock x:Name="unitPrice" Style="{StaticResource Hidden}" Text="{Binding unitPrice}"/>
+                    <TextBlock x:Name="quantity" Style="{StaticResource Hidden}" Text="{Binding quantity}"/>
+                    <TextBlock x:Name="shoppingListId" Style="{StaticResource Hidden}" Text="{Binding shoppingListId}"/>
+                    <TextBlock x:Name="id" Style="{StaticResource Hidden}" Text="{Binding id}"/>
+
+
+                    
                 </Grid>
             </Border>
 
