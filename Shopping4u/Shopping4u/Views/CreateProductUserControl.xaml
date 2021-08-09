@@ -31,7 +31,7 @@
                 <!--ShoppingListId (hidden field only for the converter)-->
                 <TextBlock x:Name="shoppingListId" Style="{StaticResource Hidden}" Text="-1"/>
                 <!--BranchProductId (hidden field only for the converter)-->
-                <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="-1"/>
+                <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="{Binding BranchProductId}"/>
                 <!--BranchProductId (hidden field only for the converter)-->
                 <TextBlock x:Name="id" Style="{StaticResource Hidden}" Text="-1"/>
 
@@ -111,7 +111,7 @@
                                           Path=DataContext.CreateProductCommand}">
                             <Button.CommandParameter>
                                 <MultiBinding Converter="{StaticResource ProductConverter}">
-                                    <Binding Path="SelectedItem" ElementName="Branches" />
+                                    <Binding Path="Text" ElementName="branchProductId"/>
                                     <Binding Path="Text" ElementName="unitPrice"/>
                                     <Binding Path="Text" ElementName="quantity"/>
                                     <Binding Path="Text" ElementName="shoppingListId"/>

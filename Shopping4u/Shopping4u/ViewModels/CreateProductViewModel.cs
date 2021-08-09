@@ -25,6 +25,17 @@ namespace Shopping4u.ViewModels
         private string imgUrl;
         public string ImgUrl { get { return imgUrl; } set { imgUrl = value; OnPropertyChanged(); } }
 
+        private int branchProductId;
+        public int BranchProductId 
+        { 
+            get { return branchProductId; } 
+            set 
+            {
+                branchProductId = value;
+                OnPropertyChanged();
+            }
+        }
+
         internal void ShowProperBranches(int productId)
         {
             IBL bl = new BL.BL();

@@ -29,6 +29,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             BranchProduct branchProduct = parameter.getOrElse(new BranchProduct()) as BranchProduct;
+            createProductViewModel.BranchProductId = branchProduct.branchProductId;
             createProductViewModel.UnitPrice = $"{branchProduct.price}$";
         }
     }
