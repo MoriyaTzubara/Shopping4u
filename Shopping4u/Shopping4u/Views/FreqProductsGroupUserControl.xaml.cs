@@ -12,19 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Shopping4u.ViewModels;
 
 namespace Shopping4u.Views
 {
     /// <summary>
-    /// Interaction logic for RecommendtionUserControl1.xaml
+    /// Interaction logic for FreqProductsGroupUserControl.xaml
     /// </summary>
-    public partial class RecommendtionUserControl : UserControl
+    public partial class FreqProductsGroupUserControl : UserControl
     {
-        public RecommendtionUserControl(RecommendtionViewModel recommendtionViewModel)
+        public FreqProductsGroupUserControl()
         {
             InitializeComponent();
-            DataContext = recommendtionViewModel;
         }
     }
 }

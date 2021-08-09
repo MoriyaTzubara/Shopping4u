@@ -17,14 +17,14 @@ using Shopping4u.ViewModels;
 namespace Shopping4u.Views
 {
     /// <summary>
-    /// Interaction logic for RecommendtionUserControl1.xaml
+    /// Interaction logic for StatisticUserControl.xaml
     /// </summary>
-    public partial class RecommendtionUserControl : UserControl
+    public partial class StatisticUserControl : UserControl
     {
-        public RecommendtionUserControl(RecommendtionViewModel recommendtionViewModel)
+        public StatisticUserControl(StatisticViewModel statisticViewModel)
         {
             InitializeComponent();
-            DataContext = recommendtionViewModel;
+            DataContext = statisticViewModel;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Shopping4u
             InitializeComponent();
             DataContext = shoppingListViewModel;
 
-            CreateProductCard.Child = new CreateProductUserControl();
+            CreateProductCard.Child = new CreateProductUserControl(shoppingListViewModel.CreateProductViewModel);
         }
     }
 }

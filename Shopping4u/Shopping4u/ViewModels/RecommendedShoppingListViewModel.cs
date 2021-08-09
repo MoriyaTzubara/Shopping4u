@@ -16,6 +16,10 @@ namespace Shopping4u.ViewModels
         public RecommendedShoppingListViewModel(ReccomendedShoppingListModel reccomendedShoppingListModel): base(reccomendedShoppingListModel)
         {
             Title = "Reccomended Shopping List";
+            CreateProductViewModel = new CreateProductViewModel()
+            {
+                CanScanQRCode = false,
+            };
         }
 
         public override void CreateProduct(OrderedProduct orderedProduct)

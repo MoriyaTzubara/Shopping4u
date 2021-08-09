@@ -5,24 +5,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using Shopping4u.Extensions;
 using BE;
 using Shopping4u.Models;
+using Shopping4u.Commands;
+using System.Windows.Forms;
 
 namespace Shopping4u.ViewModels
 {
-    class MyShoppingListViewModel : ShoppingListViewModel
+    public class MyShoppingListViewModel : ShoppingListViewModel
     {       
+        public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
 
         public MyShoppingListViewModel(MyShoppingListModel myShoppingListModel): base(myShoppingListModel)
         {
             Title = "My Shopping List";
+            CreateProductViewModel = new CreateProductViewModel()
+            {
+                CanScanQRCode = true,
+            };
+
+            ScanQRCodeCommand = new ScanQRCodeCommand(this);
         }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             // needs to get the source of the image of the barcode
+            
             MessageBox.Show("CreateProduct @ MyShoppingList");
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
@@ -34,6 +43,20 @@ namespace Shopping4u.ViewModels
             //I need to  get shoppingListId and BranchProductId, or orderedProduct if it is more easier 
             //bl.DeleteOrderedProduct(productId);
             MessageBox.Show("DeleteProduct @ MyShoppingList");
+        }
+
+        public void ScanQRCode()
+        {
+            string imgUrl = "";
+            OpenFileDialog of = new OpenFileDialog();
+            //For any other formats
+            of.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+            if (of.ShowDialog() == DialogResult.OK)
+            {
+                imgUrl = of.FileName;
+            }
+            
+            MessageBox.Show($"SCAN QR COde {imgUrl}");
         }
     }
 }

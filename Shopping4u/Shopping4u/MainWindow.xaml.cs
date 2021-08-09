@@ -37,7 +37,6 @@ namespace Shopping4u
             InitializeComponent();
             goToPage(homePage);
             
-            addRecommendtion();
             DataContext = new MainWindowViewModel(this);
         }
 
@@ -79,9 +78,9 @@ namespace Shopping4u
             Application.Current.Shutdown();
         }
 
-        private void addRecommendtion()
+        private void addRecommendtion(RecommendtionViewModel recommendtionViewModel)
         {
-            Recommendtion.Children.Add(new RecommendtionUserControl());
+            Recommendtion.Children.Add(new RecommendtionUserControl(recommendtionViewModel));
         }
 
     }

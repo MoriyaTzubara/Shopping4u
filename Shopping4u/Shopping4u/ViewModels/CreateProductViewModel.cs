@@ -52,6 +52,13 @@ namespace Shopping4u.ViewModels
         public SelectProductCommand SelectProductCommand { get; set; }
         public SelectBranchProductCommand SelectBranchProductCommand { get; set; }
 
+        public bool CanScanQRCode;
+
+        public string ScanQRCodeVisibility
+        {
+            get => CanScanQRCode ? "Visible" : "Collapsed";
+            private set { }
+        }
 
 
         public CreateProductViewModel()

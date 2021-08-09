@@ -1,6 +1,7 @@
 ﻿using Shopping4u.Commands;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace Shopping4u.ViewModels
             GoToShoppingHistoryPageCommand = new GoToShoppingHistoryPageCommand(mainWindow);
             GoToStatisticsPageCommand = new GoToStatisticsPageCommand(mainWindow);
         }
+
+        public ObservableCollection<RecommendtionViewModel> RecommendedProducts { get; set; }
 
     }
 }

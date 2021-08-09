@@ -54,6 +54,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -72,12 +73,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\ScanQRCodeCommand.cs" />
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
     <Compile Include="Extensions\ProductExtension.cs" />
+    <Compile Include="Models\BranchesStatisticModel.cs" />
+    <Compile Include="Models\CatagoryStatisticModel.cs" />
+    <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\MyShoppingListModel.cs" />
+    <Compile Include="Models\ProductsStatisticModel.cs" />
     <Compile Include="Models\ReccomendedShoppingListModel.cs" />
+    <Compile Include="Models\RecommendtionModel.cs" />
     <Compile Include="Models\ShoppingListModel.cs" />
+    <Compile Include="Models\StatisticModel.cs" />
+    <Compile Include="ViewModels\BranchProductViewModel.cs" />
+    <Compile Include="ViewModels\RecommendtionViewModel.cs" />
+    <Compile Include="ViewModels\LineChartViewModel.cs" />
+    <Compile Include="ViewModels\StatisticViewModel.cs" />
+    <Compile Include="Models\TotalPriceStatisticModel.cs" />
     <Compile Include="Views\CreateProductUserControl.xaml.cs">
       <DependentUpon>CreateProductUserControl.xaml</DependentUpon>
     </Compile>
@@ -95,6 +108,9 @@
     <Compile Include="Extensions\BranchProductExtension.cs" />
     <Compile Include="Extensions\GetOrElse.cs" />
     <Compile Include="Extensions\OrderedProductExtension.cs" />
+    <Compile Include="Views\FreqProductsGroupUserControl.xaml.cs">
+      <DependentUpon>FreqProductsGroupUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProductUserControl.xaml.cs">
       <DependentUpon>ProductUserControl.xaml</DependentUpon>
     </Compile>
@@ -110,7 +126,6 @@
     <Compile Include="Views\StatisticsPage.xaml.cs">
       <DependentUpon>StatisticsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\BranchProductViewModel.cs" />
     <Compile Include="ViewModels\IProductViewModel.cs" />
     <Compile Include="ViewModels\CreateProductViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -119,8 +134,14 @@
     <Compile Include="ViewModels\RecommendedShoppingListViewModel.cs" />
     <Compile Include="ViewModels\ShoppingHistoryViewModel.cs" />
     <Compile Include="ViewModels\ShoppingListViewModel.cs" />
-    <Compile Include="ViewModels\StatisticsViewModel.cs" />
+    <Compile Include="Views\StatisticUserControl.xaml.cs">
+      <DependentUpon>StatisticUserControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\CreateProductUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FreqProductsGroupUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StatisticsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

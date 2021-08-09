@@ -101,6 +101,19 @@
                 <!--CRUD BUTTONS-->
                 <Grid Grid.Column="5">
                     <WrapPanel HorizontalAlignment="Center">
+                        
+                        <!--QR Code-->
+                        <Button ToolTip="Scan QR code"
+                                Grid.Column="1"
+                                Visibility="{Binding ScanQRCodeVisibility}"
+                        
+                        Style="{StaticResource CRUD}" 
+                        Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                          AncestorType={x:Type local:ShoppingListPage}}, 
+                                          Path=DataContext.ScanQRCodeCommand}"
+                        CommandParameter="false">
+                            <materialDesign:PackIcon Kind="QrcodeScan" Style="{StaticResource Icon}" />
+                        </Button>
 
                         <!--Create-->
                         <Button ToolTip="Save changes"
