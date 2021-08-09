@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.Models
 {
-    public interface StatisticModel
+    public interface StatisticModel<T>
     {
         string Title { get; set; }
-        IEnumerable<double> Data {get; set;}
+        IEnumerable<T> Data {get; set;}
     }
 }

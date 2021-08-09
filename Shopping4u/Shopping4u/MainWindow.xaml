@@ -24,7 +24,7 @@
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0">
+                <Grid Grid.Column="0" Background="#7d4dcd" >
                     <ListView Margin="0 15">
 
                         <!-- CartOutline icon-->

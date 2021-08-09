@@ -9,9 +9,10 @@ using Shopping4u.Models;
 
 namespace Shopping4u.ViewModels
 {
-    public class LineChartViewModel: StatisticViewModel
+    public class LineChartViewModel: StatisticViewModel<double>
     {
-        public LineChartViewModel(StatisticModel statisticModel): base(statisticModel)
+
+        public LineChartViewModel(LineChartModel lineChartModel) : base(lineChartModel)
         {
             SeriesCollection = new SeriesCollection
             {
