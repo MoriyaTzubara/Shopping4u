@@ -23,10 +23,10 @@ namespace Shopping4u
     /// </summary>
     public partial class CreateProductUserControl : UserControl
     {
-        public CreateProductUserControl()
+        public CreateProductUserControl(CreateProductViewModel createProductViewModel)
         {
             InitializeComponent();
-            DataContext = new CreateProductViewModel();
+            DataContext = createProductViewModel;
         }
     }
 }

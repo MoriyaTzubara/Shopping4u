@@ -1,5 +1,4 @@
-﻿using Shopping4u.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Shopping4u
+namespace Shopping4u.Views
 {
     /// <summary>
-    /// Interaction logic for ShoppingListPage.xaml
+    /// Interaction logic for FreqProductsGroupUserControl.xaml
     /// </summary>
-    public partial class ShoppingListPage : UserControl
-    {   
-        public ShoppingListPage(ShoppingListViewModel shoppingListViewModel)
+    public partial class FreqProductsGroupUserControl : UserControl
+    {
+        public FreqProductsGroupUserControl()
         {
             InitializeComponent();
-            DataContext = shoppingListViewModel;
-
-            CreateProductCard.Child = new CreateProductUserControl(shoppingListViewModel.CreateProductViewModel);
         }
     }
 }

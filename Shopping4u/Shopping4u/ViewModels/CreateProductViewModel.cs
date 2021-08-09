@@ -25,6 +25,17 @@ namespace Shopping4u.ViewModels
         private string imgUrl;
         public string ImgUrl { get { return imgUrl; } set { imgUrl = value; OnPropertyChanged(); } }
 
+        private int branchProductId;
+        public int BranchProductId 
+        { 
+            get { return branchProductId; } 
+            set 
+            {
+                branchProductId = value;
+                OnPropertyChanged();
+            }
+        }
+
         internal void ShowProperBranches(int productId)
         {
             IBL bl = new BL.BL();
@@ -41,6 +52,13 @@ namespace Shopping4u.ViewModels
         public SelectProductCommand SelectProductCommand { get; set; }
         public SelectBranchProductCommand SelectBranchProductCommand { get; set; }
 
+        public bool CanScanQRCode;
+
+        public string ScanQRCodeVisibility
+        {
+            get => CanScanQRCode ? "Visible" : "Collapsed";
+            private set { }
+        }
 
 
         public CreateProductViewModel()

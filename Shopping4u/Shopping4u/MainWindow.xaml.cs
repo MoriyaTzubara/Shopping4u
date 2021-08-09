@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Shopping4u.Views;
 
 namespace Shopping4u
 {
@@ -75,6 +76,11 @@ namespace Shopping4u
         private void ExitApp(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void addRecommendtion(RecommendtionViewModel recommendtionViewModel)
+        {
+            Recommendtion.Children.Add(new RecommendtionUserControl(recommendtionViewModel));
         }
 
     }

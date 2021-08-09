@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Shopping4u.Views.RecommendtionUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Shopping4u.Views"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="150" d:DesignWidth="300"
+             Margin="10">
+    <Grid>
+        <materialDesign:Card  UniformCornerRadius="15" >
+            <Border Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70*"/>
+                        <RowDefinition Height="70*"/>
+                        <RowDefinition Height="200*"/>
+                        <RowDefinition Height="100*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Title-->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Recommendtion" FontWeight="Bold"/>
+
+                    <!--Question-->
+                    <TextBlock Grid.Row="1" Text="Do you want to add this to your recommended list?"/>
+
+                    <Grid Grid.Row="2" Margin="0 7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="70*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border CornerRadius="8,8,8,8" Grid.Column="0">
+                            <Border.Background>
+                                <ImageBrush Stretch="UniformToFill" ImageSource="https://kerenagam.co.il/wp-content/uploads/2020/10/OQ2A2912.jpg"/>
+                            </Border.Background>
+                        </Border>
+
+                        <TextBlock Grid.Column="1" Text="Bread" Margin="10 0" VerticalAlignment="Center" FontSize="15" FontWeight="Medium"/>
+
+                    </Grid>
+
+                    <!--Buttons-->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <Button Grid.Column="0" Height="25" Margin="2 0" Style="{StaticResource MaterialDesignRaisedLightButton}" Content="IGNORE" FontSize="10" VerticalAlignment="Center" />
+                        <Button Grid.Column="1" Height="25" Margin="2 0" Style="{StaticResource MaterialDesignRaisedButton}" Content="ADD" FontSize="10" VerticalAlignment="Center" />
+                    </Grid>
+
+                </Grid>
+            </Border>
+
+        </materialDesign:Card>
+
+    </Grid>
+</UserControl>
