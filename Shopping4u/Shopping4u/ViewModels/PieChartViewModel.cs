@@ -9,14 +9,8 @@ using LiveCharts.Wpf;
 
 namespace Shopping4u.ViewModels
 {
-    public class TitleValue
+    public class PieChartViewModel : ChartViewModel<TitleValue>
     {
-        public string title;
-        public double value;
-    } 
-    public class PieChartViewModel : StatisticViewModel<TitleValue>
-    {
-
         public PieChartViewModel(PieChartModel pieChartModel): base(pieChartModel)
         {
             SeriesCollection = new SeriesCollection();
@@ -31,4 +25,10 @@ namespace Shopping4u.ViewModels
             };
         }
     }
+
+    public class TitleValue
+    {
+        public string title;
+        public double value;
+    } 
 }

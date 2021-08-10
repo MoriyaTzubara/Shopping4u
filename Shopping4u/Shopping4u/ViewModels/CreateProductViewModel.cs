@@ -15,44 +15,67 @@ namespace Shopping4u.ViewModels
 {
     public class CreateProductViewModel: IProductViewModel, INotifyPropertyChanged
     {
-        private ObservableCollection<BranchProductViewModel> branches;
-        public ObservableCollection<BranchProductViewModel> Branches { get { return branches; } set { branches = value; OnPropertyChanged(); } }
-
-
-        private ObservableCollection<Product> products;
-        public ObservableCollection<Product> Products { get { return products; } set { products = value; OnPropertyChanged(); } }
-
-        private string imgUrl;
-        public string ImgUrl { get { return imgUrl; } set { imgUrl = value; OnPropertyChanged(); } }
-
-        private int branchProductId;
-        public int BranchProductId 
-        { 
-            get { return branchProductId; } 
-            set 
-            {
-                branchProductId = value;
-                OnPropertyChanged();
-            }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        internal void ShowProperBranches(int productId)
+        public CreateProductViewModel()
         {
             IBL bl = new BL.BL();
-            Branches = new ObservableCollection<BranchProductViewModel>(bl.GetBranchProductsOfSpecificProduct(productId).Select(x=> new BranchProductViewModel(x)));
+
+            Branches = new ObservableCollection<BranchProductViewModel>();
+            Products = new ObservableCollection<Product>(bl.GetProducts());
+            
+            UpdateQuantityCommand = new UpdateQuantityCommand(this);
+            SelectProductCommand = new SelectProductCommand(this);
+            SelectBranchProductCommand = new SelectBranchProductCommand(this);
+            
+            ImgUrl = "";
+            Quantity = 0;
+            UnitPrice = 0;
+
         }
 
-        private int quantity;
-        public int Quantity { get { return quantity; } set { quantity = value; OnPropertyChanged(); } }
+        public ObservableCollection<BranchProductViewModel> Branches { get; set; }
+        public ObservableCollection<Product> Products { get; set; }
 
-        private string unitPrice;
-        public string UnitPrice { get { return unitPrice; } set { unitPrice = value; OnPropertyChanged(); } }
 
         public UpdateQuantityCommand UpdateQuantityCommand { get; set; }
         public SelectProductCommand SelectProductCommand { get; set; }
         public SelectBranchProductCommand SelectBranchProductCommand { get; set; }
 
-        public bool CanScanQRCode;
+        private string imgUrl;
+        public string ImgUrl 
+        { 
+            get { return imgUrl; } 
+            set { imgUrl = value; OnPropertyChanged(); } 
+        }
+
+        private int branchProductId;
+        public int BranchProductId 
+        { 
+            get { return branchProductId; } 
+            set { branchProductId = value; OnPropertyChanged(); }
+        }
+        
+        private int quantity;
+        public int Quantity
+        { 
+            get { return quantity; } 
+            set { quantity = value; OnPropertyChanged(); } 
+        }
+
+        private double unitPrice;
+        public double UnitPrice 
+        { 
+            get { return unitPrice; } 
+            set { unitPrice = value; OnPropertyChanged(); }
+        }
+
+
+        public bool CanScanQRCode { get; set; }
 
         public string ScanQRCodeVisibility
         {
@@ -61,25 +84,24 @@ namespace Shopping4u.ViewModels
         }
 
 
-        public CreateProductViewModel()
+        private void showProperBranches(int productId)
         {
             IBL bl = new BL.BL();
-            Branches = new ObservableCollection<BranchProductViewModel>();
-            Products = new ObservableCollection<Product>(bl.GetProducts());
-            Quantity = 1;
-            UnitPrice = "0$";
-
-            UpdateQuantityCommand = new UpdateQuantityCommand(this);
-            SelectProductCommand = new SelectProductCommand(this);
-            SelectBranchProductCommand = new SelectBranchProductCommand(this);
+            Branches = new ObservableCollection<BranchProductViewModel>(bl.GetBranchProductsOfSpecificProduct(productId).Select(x=> new BranchProductViewModel(x)));
+            OnPropertyChanged("Branches");
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        public void ProductSelected(Product selectedProduct)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            ImgUrl = selectedProduct.imageUrl;
+            showProperBranches(selectedProduct.id);
         }
 
+        public void BranchProductSelected(BranchProduct selectedBranchProduct)
+        {
+            BranchProductId = selectedBranchProduct.branchProductId;
+            UnitPrice = selectedBranchProduct.price;
+            Quantity = 1;
+        }
     }
 }

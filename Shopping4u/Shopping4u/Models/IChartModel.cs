@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.Models
 {
-    public interface StatisticModel<T>
+    public interface IChartModel<T>
     {
         string Title { get; set; }
         IEnumerable<T> Data {get; set;}

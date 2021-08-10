@@ -24,7 +24,7 @@ namespace Shopping4u.ViewModels
         {
             ShoppingListModel = shoppingListModel;
 
-            Products = new ObservableCollection<ProductViewModel>(shoppingListModel.GetProducts().Select(x => new ProductViewModel(x)));
+            Products = new ObservableCollection<OrderedProductViewModel>(shoppingListModel.Products.Select(x => new OrderedProductViewModel(x)));
             
             CreateProductCommand = new CreateProductCommand(this);
             UpdateProductCommand = new UpdateProductCommand(this);
@@ -35,6 +35,9 @@ namespace Shopping4u.ViewModels
 
             ProductConverter = new ProductConverter();
             IsShowCreateProduct = false;
+
+            numberOfProducts = Products.Count;
+            TotalPrice = calculateTotalPrice();
         }
 
         internal void ExportRecommendedListToPDF()
@@ -85,8 +88,8 @@ namespace Shopping4u.ViewModels
 
         public string Title { get; set; }
 
-        private ObservableCollection<ProductViewModel> products;
-        public ObservableCollection<ProductViewModel> Products
+        private ObservableCollection<OrderedProductViewModel> products;
+        public ObservableCollection<OrderedProductViewModel> Products
         {
             get
             {
@@ -99,19 +102,66 @@ namespace Shopping4u.ViewModels
             }
         }
 
-        public IEnumerable<ProductViewModel> GetProducts() {
-            return ShoppingListModel.GetProducts().Select(x => new ProductViewModel(x));
+        public IEnumerable<OrderedProductViewModel> GetProducts() {
+            return ShoppingListModel.Products.Select(x => new OrderedProductViewModel(x));
         }
         
-        public abstract void CreateProduct(OrderedProduct orderedProduct);
-        public abstract void UpdateProduct(OrderedProduct orderedProduct);
-        public abstract void DeleteProduct(int productId);
+        public virtual void CreateProduct(OrderedProduct orderedProduct)
+        {
+            products.Add(new OrderedProductViewModel(orderedProduct));
 
+            NumberOfProducts += 1;
+            TotalPrice += orderedProduct.unitPrice * orderedProduct.quantity;
+        }
+        public virtual void DeleteProduct(int productId)
+        {
+            var product = Products.First(x => x.Id == productId);
+            Products.Remove(product);
+
+            NumberOfProducts -= 1;
+            TotalPrice -= product.orderedProduct.unitPrice * product.Quantity;
+        }
+        public virtual void UpdateProduct(OrderedProduct orderedProduct)
+        {
+            int index = Products.IndexOf(Products.First(x => x.Id == orderedProduct.id));
+            Products[index] = new OrderedProductViewModel(orderedProduct);
+
+            TotalPrice = calculateTotalPrice();
+        }
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        private int numberOfProducts;
+        public int NumberOfProducts
+        {
+            get { return numberOfProducts; }
+            set 
+            {
+                numberOfProducts = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private double totalPrice { get; set; }
+        public double  TotalPrice 
+        {
+            get
+            {
+                return totalPrice;
+            }
+            set
+            {
+                totalPrice = value;
+                OnPropertyChanged();
+            }
+        }
+        private double calculateTotalPrice()
+        {
+            return Products.Sum(x => x.orderedProduct.unitPrice * x.Quantity);
+        }
 
     }
 }

@@ -11,13 +11,11 @@ namespace Shopping4u.Models
 {
     public class RecommendtionModel
     { 
-        public ProductViewModel Product { get; set; }
-        public OrderedProduct orderedProduct { get; set; }
+        public OrderedProduct OrderedProduct { get; set; }
         
-        public RecommendtionModel(ProductViewModel product)
+        public RecommendtionModel(OrderedProduct product)
         {
-            this.Product = product;
-            this.orderedProduct = product.orderedProduct;
+            this.OrderedProduct = product;
         }
     }
 }

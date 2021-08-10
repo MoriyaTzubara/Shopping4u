@@ -7,16 +7,12 @@ using Shopping4u.ViewModels;
 
 namespace Shopping4u.Models
 {
-    public class PieChartModel: StatisticModel<TitleValue>
+    public class PieChartModel: IChartModel<TitleValue>
     {
         public string Title { get; set; }
         public IEnumerable<TitleValue> Data { get; set; }
 
-        public PieChartModel() 
-        {
-            Title = "";
-            Data = new List<TitleValue>();
-        }
+        public PieChartModel() {}
         public PieChartModel(string title, IEnumerable<TitleValue> data)
         {
             Title = title;

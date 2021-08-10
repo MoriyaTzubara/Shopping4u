@@ -16,7 +16,7 @@ namespace Shopping4u.ViewModels
     {
         public RecommendedShoppingListViewModel(ReccomendedShoppingListModel reccomendedShoppingListModel): base(reccomendedShoppingListModel)
         {
-            Title = "Reccomended Shopping List";
+            Title = "Recommended Shopping List";
             CreateProductViewModel = new CreateProductViewModel()
             {
                 CanScanQRCode = false,
@@ -25,8 +25,7 @@ namespace Shopping4u.ViewModels
 
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
-            IBL bl = new BL.BL();
-            Products.Add(new ProductViewModel(orderedProduct));
+            base.CreateProduct(orderedProduct);
 
             new Thread(() =>
             {
@@ -41,6 +40,7 @@ namespace Shopping4u.ViewModels
 
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
+            base.UpdateProduct(orderedProduct);
             //It doesn't come here but still do the job well
             //int deleteIndex = products.FindIndex(o => o.ShoppingListId == orderedProduct.shoppingListId && o.BranchProductId == orderedProduct.branchProductId);
             //products[deleteIndex] =new ProductViewModel(orderedProduct);
@@ -49,6 +49,8 @@ namespace Shopping4u.ViewModels
         }
         public override void DeleteProduct(int productId)
         {
+            base.DeleteProduct(productId);
+
             //int deleteIndex = products.FindIndex(o => o.ShoppingListId == orderedProduct.shoppingListId && o.BranchProductId == orderedProduct.branchProductId);
             //products.RemoveAt(deleteIndex);
             MessageBox.Show($"Command parameter: {productId.getOrElse("null")}");
@@ -58,7 +60,7 @@ namespace Shopping4u.ViewModels
         public event EventHandler<OrderedProduct> AddedRecommendtionEvent;
 
 
-        private async void tryRecommend(IEnumerable<ProductViewModel> products)
+        private async void tryRecommend(IEnumerable<OrderedProductViewModel> products)
         {
             Thread.Sleep(5000);
 

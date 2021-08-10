@@ -10,10 +10,7 @@ namespace Shopping4u.Models
 {
     public class MainWindowModel
     {
-        public int CountProductsInMyShoppingList { get; set; }
-
+        public int NumberOfProductsInMyShoppingList { get; set; }
         public IEnumerable<OrderedProduct> recommendedProducts { get; set; }
-
-
     }
 }
