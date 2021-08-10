@@ -18,7 +18,7 @@ namespace Shopping4u.ViewModels
     {
         public UpdateQuantityCommand UpdateQuantityCommand { get; set; }
 
-        public OrderedProduct orderedProduct { get; set; }
+        public OrderedProduct orderedProduct { get; set; } 
 
         public int Id
         {
@@ -35,7 +35,8 @@ namespace Shopping4u.ViewModels
         public int Quantity
         {
             get { return quantity;}
-            set { 
+            set 
+            { 
                 quantity = value;
                 OnPropertyChanged();
             }

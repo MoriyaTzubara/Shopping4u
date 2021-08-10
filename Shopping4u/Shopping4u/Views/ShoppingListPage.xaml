@@ -7,73 +7,104 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="850" d:DesignWidth="1100">
-
-    <Grid Background="#F6F6F8">
+    <Grid Background="#F6F6F8" Margin="20 30">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="10">
-            <StackPanel Orientation="Horizontal" >
-                <TextBlock Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+        <StackPanel Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                         Text="{Binding Title}" />
 
-                <!--PDF-->
-                <Button Margin="20 10 0 0" 
-                        Command="{Binding ExportRecommendedListToPDFCommand}"
-                        Style="{StaticResource MaterialDesignOutlinedButton}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20*"/>
-                            <ColumnDefinition Width="80*"/>
-                        </Grid.ColumnDefinitions>
 
-                        <materialDesign:PackIcon Kind="FilePdf" Grid.Column="0"/>
-                        <TextBlock Text="Export PDF" Margin="5 0" Grid.Column="1"/>
-                    </Grid>
-                </Button>
+            </Grid>
 
-            </StackPanel>
             <!-- Filters -->
-            <Border Margin="0 20">
+            <!--<Border Margin="0 20">
                 <ListBox Style="{StaticResource MaterialDesignFilterChipAccentListBox}">
                     <ListBoxItem Margin="5" Content="Mercury" />
                     <ListBoxItem Margin="5" IsSelected="True" Content="Venus" />
                     <ListBoxItem Margin="5" Content="Earth" />
                     <ListBoxItem Margin="5" Content="Pluto" />
                 </ListBox>
-            </Border>
-            
-            
+            </Border>-->
+
+
         </StackPanel>
+        
+        <Grid Grid.Row="1" Margin="25 0">
 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-
-
-        <Border Grid.Row="1" Margin="10">
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-
-            <StackPanel>
             <!--Add Product-->
-            <Button Command="{Binding ShowCreateProductCommand}"
-                    Margin="30 20"
-                    HorizontalAlignment="Left"
-                    Style="{StaticResource NEW-BTN}">
+            <Button Grid.Column="0" Command="{Binding ShowCreateProductCommand}"
+                    Style="{StaticResource MaterialDesignFlatButton}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="80*"/>
                     </Grid.ColumnDefinitions>
 
-                    <materialDesign:PackIcon Kind="Plus" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBlock Text="Add product" Margin="5 0" Grid.Column="1" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Plus" Grid.Column="0"/>
+                    <TextBlock Text="Add product" Margin="5 0" Grid.Column="1" />
                 </Grid>
 
             </Button>
-        <Border x:Name="CreateProductCard" Visibility="{Binding CreateProductVisibility}"/>
 
-             <!-- Products -->
+            <!--PDF-->
+            <Button Grid.Column="1" Margin="20 0" 
+                    Command="{Binding ExportRecommendedListToPDFCommand}"
+                    Style="{StaticResource MaterialDesignFlatButton}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <materialDesign:PackIcon Kind="FilePdf" Grid.Column="0"/>
+                    <TextBlock Text="Export PDF" Margin="5 0" Grid.Column="1"/>
+                </Grid>
+            </Button>
+
+            <!--PDF-->
+            <Button Grid.Column="2" Margin="20 0" 
+                    Command="{Binding ExportRecommendedListToPDFCommand}"
+                    Style="{StaticResource MaterialDesignFlatButton}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <materialDesign:PackIcon Kind="Check" Grid.Column="0"/>
+                    <TextBlock Text="Save" Margin="5 0" Grid.Column="1"/>
+                </Grid>
+            </Button>
+        </Grid>
+
+
+
+        <Border Grid.Row="2">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+
+                <StackPanel>
+                    
+                    <Border x:Name="CreateProductCard" Visibility="{Binding CreateProductVisibility}"/>
+
+                    <!-- Products -->
                     <ListView Name="ProductsPanel" HorizontalAlignment="Center" ItemsSource="{Binding Products}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -89,29 +120,38 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
-            
-            
-            <!--
-            <StackPanel>
-                    <DataGrid Padding="10" 
-                          ItemsSource="{Binding Products}"
-                          CanUserAddRows="True" 
-                          SelectionUnit="Cell"
-                          SelectionMode="Extended" 
-                          AutoGenerateColumns="False"
-                          MinRowHeight="50">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn MinWidth="150" Header="Quantity" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn MinWidth="150" Header="Product" Binding="{Binding ProductName}"/>
-                            <DataGridTextColumn MinWidth="150" Header="Branch" Binding="{Binding BranchName}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    
-                </ScrollViewer>
-            </StackPanel>
-        -->
-            
 
+
+        <Grid Grid.Row="3" Margin="-20 -30" >
+
+            <Grid Background="#e6ceff"  Margin="0 60 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text=""/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" >
+                    <Run Text="Number of products: "/>
+                    <Run Text="{Binding NumberOfProducts}"/>
+                </TextBlock>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Cash" VerticalAlignment="Center" Margin="0 2 5 0"/>
+                    <TextBlock VerticalAlignment="Center">
+                        <Run Text="Total: "/>
+                        <Run Text="{Binding TotalPrice}"/>
+                        <Run Text="$"/>
+                    </TextBlock>
+                    
+                </StackPanel>
+                <TextBlock Grid.Column="3" VerticalAlignment="Center" />
+
+            </Grid>
+        </Grid>
 
     </Grid>
+    
 </UserControl>

@@ -35,6 +35,9 @@ namespace Shopping4u.ViewModels
 
             ProductConverter = new ProductConverter();
             IsShowCreateProduct = false;
+
+            numberOfProducts = Products.Count;
+            TotalPrice = calculateTotalPrice();
         }
 
         internal void ExportRecommendedListToPDF()
@@ -103,15 +106,62 @@ namespace Shopping4u.ViewModels
             return ShoppingListModel.GetProducts().Select(x => new ProductViewModel(x));
         }
         
-        public abstract void CreateProduct(OrderedProduct orderedProduct);
-        public abstract void UpdateProduct(OrderedProduct orderedProduct);
-        public abstract void DeleteProduct(int productId);
+        public virtual void CreateProduct(OrderedProduct orderedProduct)
+        {
+            products.Add(new ProductViewModel(orderedProduct));
 
+            NumberOfProducts += 1;
+            TotalPrice += orderedProduct.unitPrice * orderedProduct.quantity;
+        }
+        public virtual void DeleteProduct(int productId)
+        {
+            var product = Products.First(x => x.Id == productId);
+            Products.Remove(product);
+
+            NumberOfProducts -= 1;
+            TotalPrice -= product.orderedProduct.unitPrice * product.Quantity;
+        }
+        public virtual void UpdateProduct(OrderedProduct orderedProduct)
+        {
+            int index = Products.IndexOf(Products.First(x => x.Id == orderedProduct.id));
+            Products[index] = new ProductViewModel(orderedProduct);
+
+            TotalPrice = calculateTotalPrice();
+        }
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        private int numberOfProducts;
+        public int NumberOfProducts
+        {
+            get { return numberOfProducts; }
+            set 
+            {
+                numberOfProducts = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private double totalPrice { get; set; }
+        public double  TotalPrice 
+        {
+            get
+            {
+                return totalPrice;
+            }
+            set
+            {
+                totalPrice = value;
+                OnPropertyChanged();
+            }
+        }
+        private double calculateTotalPrice()
+        {
+            return Products.Sum(x => x.orderedProduct.unitPrice * x.Quantity);
+        }
 
     }
 }

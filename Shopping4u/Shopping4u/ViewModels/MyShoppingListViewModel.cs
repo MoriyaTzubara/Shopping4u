@@ -31,17 +31,19 @@ namespace Shopping4u.ViewModels
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             // needs to get the source of the image of the barcode
-            
+            base.CreateProduct(orderedProduct);   
             MessageBox.Show("CreateProduct @ MyShoppingList");
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
+            base.UpdateProduct(orderedProduct);
             MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
             //I need to  get shoppingListId and BranchProductId, or orderedProduct if it is more easier 
             //bl.DeleteOrderedProduct(productId);
+            base.DeleteProduct(productId);
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 
