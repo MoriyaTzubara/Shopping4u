@@ -11,16 +11,13 @@ namespace Shopping4u.Models
 {
     public class ReccomendedShoppingListModel : ShoppingListModel
     {
-        public IEnumerable<OrderedProduct> Products { get; set; }
-        public IEnumerable<BranchProduct> BranchProducts { get; set; }
-
         public ReccomendedShoppingListModel()
         {
-            Products = GetProducts();
-
+            Products = getProducts();
         }
 
-        public IEnumerable<OrderedProduct> GetProducts()
+        public IEnumerable<OrderedProduct> Products { get; set; }
+        private IEnumerable<OrderedProduct> getProducts()
         {
             IBL bl = new BL.BL();
             return bl.GetRecommendedList(123).Select(x => x.ToOrderedProduct());
@@ -29,11 +26,9 @@ namespace Shopping4u.Models
         public void CreateProduct(OrderedProduct orderedProduct)
         {
         }
-
         public void DeleteProduct(int productId)
         {
         }
-
         public void UpdateProduct(OrderedProduct orderedProduct)
         {
         }

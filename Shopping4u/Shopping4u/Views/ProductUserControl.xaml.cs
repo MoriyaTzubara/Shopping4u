@@ -25,12 +25,12 @@ namespace Shopping4u
     /// </summary>
     public partial class ProductUserControl : UserControl
     {
-        public ProductViewModel productViewModel;
+        public OrderedProductViewModel productViewModel;
         public ProductUserControl()
         {
             InitializeComponent();
         }
-        public ProductUserControl(ProductViewModel product)
+        public ProductUserControl(OrderedProductViewModel product)
         {
             InitializeComponent();
             productViewModel = product;

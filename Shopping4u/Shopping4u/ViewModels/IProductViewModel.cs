@@ -11,6 +11,6 @@ namespace Shopping4u.ViewModels
     {
         string ImgUrl { get; set; }
         int Quantity { get; set; }
-        string UnitPrice { get; set; }
+        double UnitPrice { get; set; }
     }
 }

@@ -93,12 +93,12 @@
     <Compile Include="Models\ReccomendedShoppingListModel.cs" />
     <Compile Include="Models\RecommendtionModel.cs" />
     <Compile Include="Models\ShoppingListModel.cs" />
-    <Compile Include="Models\StatisticModel.cs" />
+    <Compile Include="Models\IChartModel.cs" />
     <Compile Include="ViewModels\BranchProductViewModel.cs" />
     <Compile Include="ViewModels\PieChartViewModel.cs" />
     <Compile Include="ViewModels\RecommendtionViewModel.cs" />
     <Compile Include="ViewModels\LineChartViewModel.cs" />
-    <Compile Include="ViewModels\StatisticViewModel.cs" />
+    <Compile Include="ViewModels\ChartViewModel.cs" />
     <Compile Include="Views\CartesianChartUserControl.xaml.cs">
       <DependentUpon>CartesianChartUserControl.xaml</DependentUpon>
     </Compile>
@@ -141,7 +141,7 @@
     <Compile Include="ViewModels\CreateProductViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MyShoppingListViewModel.cs" />
-    <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\OrderedProductViewModel.cs" />
     <Compile Include="ViewModels\RecommendedShoppingListViewModel.cs" />
     <Compile Include="ViewModels\ShoppingHistoryViewModel.cs" />
     <Compile Include="ViewModels\ShoppingListViewModel.cs" />

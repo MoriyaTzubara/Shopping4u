@@ -12,9 +12,6 @@ namespace Shopping4u.Models
     public interface ShoppingListModel
     {
         IEnumerable<OrderedProduct> Products { get; set; }
-        IEnumerable<BranchProduct> BranchProducts { get; set; }
-
-        IEnumerable<OrderedProduct> GetProducts();
 
         void CreateProduct(OrderedProduct orderedProduct);
         void UpdateProduct(OrderedProduct orderedProduct);

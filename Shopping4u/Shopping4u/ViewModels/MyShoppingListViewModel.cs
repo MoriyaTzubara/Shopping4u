@@ -15,18 +15,15 @@ namespace Shopping4u.ViewModels
 {
     public class MyShoppingListViewModel : ShoppingListViewModel
     {       
-        public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
-
         public MyShoppingListViewModel(MyShoppingListModel myShoppingListModel): base(myShoppingListModel)
         {
             Title = "My Shopping List";
-            CreateProductViewModel = new CreateProductViewModel()
-            {
-                CanScanQRCode = true,
-            };
+            CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true };
 
             ScanQRCodeCommand = new ScanQRCodeCommand(this);
         }
+        
+        public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
         {

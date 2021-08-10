@@ -24,7 +24,7 @@ namespace Shopping4u.ViewModels
         {
             ShoppingListModel = shoppingListModel;
 
-            Products = new ObservableCollection<ProductViewModel>(shoppingListModel.GetProducts().Select(x => new ProductViewModel(x)));
+            Products = new ObservableCollection<OrderedProductViewModel>(shoppingListModel.Products.Select(x => new OrderedProductViewModel(x)));
             
             CreateProductCommand = new CreateProductCommand(this);
             UpdateProductCommand = new UpdateProductCommand(this);
@@ -88,8 +88,8 @@ namespace Shopping4u.ViewModels
 
         public string Title { get; set; }
 
-        private ObservableCollection<ProductViewModel> products;
-        public ObservableCollection<ProductViewModel> Products
+        private ObservableCollection<OrderedProductViewModel> products;
+        public ObservableCollection<OrderedProductViewModel> Products
         {
             get
             {
@@ -102,13 +102,13 @@ namespace Shopping4u.ViewModels
             }
         }
 
-        public IEnumerable<ProductViewModel> GetProducts() {
-            return ShoppingListModel.GetProducts().Select(x => new ProductViewModel(x));
+        public IEnumerable<OrderedProductViewModel> GetProducts() {
+            return ShoppingListModel.Products.Select(x => new OrderedProductViewModel(x));
         }
         
         public virtual void CreateProduct(OrderedProduct orderedProduct)
         {
-            products.Add(new ProductViewModel(orderedProduct));
+            products.Add(new OrderedProductViewModel(orderedProduct));
 
             NumberOfProducts += 1;
             TotalPrice += orderedProduct.unitPrice * orderedProduct.quantity;
@@ -124,7 +124,7 @@ namespace Shopping4u.ViewModels
         public virtual void UpdateProduct(OrderedProduct orderedProduct)
         {
             int index = Products.IndexOf(Products.First(x => x.Id == orderedProduct.id));
-            Products[index] = new ProductViewModel(orderedProduct);
+            Products[index] = new OrderedProductViewModel(orderedProduct);
 
             TotalPrice = calculateTotalPrice();
         }

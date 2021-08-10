@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.Models
 {
-    public class LineChartModel : StatisticModel<double>
+    public class LineChartModel : IChartModel<double>
     {
         public string Title { get; set; }
         public IEnumerable<double> Data { get; set; }

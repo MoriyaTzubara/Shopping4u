@@ -29,8 +29,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             Product product = parameter as Product;
-            createProductViewModel.ShowProperBranches(product.id);
-            createProductViewModel.ImgUrl = product.imageUrl;
+            createProductViewModel.ProductSelected(product);
         }
     }
 }

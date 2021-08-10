@@ -9,21 +9,24 @@ using Shopping4u.BL;
 
 namespace Shopping4u.ViewModels
 {
-    public class BranchProductViewModel: BranchProduct
+    public class BranchProductViewModel
     {
-        string BranchName { get { return ((BranchProduct)this).GetBranch().name; } set { } }
+        public BranchProduct branchProduct;
 
         public BranchProductViewModel(BranchProduct branchProduct)
         {
-            this.branchId = branchProduct.branchId;
-            this.branchProductId = branchProduct.branchProductId;
-            this.price = branchProduct.price;
-            this.productId = branchProduct.productId;
+            this.branchProduct = branchProduct;
+
+            this.BranchName = branchProduct.GetBranch().name;
+            this.ProductName = branchProduct.GetProduct().name;
         }
+
+        public string BranchName { get; set; }
+        public string ProductName { get; set; }
 
         public override string ToString()
         {
-            return $"{BranchName} ({price}$)";
+            return $"{BranchName} ({branchProduct.price}$)";
         }
 
     }

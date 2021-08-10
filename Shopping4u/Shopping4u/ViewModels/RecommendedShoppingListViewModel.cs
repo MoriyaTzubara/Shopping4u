@@ -60,7 +60,7 @@ namespace Shopping4u.ViewModels
         public event EventHandler<OrderedProduct> AddedRecommendtionEvent;
 
 
-        private async void tryRecommend(IEnumerable<ProductViewModel> products)
+        private async void tryRecommend(IEnumerable<OrderedProductViewModel> products)
         {
             Thread.Sleep(5000);
 
