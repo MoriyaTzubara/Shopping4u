@@ -78,7 +78,7 @@ namespace Shopping4u.DAL
         public List<Product> GetProducts()
         {
             List<Product> result = new List<Product>();
-            string query = "SELECT * FROM baseproduct";
+            string query = "SELECT * FROM baseproduct order by categoryName, name";
             if (OpenConnection() == true)
             {
                 //Create Command

@@ -354,7 +354,7 @@ namespace Shopping4u.BL
                     if (Xexists)
                         foreach (string itemId in rule.Y.Split(',').ToList())
                         {
-                            if(!result.Exists(p => p.id == int.Parse(itemId)))
+                            if(!result.Exists(p => p.id == int.Parse(itemId)) && !DoesProductExistsInList(orderedProducts, int.Parse(itemId)))
                                 result.Add(GetProduct(int.Parse(itemId)));
                         }
                 }
@@ -363,10 +363,10 @@ namespace Shopping4u.BL
             {
                 foreach (Item item in rules.FrequentItems)
                 {
-                    int productId = int.Parse(item.Name);
-                    if(DoesProductExistsInList(orderedProducts, productId) == false)
+                    foreach (string itemId in item.Name.Split(',').ToList())
                     {
-                        result.Add(GetProduct(productId));
+                        if (!result.Exists(p => p.id == int.Parse(itemId)) && !DoesProductExistsInList(orderedProducts, int.Parse(itemId)))
+                            result.Add(GetProduct(int.Parse(itemId)));
                     }
                 }
             }
