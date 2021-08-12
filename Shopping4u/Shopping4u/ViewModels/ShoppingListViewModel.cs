@@ -38,6 +38,7 @@ namespace Shopping4u.ViewModels
 
             numberOfProducts = Products.Count;
             TotalPrice = calculateTotalPrice();
+            shoppingListId = shoppingListModel.shoppingListId;
         }
 
         internal void ExportRecommendedListToPDF()
@@ -87,6 +88,7 @@ namespace Shopping4u.ViewModels
 
 
         public string Title { get; set; }
+        public int shoppingListId;
 
         private ObservableCollection<OrderedProductViewModel> products;
         public ObservableCollection<OrderedProductViewModel> Products
@@ -109,7 +111,6 @@ namespace Shopping4u.ViewModels
         public virtual void CreateProduct(OrderedProduct orderedProduct)
         {
             products.Add(new OrderedProductViewModel(orderedProduct));
-
             NumberOfProducts += 1;
             TotalPrice += orderedProduct.unitPrice * orderedProduct.quantity;
         }
@@ -127,6 +128,7 @@ namespace Shopping4u.ViewModels
             Products[index] = new OrderedProductViewModel(orderedProduct);
 
             TotalPrice = calculateTotalPrice();
+            ShoppingListModel.UpdateProduct(orderedProduct);
         }
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {

@@ -12,9 +12,9 @@ namespace BL.Entities
     {
         string ISorter.Sort(string token)
         {
-            char[] tokenArray = token.ToCharArray();
+            string[] tokenArray = token.Split(',');
             Array.Sort(tokenArray);
-            return new string(tokenArray);
+            return String.Join(",", tokenArray);
         }
     }
 }
