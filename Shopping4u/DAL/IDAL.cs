@@ -36,7 +36,7 @@ namespace Shopping4u.DAL
         ShoppingList CreateUnapprovedShoppingList(int consumerId);
         void InsertApprovedShoppingList(ShoppingList shoppingList);
         void InsertOrderedProducts(List<OrderedProduct> orderedProducts,int shoppingListId);
-        void InsertOrderedProduct(OrderedProduct orderedProduct);
+        OrderedProduct InsertOrderedProduct(OrderedProduct orderedProduct);
         void InsertBaseProduct(Product product);
         Branch InsertBranch(Branch branch);
         BranchProduct InsertBranchProduct(Product product,Branch branch, double price);

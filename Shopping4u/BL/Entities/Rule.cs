@@ -45,7 +45,7 @@ namespace BL.Entities
         public override int GetHashCode()
         {
             ISorter sorter = new Sorter();
-            string sortedXY = sorter.Sort(X + Y);
+            string sortedXY = sorter.Sort(X +"," + Y);
             return sortedXY.GetHashCode();
         }
 

@@ -28,7 +28,11 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
+            if (parameter == null)
+                return;
             BranchProduct branchProduct = ((BranchProductViewModel) parameter).branchProduct;
+            if(branchProduct.branchProductId == 0)
+                System.Windows.MessageBox.Show("This product is not avaliable in this branch");
             createProductViewModel.BranchProductSelected(branchProduct);
         }
     }

@@ -12,7 +12,7 @@ namespace Shopping4u.Models
     public interface ShoppingListModel
     {
         IEnumerable<OrderedProduct> Products { get; set; }
-
+        int shoppingListId { get; set; }
         void CreateProduct(OrderedProduct orderedProduct);
         void UpdateProduct(OrderedProduct orderedProduct);
         void DeleteProduct(int productId);
