@@ -52,8 +52,16 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -72,6 +80,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\ExportRecommendedListToPDFCommand.cs" />
+    <Compile Include="Commands\IgnoreRecommendationCommand.cs" />
+    <Compile Include="Commands\ScanQRCodeCommand.cs" />
+    <Compile Include="Commands\SelectBranchProductCommand.cs" />
+    <Compile Include="Commands\SelectProductCommand.cs" />
+    <Compile Include="Extensions\ProductExtension.cs" />
+    <Compile Include="Models\MainWindowModel.cs" />
+    <Compile Include="Models\MyShoppingListModel.cs" />
+    <Compile Include="Models\PieChartModel.cs" />
+    <Compile Include="Models\LineChartModel.cs" />
+    <Compile Include="Models\ReccomendedShoppingListModel.cs" />
+    <Compile Include="Models\RecommendtionModel.cs" />
+    <Compile Include="Models\ShoppingListModel.cs" />
+    <Compile Include="Models\IChartModel.cs" />
+    <Compile Include="ViewModels\BranchProductViewModel.cs" />
+    <Compile Include="ViewModels\PieChartViewModel.cs" />
+    <Compile Include="ViewModels\RecommendtionViewModel.cs" />
+    <Compile Include="ViewModels\LineChartViewModel.cs" />
+    <Compile Include="ViewModels\ChartViewModel.cs" />
+    <Compile Include="Views\CartesianChartUserControl.xaml.cs">
+      <DependentUpon>CartesianChartUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateProductUserControl.xaml.cs">
+      <DependentUpon>CreateProductUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Commands\CreateProductCommand.cs" />
     <Compile Include="Commands\DeleteProductCommand.cs" />
     <Compile Include="Commands\GoToHomePageCommand.cs" />
@@ -79,31 +112,51 @@
     <Compile Include="Commands\GoToRecommendedShoppingListPageCommand.cs" />
     <Compile Include="Commands\GoToShoppingHistoryPageCommand.cs" />
     <Compile Include="Commands\GoToStatisticsPageCommand.cs" />
+    <Compile Include="Commands\ShowCreateProductCommand.cs" />
     <Compile Include="Commands\UpdateProductCommand.cs" />
     <Compile Include="Commands\UpdateQuantityCommand.cs" />
     <Compile Include="Converters\ProductConverter.cs" />
+    <Compile Include="Extensions\BranchProductExtension.cs" />
     <Compile Include="Extensions\GetOrElse.cs" />
     <Compile Include="Extensions\OrderedProductExtension.cs" />
-    <Compile Include="ProductUserControl.xaml.cs">
+    <Compile Include="Views\PieChartUserControl.xaml.cs">
+      <DependentUpon>PieChartUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductUserControl.xaml.cs">
       <DependentUpon>ProductUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShoppingListPage.xaml.cs">
+    <Compile Include="Views\RecommendtionUserControl.xaml.cs">
+      <DependentUpon>RecommendtionUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShoppingListPage.xaml.cs">
       <DependentUpon>ShoppingListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShoppingHistoryPage.xaml.cs">
+    <Compile Include="Views\ShoppingHistoryPage.xaml.cs">
       <DependentUpon>ShoppingHistoryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StatisticsPage.xaml.cs">
+    <Compile Include="Views\StatisticsPage.xaml.cs">
       <DependentUpon>StatisticsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\IProductViewModel.cs" />
+    <Compile Include="ViewModels\CreateProductViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MyShoppingListViewModel.cs" />
-    <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\OrderedProductViewModel.cs" />
     <Compile Include="ViewModels\RecommendedShoppingListViewModel.cs" />
     <Compile Include="ViewModels\ShoppingHistoryViewModel.cs" />
     <Compile Include="ViewModels\ShoppingListViewModel.cs" />
-    <Compile Include="ViewModels\StatisticsViewModel.cs" />
-    <Page Include="HomePagel.xaml">
+    <Compile Include="Views\LineChartUserControl.xaml.cs">
+      <DependentUpon>LineChartUserControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\CartesianChartUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateProductUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomePagel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,26 +168,38 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HomePagel.xaml.cs">
+    <Compile Include="Views\HomePagel.xaml.cs">
       <DependentUpon>HomePagel.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProductUserControl.xaml">
+    <Page Include="Views\PieChartUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShoppingListPage.xaml">
+    <Page Include="Views\ProductUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShoppingHistoryPage.xaml">
+    <Page Include="Views\RecommendtionUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StatisticsPage.xaml">
+    <Page Include="Views\ShoppingListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShoppingHistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LineChartUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,9 +241,7 @@
       <Name>Shopping4u.BL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Img\milk.jpg" />
   </ItemGroup>

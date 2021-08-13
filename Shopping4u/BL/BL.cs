@@ -153,9 +153,9 @@ namespace Shopping4u.BL
         {
             return dal.GetShoppingList(shoppingListId);
         }
-        public List<Branch> GetBranchesOfSpecificProduct(int productId)
+        public List<BranchProduct> GetBranchProductsOfSpecificProduct(int productId)
         {
-            return dal.GetBranchesOfSpecificProduct(productId);
+            return dal.GetBranchProductsOfSpecificProduct(productId);
         }
         public List<string> GetProductsNameOfSpecificBranch(int branchId)
         {
@@ -185,7 +185,7 @@ namespace Shopping4u.BL
             dal.InsertOrderedProducts(orderedProducts, shoppingListId);
         }
 
-        public void InsertOrderedProduct(string orderedProductText, int shoppingListId)
+        public OrderedProduct InsertOrderedProduct(string orderedProductText, int shoppingListId)
         {
             // id, nameOfBranch, nameOfProduct, price
             string[] barcodeText = orderedProductText.Split(',');
@@ -196,17 +196,20 @@ namespace Shopping4u.BL
             Product product = new Product
             {
                 id = int.Parse(barcodeText[0]),
-                name = barcodeText[2]
+                category = barcodeText[2],
+                name = barcodeText[3]
             };
-            double price = double.Parse(barcodeText[3]);
+            double price = double.Parse(barcodeText[4]);
             BranchProduct branchProduct = InsertBranchProduct(product, branch, price);
 
             OrderedProduct orderedProduct = new OrderedProduct
             {
                 branchProductId = branchProduct.branchProductId,
-                shoppingListId = shoppingListId
+                shoppingListId = shoppingListId,
+                unitPrice = price,
+                quantity = 1
             };
-            dal.InsertOrderedProduct(orderedProduct);
+            return dal.InsertOrderedProduct(orderedProduct);
         }
         public void InsertOrderedProduct(OrderedProduct orderedProduct)
         {
@@ -233,9 +236,9 @@ namespace Shopping4u.BL
         }
         #endregion
         #region UPDATE
-        public void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId)
+        public void UpdateOrderedProduct(OrderedProduct orderedProduct)
         {
-            dal.UpdateOrderedProduct(quantity, shoppingListId, branchProductId);
+            dal.UpdateOrderedProduct(orderedProduct);
         }
         public void UpdateProductPicture(string downloadUrl, int productId)
         {
@@ -247,9 +250,9 @@ namespace Shopping4u.BL
         }
         #endregion
         #region DELETE
-        public void DeleteOrderedProduct(int shoppingListId, int branchProductId)
+        public void DeleteOrderedProduct(int orderedProductId)
         {
-            dal.DeleteOrderedProduct(shoppingListId, branchProductId);
+            dal.DeleteOrderedProduct(orderedProductId);
         }
         public void DeleteUnapprovedShoppingList(int consumerId)
         {
@@ -348,18 +351,22 @@ namespace Shopping4u.BL
                             break;
                         }
                     }
-                    if (Xexists && !result.Exists(p => p.id == int.Parse(rule.Y)))
-                        result.Add(GetProduct(int.Parse(rule.Y)));
+                    if (Xexists)
+                        foreach (string itemId in rule.Y.Split(',').ToList())
+                        {
+                            if(!result.Exists(p => p.id == int.Parse(itemId)) && !DoesProductExistsInList(orderedProducts, int.Parse(itemId)))
+                                result.Add(GetProduct(int.Parse(itemId)));
+                        }
                 }
             }
-            else if(rules.FrequentItems.Count() != 0)
+            if(result.Count() == 0 && rules.FrequentItems.Count() != 0)
             {
                 foreach (Item item in rules.FrequentItems)
                 {
-                    int productId = int.Parse(item.Name);
-                    if(DoesProductExistsInList(orderedProducts, productId) == false)
+                    foreach (string itemId in item.Name.Split(',').ToList())
                     {
-                        result.Add(GetProduct(productId));
+                        if (!result.Exists(p => p.id == int.Parse(itemId)) && !DoesProductExistsInList(orderedProducts, int.Parse(itemId)))
+                            result.Add(GetProduct(int.Parse(itemId)));
                     }
                 }
             }

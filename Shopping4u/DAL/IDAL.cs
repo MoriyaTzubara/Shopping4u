@@ -27,7 +27,7 @@ namespace Shopping4u.DAL
         IEnumerable<string> GetProductsIdInList();
         string GetProductsIdOfList(int shoppingListId);
         IEnumerable<string> GetProductsNamesInList();
-        List<Branch> GetBranchesOfSpecificProduct(int productId);
+        List<BranchProduct> GetBranchProductsOfSpecificProduct(int productId);
         List<string> GetProductsNameOfSpecificBranch(int branchId);
         List<string> GetCategoriesNames();
         string GetProductNameByBranchProductId(int branchProductId);
@@ -36,7 +36,7 @@ namespace Shopping4u.DAL
         ShoppingList CreateUnapprovedShoppingList(int consumerId);
         void InsertApprovedShoppingList(ShoppingList shoppingList);
         void InsertOrderedProducts(List<OrderedProduct> orderedProducts,int shoppingListId);
-        void InsertOrderedProduct(OrderedProduct orderedProduct);
+        OrderedProduct InsertOrderedProduct(OrderedProduct orderedProduct);
         void InsertBaseProduct(Product product);
         Branch InsertBranch(Branch branch);
         BranchProduct InsertBranchProduct(Product product,Branch branch, double price);
@@ -44,11 +44,11 @@ namespace Shopping4u.DAL
         #endregion
         #region UPDATE
         void UpdateProductPicture(string url, int productId);
-        void UpdateOrderedProduct(int quantity, int shoppingListId, int branchProductId);
+        void UpdateOrderedProduct(OrderedProduct orderedProduct);
         void UpdateShoppingList(int shoppingListId);
         #endregion
         #region DELETE
-        void DeleteOrderedProduct(int shoppingListId, int branchProductId);
+        void DeleteOrderedProduct(int orderedProductId);
         void DeleteUnapprovedShoppingList(int consumerId);
         #endregion
         #region FILTERS

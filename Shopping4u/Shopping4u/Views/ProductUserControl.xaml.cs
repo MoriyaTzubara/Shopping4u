@@ -25,12 +25,12 @@ namespace Shopping4u
     /// </summary>
     public partial class ProductUserControl : UserControl
     {
-        public ProductViewModel productViewModel;
+        public OrderedProductViewModel productViewModel;
         public ProductUserControl()
         {
             InitializeComponent();
         }
-        public ProductUserControl(ProductViewModel product)
+        public ProductUserControl(OrderedProductViewModel product)
         {
             InitializeComponent();
             productViewModel = product;
@@ -40,16 +40,16 @@ namespace Shopping4u
         public void InitializeBrachesComboBox()
         {
             IBL bl = new BL.BL();
-            foreach (Branch branch in bl.GetBranches())
+            foreach (BranchProduct branchProduct in bl.GetBranchProductsOfSpecificProduct(productViewModel.orderedProduct.GetProduct().id))
             {
-                addBranchToComboBox(branch, selected:branch.id == productViewModel.orderedProduct.GetBranch().id);
+                addBranchToComboBox(branchProduct, selected:bl.GetBranch(branchProduct.branchId).id == productViewModel.orderedProduct.GetBranch().id);
             }
         }
-        private void addBranchToComboBox(Branch branch, bool selected=false)
+        private void addBranchToComboBox(BranchProduct branchProduct, bool selected=false)
         {
             ComboBoxItem item = new ComboBoxItem();
-            item.Content = branch.name;
-            item.Tag = branch.id;
+            item.Content = branchProduct.GetBranch().name;
+            item.Tag = branchProduct.branchProductId;
             item.IsSelected = selected;
 
             Branches.Items.Add(item);

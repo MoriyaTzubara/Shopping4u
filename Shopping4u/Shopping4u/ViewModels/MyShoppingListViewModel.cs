@@ -5,60 +5,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using Shopping4u.Extensions;
 using BE;
+using Shopping4u.Models;
+using Shopping4u.Commands;
+using System.Windows.Forms;
 
 namespace Shopping4u.ViewModels
 {
-    class MyShoppingListViewModel : ShoppingListViewModel
-    {
-        public override string GetTitle()
+    public class MyShoppingListViewModel : ShoppingListViewModel
+    {       
+        public MyShoppingListViewModel(MyShoppingListModel myShoppingListModel): base(myShoppingListModel)
         {
-            return "My Shopping List";
-        }
-        public override IEnumerable<ProductViewModel> GetProducts()
-        {
-            IBL bl = new BL.BL();
-            // SHOULD BE DELETED
-            List<ProductViewModel> products = new List<ProductViewModel>();
-            foreach (OrderedProduct item in bl.CreateUnapprovedShoppingList(123).products)
-            {
-                products.Add(new ProductViewModel(item));
-            }
-            return products;
+            Title = "My Shopping List";
+            CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true };
+
+            ScanQRCodeCommand = new ScanQRCodeCommand(this);
         }
         
+        public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
+
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             // needs to get the source of the image of the barcode
+            base.CreateProduct(orderedProduct);   
             MessageBox.Show("CreateProduct @ MyShoppingList");
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
-            IBL bl = new BL.BL();
-            bl.UpdateOrderedProduct(orderedProduct.quantity, orderedProduct.shoppingListId, orderedProduct.branchProductId);
+            base.UpdateProduct(orderedProduct);
             MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
             //I need to  get shoppingListId and BranchProductId, or orderedProduct if it is more easier 
-            IBL bl = new BL.BL();
             //bl.DeleteOrderedProduct(productId);
+            base.DeleteProduct(productId);
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 
-        //SHOULD BE DELETED
-        //private static class BlMock
-        //{
-        //    static Random random = new Random();
-
-        //    static public List<ProductViewModel> getProducts()
-        //    {
-        //        return new List<ProductViewModel>();
-        //    }
-
-        //}
-
+        public void ScanQRCode()
+        {
+            string imgUrl = "";
+            OpenFileDialog of = new OpenFileDialog();
+            //For any other formats
+            of.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+            if (of.ShowDialog() == DialogResult.OK)
+            {
+                imgUrl = of.FileName;
+            }
+            MessageBox.Show($"SCAN QR COde {imgUrl}");
+            OrderedProduct orderedProduct = ((MyShoppingListModel) ShoppingListModel).CreateProduct(imgUrl);
+            CreateProduct(orderedProduct);
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Shopping4u.Commands
 {
-    class GoToMyShoppingListPageCommand: ICommand
+    public class GoToMyShoppingListPageCommand: ICommand
     {
         public event EventHandler CanExecuteChanged;
         private MainWindow window;

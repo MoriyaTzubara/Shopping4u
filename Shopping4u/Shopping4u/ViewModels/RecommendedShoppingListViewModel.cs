@@ -7,30 +7,41 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Shopping4u.Extensions;
+using Shopping4u.Models;
+using System.Threading;
 
 namespace Shopping4u.ViewModels
 {
-    class RecommendedShoppingListViewModel : ShoppingListViewModel
+    public class RecommendedShoppingListViewModel : ShoppingListViewModel
     {
-        List<ProductViewModel> products;
-        public override string GetTitle()
+        Random random = new Random();
+        public RecommendedShoppingListViewModel(ReccomendedShoppingListModel reccomendedShoppingListModel): base(reccomendedShoppingListModel)
         {
-            return "Recommended Shopping List";
-        }
-        public override IEnumerable<ProductViewModel> GetProducts()
-        {
-            IBL bl = new BL.BL();
-            if (products == null)
-                products = bl.GetRecommendedList(123).Select(p => new ProductViewModel(bl.ConvertProductToOrderedProduct(p))).ToList();
-            return products;
+            Title = "Recommended Shopping List";
+            CreateProductViewModel = new CreateProductViewModel()
+            {
+                CanScanQRCode = false,
+            };
         }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
-            products.Add(new ProductViewModel(orderedProduct));
+            base.CreateProduct(orderedProduct);
+
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                tryRecommend(this.Products);
+            }).Start();
+
+            MessageBox.Show("CreateProduct @ RecommendedShoppingListViewModel");
+
+            //products.Add(new ProductViewModel(orderedProduct));
         }
+
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
+            base.UpdateProduct(orderedProduct);
             //It doesn't come here but still do the job well
             //int deleteIndex = products.FindIndex(o => o.ShoppingListId == orderedProduct.shoppingListId && o.BranchProductId == orderedProduct.branchProductId);
             //products[deleteIndex] =new ProductViewModel(orderedProduct);
@@ -39,24 +50,30 @@ namespace Shopping4u.ViewModels
         }
         public override void DeleteProduct(int productId)
         {
+            base.DeleteProduct(productId);
+
             //int deleteIndex = products.FindIndex(o => o.ShoppingListId == orderedProduct.shoppingListId && o.BranchProductId == orderedProduct.branchProductId);
             //products.RemoveAt(deleteIndex);
             MessageBox.Show($"Command parameter: {productId.getOrElse("null")}");
             MessageBox.Show("DeleteProduct @ RecommendedShoppingList");
         }
 
+        public event EventHandler<OrderedProduct> AddedRecommendtionEvent;
 
-        // SHOULD BE DELETED
-        //private static class BlMock
-        //{
-        //    static Random random = new Random();
 
-        //    static public List<ProductViewModel> getProducts()
-        //    {
-        //        return new List<ProductViewModel>();
-        //    }
+        private async void tryRecommend(IEnumerable<OrderedProductViewModel> products)
+        {
+            Thread.Sleep(5000);
 
-        //}
+            if (products == null)
+                return;
 
+            IBL bl = new BL.BL();
+            List<Product> result = bl.AprioriRecommender(products.ToList().Select(p => p.orderedProduct).ToList(),0.2,0.2).ToList();
+            int index = random.Next(0, result.Count());
+            if(result.Count() != 0)
+                AddedRecommendtionEvent.Invoke(this, bl.ConvertProductToOrderedProduct(result.ToList()[index]));
+
+        }
     }
 }

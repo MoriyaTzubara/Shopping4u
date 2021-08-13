@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using Shopping4u.Extensions;
 using Shopping4u.ViewModels;
+using Shopping4u.Extensions;
+using BE;
 
 namespace Shopping4u.Commands
 {
-    public class UpdateQuantityCommand : ICommand
+    public class SelectProductCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
-        private IProductViewModel iProductViewModel;
+        private CreateProductViewModel createProductViewModel;
 
-        public UpdateQuantityCommand(IProductViewModel iProductViewModel)
+        public SelectProductCommand(CreateProductViewModel createProductViewModel)
         {
-            this.iProductViewModel = iProductViewModel;
+            this.createProductViewModel = createProductViewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -28,10 +28,8 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            int num = 0;
-            Int32.TryParse(parameter.ToString(), out num);
-
-            iProductViewModel.Quantity += num;
+            Product product = parameter as Product;
+            createProductViewModel.ProductSelected(product);
         }
     }
 }

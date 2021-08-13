@@ -24,22 +24,9 @@ namespace Shopping4u
         public ShoppingListPage(ShoppingListViewModel shoppingListViewModel)
         {
             InitializeComponent();
-            InitializeProducts(shoppingListViewModel.Products);
             DataContext = shoppingListViewModel;
+
+            CreateProductCard.Child = new CreateProductUserControl(shoppingListViewModel.CreateProductViewModel);
         }
-
-        public void InitializeProducts(IEnumerable<ProductViewModel> products)
-        {
-            foreach (var product in products)
-            {
-                addProduct(product);
-            }
-        }
-
-        private void addProduct(ProductViewModel product)
-        {
-            Products.Children.Add(new ProductUserControl(product));
-        } 
-
     }
 }
