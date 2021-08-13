@@ -40,6 +40,7 @@ namespace Shopping4u.ViewModels
             TotalPrice = calculateTotalPrice();
         }
 
+
         internal void ExportRecommendedListToPDF()
         {
             MessageBox.Show("Export to PDF");

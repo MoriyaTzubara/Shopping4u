@@ -28,6 +28,8 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
+            if (parameter == null)
+                return;
             BranchProduct branchProduct = ((BranchProductViewModel) parameter).branchProduct;
             createProductViewModel.BranchProductSelected(branchProduct);
         }

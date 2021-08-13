@@ -1,4 +1,5 @@
-﻿using Shopping4u.ViewModels;
+﻿using BE;
+using Shopping4u.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,15 @@ using System.Windows.Input;
 
 namespace Shopping4u.Commands
 {
-    public class DeleteProductCommand : ICommand
+    public class SaveShoppingListCommand : ICommand
     {
-        private ShoppingListViewModel shoppingListViewModel;
         public event EventHandler CanExecuteChanged;
 
-        public DeleteProductCommand(ShoppingListViewModel shoppingListViewModel)
+        private MyShoppingListViewModel myShoppingListViewModel;
+
+        public SaveShoppingListCommand(MyShoppingListViewModel myShoppingListViewModel)
         {
-            this.shoppingListViewModel = shoppingListViewModel;
+            this.myShoppingListViewModel = myShoppingListViewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -27,7 +29,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             // SHOULD BE IMPLEMENTED
-            shoppingListViewModel.DeleteProduct(Int32.Parse(parameter.ToString()));
+            myShoppingListViewModel.SaveShoppingList();
         }
     }
 }
