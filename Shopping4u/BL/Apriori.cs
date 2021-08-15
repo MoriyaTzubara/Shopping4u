@@ -96,7 +96,7 @@ namespace BL
 
         private bool CheckIsSubset(string child, string parent)
         {
-            foreach (char c in child)
+            foreach (string c in child.Split(','))
             {
                 if (!parent.Contains(c))
                 {
@@ -117,10 +117,14 @@ namespace BL
                 for (int j = i + 1; j < frequentItems.Count; j++)
                 {
                     string secondItem = _sorter.Sort(frequentItems[j].Name);
+                    if (firstItem == secondItem)
+                        continue;
                     string generatedCandidate = GenerateCandidate(firstItem, secondItem);
 
                     if (generatedCandidate != string.Empty)
                     {
+                        if (candidates.ContainsKey(generatedCandidate))
+                            continue;
                         double support = GetSupport(generatedCandidate, transactions);
                         candidates.Add(generatedCandidate, support);
                     }
@@ -132,20 +136,20 @@ namespace BL
 
         private string GenerateCandidate(string firstItem, string secondItem)
         {
-            int length = firstItem.Length;
+            int length = firstItem.Split(',').Count();
 
             if (length == 1)
             {
-                return firstItem + secondItem;
+                return firstItem + ',' + secondItem;
             }
             else
             {
-                string firstSubString = firstItem.Substring(0, length - 1);
-                string secondSubString = secondItem.Substring(0, length - 1);
+                string firstSubString = String.Join(",",firstItem.Split(',').ToList().GetRange(0,length - 1));
+                string secondSubString = String.Join(",", secondItem.Split(',').ToList().GetRange(0, length - 1));
 
                 if (firstSubString == secondSubString)
                 {
-                    return firstItem + secondItem[length - 1];
+                    return firstItem + "," + secondItem.Split(',').ToList()[length - 1].ToString();
                 }
 
                 return string.Empty;
@@ -193,7 +197,7 @@ namespace BL
             {
                 string parent = allFrequentItems[j].Name;
 
-                if (parent.Length == child.Length + 1)
+                if (parent.Split(',').Count() == child.Split(',').Count() + 1)
                 {
                     if (CheckIsSubset(child, parent))
                     {
@@ -241,7 +245,7 @@ namespace BL
 
             foreach (var item in allFrequentItems)
             {
-                if (item.Name.Length > 1)
+                if (item.Name.Split(',').Count() > 1)
                 {
                     IEnumerable<string> subsetsList = GenerateSubsets(item.Name);
 
@@ -264,19 +268,19 @@ namespace BL
         private IEnumerable<string> GenerateSubsets(string item)
         {
             IEnumerable<string> allSubsets = new string[] { };
-            int subsetLength = item.Length / 2;
+            int subsetLength = item.Split(',').Count() / 2;
 
             for (int i = 1; i <= subsetLength; i++)
             {
                 IList<string> subsets = new List<string>();
-                GenerateSubsetsRecursive(item, i, new char[item.Length], subsets);
+                GenerateSubsetsRecursive(item.Split(','), i, new string[item.Split(',').Count()], subsets);
                 allSubsets = allSubsets.Concat(subsets);
             }
 
             return allSubsets;
         }
 
-        private void GenerateSubsetsRecursive(string item, int subsetLength, char[] temp, IList<string> subsets, int q = 0, int r = 0)
+        private void GenerateSubsetsRecursive(string[] item, int subsetLength, string[] temp, IList<string> subsets, int q = 0, int r = 0)
         {
             if (q == subsetLength)
             {
@@ -284,7 +288,10 @@ namespace BL
 
                 for (int i = 0; i < subsetLength; i++)
                 {
-                    sb.Append(temp[i]);
+                    if(i + 1 < subsetLength)
+                        sb.Append(temp[i] + ",");
+                    else
+                        sb.Append(temp[i]);
                 }
 
                 subsets.Add(sb.ToString());
@@ -302,13 +309,15 @@ namespace BL
 
         private string GetRemaining(string child, string parent)
         {
-            for (int i = 0; i < child.Length; i++)
+            string[] childArray = child.Split(',');
+            List<string> parentArray = parent.Split(',').ToList();
+            for (int i = 0; i < childArray.Count(); i++)
             {
-                int index = parent.IndexOf(child[i]);
-                parent = parent.Remove(index, 1);
+                int index = parentArray.ToList().IndexOf(childArray[i]);
+                parentArray.RemoveAt(index);
             }
 
-            return parent;
+            return String.Join(",", parentArray);
         }
 
         private IList<Rule> GetStrongRules(double minConfidence, HashSet<Rule> rules, ItemsDictionary allFrequentItems)
@@ -317,7 +326,7 @@ namespace BL
 
             foreach (Rule rule in rules)
             {
-                string xy = _sorter.Sort(rule.X + rule.Y);
+                string xy = _sorter.Sort(rule.X + "," + rule.Y);
                 AddStrongRule(rule, xy, strongRules, minConfidence, allFrequentItems);
             }
 

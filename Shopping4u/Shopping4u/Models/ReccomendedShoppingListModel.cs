@@ -15,7 +15,7 @@ namespace Shopping4u.Models
         {
             Products = getProducts();
         }
-
+        public int shoppingListId { get; set; }
         public IEnumerable<OrderedProduct> Products { get; set; }
         private IEnumerable<OrderedProduct> getProducts()
         {

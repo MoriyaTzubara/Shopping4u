@@ -14,6 +14,7 @@ namespace Shopping4u.ViewModels
 {
     public class RecommendedShoppingListViewModel : ShoppingListViewModel
     {
+        Random random = new Random();
         public RecommendedShoppingListViewModel(ReccomendedShoppingListModel reccomendedShoppingListModel): base(reccomendedShoppingListModel)
         {
             Title = "Recommended Shopping List";
@@ -67,10 +68,11 @@ namespace Shopping4u.ViewModels
             if (products == null)
                 return;
 
-            Random random = new Random();
-            int index = random.Next(0, products.ToList().Count);
-
-            AddedRecommendtionEvent.Invoke(this, products.ElementAt(index).orderedProduct);
+            IBL bl = new BL.BL();
+            List<Product> result = bl.AprioriRecommender(products.ToList().Select(p => p.orderedProduct).ToList(),0.2,0.2).ToList();
+            int index = random.Next(0, result.Count());
+            if(result.Count() != 0)
+                AddedRecommendtionEvent.Invoke(this, bl.ConvertProductToOrderedProduct(result.ToList()[index]));
 
         }
     }

@@ -12,6 +12,7 @@ namespace Shopping4u.Models
         public string Title { get; set; }
         public IEnumerable<TitleValue> Data { get; set; }
 
+
         public PieChartModel() {}
         public PieChartModel(string title, IEnumerable<TitleValue> data)
         {

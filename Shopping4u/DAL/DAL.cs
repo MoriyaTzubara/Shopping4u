@@ -78,7 +78,7 @@ namespace Shopping4u.DAL
         public List<Product> GetProducts()
         {
             List<Product> result = new List<Product>();
-            string query = "SELECT * FROM baseproduct";
+            string query = "SELECT * FROM baseproduct order by categoryName, name";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -295,6 +295,7 @@ namespace Shopping4u.DAL
         public string[] GetShoppingListsOfConsumer(int consumerId)
         {
             List<string> result = new List<string>();
+            List<int> shoppingListsId = new List<int>();
             string query = "SELECT shoppingListId" +
                 "FROM shoppinglist " +
                 $"WHERE consumerId = {consumerId} and approved = {true}";
@@ -306,7 +307,7 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    result.Add(GetProductsIdOfList((int)dataReader["ShoppingListId"]));
+                    shoppingListsId.Add((int)dataReader["ShoppingListId"]);
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -314,12 +315,14 @@ namespace Shopping4u.DAL
                 //close Connection
                 CloseConnection();
             }
+            result = shoppingListsId.Select(id => GetProductsIdOfList(id)).ToList();
             return result.ToArray();
         }
         public string[] GetShoppingLists()
         {
             List<string> result = new List<string>();
-            string query = "SELECT shoppingListId" +
+            List<int> shoppingListsId = new List<int>();
+            string query = "SELECT shoppingListId " +
                 "FROM shoppinglist ";
             if (OpenConnection() == true)
             {
@@ -329,7 +332,7 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    result.Add(GetProductsIdOfList((int)dataReader["ShoppingListId"]));
+                    shoppingListsId.Add((int)dataReader["ShoppingListId"]);
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -337,12 +340,13 @@ namespace Shopping4u.DAL
                 //close Connection
                 CloseConnection();
             }
+            result = shoppingListsId.Select(id => GetProductsIdOfList(id)).ToList();
             return result.ToArray();
         }
         public IEnumerable<string> GetProductsIdInList()
         {
             List<string> result = new List<string>();
-            string query = "SELECT productId" +
+            string query = "SELECT productId " +
                 "FROM baseProduct ";
             if (OpenConnection() == true)
             {
@@ -352,7 +356,7 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    result.Add(((string)dataReader["productId"]));
+                    result.Add(((int)dataReader["productId"]).ToString());
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -365,9 +369,9 @@ namespace Shopping4u.DAL
         public string GetProductsIdOfList(int shoppingListId)
         {
             string result = "";
-            string query = "SELECT productId`" +
-                "FROM orderedProduct " +
-                $"where shoppingListId = {shoppingListId}";
+            string query = "SELECT productId " +
+               $"FROM (select * from orderedProduct where shoppingListId = {shoppingListId}) as products " +
+                "natural join branchProduct";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -658,6 +662,11 @@ namespace Shopping4u.DAL
                 {
                     result.Add((string)dataReader["categoryName"]);
                 }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
             }
             return result;
         }
@@ -706,7 +715,8 @@ namespace Shopping4u.DAL
                 // get auto increment primary key
                 query = "SELECT LAST_INSERT_ID() from shoppingList";
                 cmd = new MySqlCommand(query, connection);
-                result.id = (int)cmd.ExecuteScalar();
+                var id = cmd.ExecuteScalar();
+                result.id = int.Parse(id.ToString());
                 //close connection
                 CloseConnection();
             }
@@ -729,7 +739,8 @@ namespace Shopping4u.DAL
                 // get auto increment primary key
                 query = "SELECT LAST_INSERT_ID() from shoppingList";
                 cmd = new MySqlCommand(query, connection);
-                shoppingListId = (int)cmd.ExecuteScalar();
+                var id = cmd.ExecuteScalar();
+                shoppingListId = int.Parse(id.ToString());
                 //close connection
                 CloseConnection();
             }
@@ -743,16 +754,22 @@ namespace Shopping4u.DAL
             }
 
         }
-        public void InsertOrderedProduct(OrderedProduct orderedProduct)
+        public OrderedProduct InsertOrderedProduct(OrderedProduct orderedProduct)
         {
             if (OpenConnection() == true)
             {
-                string query = $"INSERT INTO shoppingList (ShoppingListId, branchProductId, unitPrice,quantity) " +
+                string query = $"INSERT INTO orderedProduct (ShoppingListId, branchProductId, unitPrice,quantity) " +
                       $"VALUES({orderedProduct.shoppingListId}, {orderedProduct.branchProductId},{orderedProduct.unitPrice}, {orderedProduct.quantity})";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
+                // get auto increment primary key
+                query = "SELECT LAST_INSERT_ID() from orderedProduct";
+                cmd = new MySqlCommand(query, connection);
+                var id = cmd.ExecuteScalar();
+                orderedProduct.id = int.Parse(id.ToString());
                 CloseConnection();
             }
+            return orderedProduct;
         }
         public bool DoesCategoryExists(string category)
         {
@@ -778,13 +795,13 @@ namespace Shopping4u.DAL
         public void InsertBaseProduct(Product product)
         {
             InsertCategory(product.category);
-            if (GetProduct(product.id) == new Product())
+            if (GetProduct(product.id).id == 0)
             {
                 if (OpenConnection() == true)
                 {
 
                     string query = $"INSERT INTO baseproduct (productId,name,itemImageUrl,categoryName) " +
-                        $"VALUES ({product.id},{product.name},{product.imageUrl},{product.category})";
+                        $"VALUES ({product.id},'{product.name}','{product.imageUrl}','{product.category}')";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
                 }
@@ -807,30 +824,58 @@ namespace Shopping4u.DAL
         }
         public Branch InsertBranch(Branch branch)
         {
-            string query = $"SELECT * FROM branch WHERE {branch.name} = name";
+            string query = $"SELECT * FROM branch WHERE name = '{branch.name}'";
             if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 if (!dataReader.Read())
                 {
+                    //close Data Reader
+                    dataReader.Close();
                     query = $"INSERT INTO branch (name) " +
-                        $"VALUES ({branch.name})";
+                        $"VALUES ('{branch.name}')";
                     cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
                     // get auto increment primary key
                     query = "SELECT LAST_INSERT_ID() from branch";
                     cmd = new MySqlCommand(query, connection);
-                    branch.id = (int)cmd.ExecuteScalar();
+                    var id = cmd.ExecuteScalar();
+                    branch.id = int.Parse(id.ToString());
                 }
                 else
                 {
                     branch.id = (int)dataReader["branchId"];
+                    //close Data Reader
+                    dataReader.Close();
                 }
+
+                //close Connection
                 CloseConnection();
                 return branch;
             }
             return branch;
+        }
+        private bool DoesBranchProductExist(int branchId, int productId)
+        {
+            string query = $"select branchId,productId from branchProduct";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if ((int)dataReader["branchId"] == branchId && (int)dataReader["productId"] == productId)
+                    {
+                        dataReader.Close();
+                        CloseConnection();
+                        return true;
+                    }
+                }
+                dataReader.Close();
+                CloseConnection();                
+            }
+            return false;
         }
         public BranchProduct InsertBranchProduct(Product product, Branch branch, double price)
         {
@@ -838,24 +883,46 @@ namespace Shopping4u.DAL
             branch = InsertBranch(branch);
             BranchProduct branchProduct = new BranchProduct();
             if (branch.id != 0)
-            {
-                string query = $"INSERT INTO branchProduct (branchId,productId,price) " +
-                  $"VALUES({branch.id},{product.id},{price})";
+            {            
                 if (OpenConnection() == true)
                 {
+                    string query = $"SELECT * FROM branchProduct WHERE branchId = {branch.id} and productId = {product.id}";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
-                    cmd.ExecuteNonQuery();
-                    // get auto increment primary key
-                    query = "SELECT LAST_INSERT_ID() from branchproduct";
-                    cmd = new MySqlCommand(query, connection);
-                    branchProduct = new BranchProduct
+                    MySqlDataReader dataReader = cmd.ExecuteReader();
+                    if (!dataReader.Read())
                     {
-                        branchProductId = (int)cmd.ExecuteScalar(),
-                        branchId = branch.id,
-                        productId = product.id,
-                        price = price
-                    };
-                    CloseConnection();
+                        query = $"INSERT INTO branchProduct (branchId,productId,price) " +
+                                    $"VALUES({branch.id},{product.id},{price})";
+                        cmd = new MySqlCommand(query, connection);
+                        cmd.ExecuteNonQuery();
+                        // get auto increment primary key
+                        query = "SELECT LAST_INSERT_ID() from branchproduct";
+                        cmd = new MySqlCommand(query, connection);
+                        var id = cmd.ExecuteScalar();
+                        branchProduct = new BranchProduct
+                        {
+                            branchProductId = int.Parse(id.ToString()),
+                            branchId = branch.id,
+                            productId = product.id,
+                            price = price
+                        };
+                        dataReader.Close();
+                        CloseConnection();
+                    }
+                    else
+                    {
+                        branchProduct = new BranchProduct
+                        {
+                            productId = int.Parse(dataReader["productId"] + ""),
+                            branchId = (int)dataReader["branchId"],
+                            price = price,
+                            branchProductId = (int)dataReader["branchProductId"]
+                        };
+                        dataReader.Close();
+                        CloseConnection();
+                        UpdateBranchProduct(branchProduct);
+                    }
+                    
                 }
             }
             return branchProduct;
@@ -873,6 +940,15 @@ namespace Shopping4u.DAL
                     MySqlCommand cmd = new MySqlCommand(query, connection);
                     cmd.ExecuteNonQuery();
                 }
+                CloseConnection();
+            }
+        }
+        public void UpdateBranchProduct(BranchProduct branchProduct)
+        {
+            if (OpenConnection() == true)
+            {
+                string query = $"UPDATE branchProduct set price = {branchProduct.price} WHERE branchProductId = {branchProduct.branchProductId} ";                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.ExecuteNonQuery();
                 CloseConnection();
             }
         }
@@ -1143,7 +1219,6 @@ namespace Shopping4u.DAL
             return result;
         }
         #endregion
-
         #region APRIORI
         public IDictionary<int, int> GetSupportOfEachItem()
         {
@@ -1182,7 +1257,8 @@ namespace Shopping4u.DAL
             if (OpenConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
-                result = (int)cmd.ExecuteScalar();
+                var counter = cmd.ExecuteScalar();
+                result = int.Parse(counter.ToString());
             }
             return result;
         }

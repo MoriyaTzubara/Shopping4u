@@ -10,5 +10,6 @@ namespace Shopping4u.Models
     {
         string Title { get; set; }
         IEnumerable<T> Data {get; set;}
+
     }
 }

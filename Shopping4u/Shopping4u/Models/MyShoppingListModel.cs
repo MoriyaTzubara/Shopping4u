@@ -12,22 +12,29 @@ namespace Shopping4u.Models
 {
     public class MyShoppingListModel : ShoppingListModel
     {
-
+        public int shoppingListId { get; set; }
         public MyShoppingListModel()
         {
             Products = getProducts();
         }
-
         public IEnumerable<OrderedProduct> Products { get; set; }
         private IEnumerable<OrderedProduct> getProducts()
         {
             IBL bl = new BL.BL();
-            return bl.CreateUnapprovedShoppingList(123).products;
+            var shoppingList = bl.CreateUnapprovedShoppingList(123);
+            shoppingListId = shoppingList.id;
+            return shoppingList.products;
         }
-
-        public void CreateProduct(OrderedProduct orderedProduct)
+        public OrderedProduct CreateProduct(string imgUrl)
         {
             IBL bl = new BL.BL();
+            string productText = bl.EncodeBarcode(imgUrl);
+            OrderedProduct product = bl.InsertOrderedProduct(productText, shoppingListId);
+            Products.ToList().Add(product);
+            return product;
+        }
+        public void CreateProduct(OrderedProduct orderedProduct)
+        {
         }
         public void UpdateProduct(OrderedProduct orderedProduct)
         {
