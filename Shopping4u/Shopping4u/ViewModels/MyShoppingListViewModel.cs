@@ -54,6 +54,10 @@ namespace Shopping4u.ViewModels
             {
                 imgUrl = of.FileName;
             }
+
+            if (imgUrl == null || imgUrl == "")
+                return;
+            
             MessageBox.Show($"SCAN QR COde {imgUrl}");
             OrderedProduct orderedProduct = ((MyShoppingListModel) ShoppingListModel).CreateProduct(imgUrl);
             CreateProduct(orderedProduct);
