@@ -29,7 +29,7 @@ namespace Shopping4u.Models
         {
             IBL bl = new BL.BL();
             string productText = bl.EncodeBarcode(imgUrl);
-            OrderedProduct product = bl.InsertOrderedProduct(productText, shoppingListId);
+            OrderedProduct product = bl.EncodeOrderedProductString(productText, shoppingListId);
             return product;
         }
         public void CreateProduct(OrderedProduct orderedProduct)
@@ -42,6 +42,12 @@ namespace Shopping4u.Models
         }
         public void DeleteProduct(int productId)
         {
+        }
+
+        public OrderedProduct EncodeBarcode(string imgUrl)
+        {
+            IBL bl = new BL.BL();
+           return bl.EncodeOrderedProductString(bl.EncodeBarcode(imgUrl), shoppingListId);
         }
     }
 }
