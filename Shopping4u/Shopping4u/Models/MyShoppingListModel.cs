@@ -25,15 +25,12 @@ namespace Shopping4u.Models
             shoppingListId = shoppingList.id;
             return shoppingList.products;
         }
-        public OrderedProduct CreateProduct(string imgUrl)
-        {
-            IBL bl = new BL.BL();
-            string productText = bl.EncodeBarcode(imgUrl);
-            OrderedProduct product = bl.EncodeOrderedProductString(productText, shoppingListId);
-            return product;
-        }
+
         public void CreateProduct(OrderedProduct orderedProduct)
         {
+            IBL bl = new BL.BL();
+            orderedProduct.shoppingListId = shoppingListId;
+            bl.InsertOrderedProduct(orderedProduct);
         }
         public void UpdateProduct(OrderedProduct orderedProduct)
         {
@@ -44,10 +41,5 @@ namespace Shopping4u.Models
         {
         }
 
-        public OrderedProduct EncodeBarcode(string imgUrl)
-        {
-            IBL bl = new BL.BL();
-           return bl.EncodeOrderedProductString(bl.EncodeBarcode(imgUrl), shoppingListId);
-        }
     }
 }

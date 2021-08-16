@@ -185,7 +185,7 @@ namespace Shopping4u.BL
             dal.InsertOrderedProducts(orderedProducts, shoppingListId);
         }
 
-        public OrderedProduct EncodeOrderedProductString(string orderedProductText, int shoppingListId)
+        public OrderedProduct EncodeOrderedProductString(string orderedProductText)
         {
             // id, nameOfBranch, nameOfProduct, price
             string[] barcodeText = orderedProductText.Split(',');
@@ -205,7 +205,7 @@ namespace Shopping4u.BL
             OrderedProduct orderedProduct = new OrderedProduct
             {
                 branchProductId = branchProduct.branchProductId,
-                shoppingListId = shoppingListId,
+                shoppingListId = -1,
                 unitPrice = price,
                 quantity = 1
             };

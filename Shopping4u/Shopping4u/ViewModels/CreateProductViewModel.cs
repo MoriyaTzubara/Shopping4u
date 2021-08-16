@@ -11,6 +11,7 @@ using Shopping4u.BL;
 using Shopping4u.Commands;
 using Shopping4u.ViewModels;
 using Shopping4u.Extensions;
+using System.Windows.Forms;
 
 namespace Shopping4u.ViewModels
 {
@@ -32,6 +33,8 @@ namespace Shopping4u.ViewModels
             UpdateQuantityCommand = new UpdateQuantityCommand(this);
             SelectProductCommand = new SelectProductCommand(this);
             SelectBranchProductCommand = new SelectBranchProductCommand(this);
+            ScanQRCodeCommand = new ScanQRCodeCommand(this);
+
             
             ImgUrl = "";
             Quantity = 0;
@@ -46,12 +49,19 @@ namespace Shopping4u.ViewModels
         public UpdateQuantityCommand UpdateQuantityCommand { get; set; }
         public SelectProductCommand SelectProductCommand { get; set; }
         public SelectBranchProductCommand SelectBranchProductCommand { get; set; }
+        public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
+
+        public event EventHandler<BranchProduct> BranchProductSelectedEvent;
+        public event EventHandler<Product> ProductSelectedEvent;
 
         private string imgUrl;
         public string ImgUrl 
         { 
             get { return imgUrl; } 
-            set { imgUrl = value; OnPropertyChanged(); } 
+            set { 
+                imgUrl = value;
+                OnPropertyChanged(); 
+            } 
         }
 
         private int branchProductId;
@@ -66,7 +76,7 @@ namespace Shopping4u.ViewModels
         { 
             get { return quantity; } 
             set { 
-                quantity = value; 
+                quantity = value;
                 OnPropertyChanged(); 
             } 
         }
@@ -76,6 +86,20 @@ namespace Shopping4u.ViewModels
         { 
             get { return unitPrice; } 
             set { unitPrice = value; OnPropertyChanged(); }
+        }
+
+        private BranchProduct selectedBranchProduct;
+        public BranchProduct SelectedBranchProduct
+        { 
+            get { return selectedBranchProduct; } 
+            set { selectedBranchProduct = value; OnPropertyChanged(); }
+        }
+
+        private Product selectedProduct;
+        public  Product SelectedProduct
+        { 
+            get { return selectedProduct; } 
+            set { selectedProduct = value; OnPropertyChanged(); }
         }
 
 
@@ -97,26 +121,53 @@ namespace Shopping4u.ViewModels
 
         public void ProductSelected(Product selectedProduct)
         {
+            if (selectedProduct == null)
+                return;
             ImgUrl = selectedProduct.imageUrl;
             Quantity = 1;
             UnitPrice = 0;
             showProperBranches(selectedProduct.id);
+            ProductSelectedEvent(this, selectedProduct);
         }
 
         public void BranchProductSelected(BranchProduct selectedBranchProduct)
         {
+            if (selectedBranchProduct == null)
+                return;
             BranchProductId = selectedBranchProduct.branchProductId;
             UnitPrice = selectedBranchProduct.price;
             Quantity = 1;
+            SelectedBranchProduct = selectedBranchProduct;
+            BranchProductSelectedEvent(this, selectedBranchProduct);
         }
         public void ScannedProduct(OrderedProduct orderedProduct)
         {
             ProductSelected(orderedProduct.GetProduct());
             BranchProductSelected(orderedProduct.GetBranchProduct());
-            //PropertyChanged = new PropertyChangedEventHandler()
-            //ImgUrl = orderedProductViewModel.ImgUrl;
-            //Quantity = orderedProductViewModel.Quantity;
-            //UnitPrice = orderedProductViewModel.UnitPrice;
         }
+        public OrderedProduct EncodeBarcode(string imgUrl)
+        {
+            IBL bl = new BL.BL();
+            return bl.EncodeOrderedProductString(bl.EncodeBarcode(imgUrl));
+        }
+        public void ScanQRCode()
+        {
+            string imgUrl = "";
+            OpenFileDialog of = new OpenFileDialog();
+            //For any other formats
+            of.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+            if (of.ShowDialog() == DialogResult.OK)
+            {
+                imgUrl = of.FileName;
+            }
+            if (imgUrl == "")
+                return;
+
+            MessageBox.Show($"SCAN QR Code {imgUrl}");
+
+            OrderedProduct orderedProduct = this.EncodeBarcode(imgUrl);
+            ScannedProduct(orderedProduct);
+        }
+
     }
 }
