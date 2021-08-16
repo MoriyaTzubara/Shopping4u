@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shopping4u.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,9 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.Models
 {
-    public class LineChartModel : IChartModel<double>
+    public interface ILineChartModel<T>
     {
-        public string Title { get; set; }
-        public IEnumerable<double> Data { get; set; }
-
-        public LineChartModel() { }
-        public LineChartModel(string title, IEnumerable<double> data)
-        {
-            Title = title;
-            Data = data;
-        }
+        Dictionary<string, double> getData(int productId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate);
+        IEnumerable<T> getOption();
     }
 }

@@ -61,7 +61,7 @@ namespace Shopping4u
 
         public void GoToStatisticsPage()
         {
-            goToPage(MainWindowViewModel.statisticsPage);
+            goToPage(MainWindowViewModel.chartsPage);
         }
 
         private void goToPage(UserControl page)
