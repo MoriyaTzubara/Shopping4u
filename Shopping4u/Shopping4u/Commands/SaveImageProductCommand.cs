@@ -27,6 +27,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             string imgUrl = (parameter as CreateProductViewModel).ImgUrl;
+            (parameter as CreateProductViewModel).ImgUrl = "";
             int branchProductId = (parameter as CreateProductViewModel).BranchProductId;
             createProductViewModel.SaveImageProduct(imgUrl, branchProductId);
         }

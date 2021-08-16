@@ -215,7 +215,7 @@ namespace Shopping4u.ViewModels
             if (of.ShowDialog() == DialogResult.OK)
             {
                 imgUrl = of.FileName;
-            }
+            }            
             if (imgUrl == "")
                 return;
             ImgUrl = imgUrl;
