@@ -37,9 +37,25 @@ namespace Shopping4u.Models
             IBL bl = new BL.BL();
             bl.UpdateOrderedProduct(orderedProduct);
         }
-        public void DeleteProduct(int productId)
+        public void DeleteProduct(int orderedProductId)
         {
+            IBL bl = new BL.BL();
+            bl.DeleteOrderedProduct(orderedProductId);
         }
 
+        public void SaveShoppingList()
+        {
+            IBL bl = new BL.BL();
+            bl.SaveShoppingList(shoppingListId);
+        }
+
+        public int NewShoppingList()
+        {
+            IBL bl = new BL.BL();
+            ShoppingList shoppingList = bl.CreateUnapprovedShoppingList(123);
+            shoppingListId = shoppingList.id;
+            Products = new List<OrderedProduct>();
+            return shoppingListId;
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace Shopping4u.ViewModels
             CreateProductViewModel = new CreateProductViewModel()
             {
                 CanScanQRCode = false,
+                CanSaveShoppingList = false
             };
         }
 
@@ -69,10 +70,10 @@ namespace Shopping4u.ViewModels
                 return;
 
             IBL bl = new BL.BL();
-            List<Product> result = bl.AprioriRecommender(products.ToList().Select(p => p.orderedProduct).ToList(),0.2,0.2).ToList();
+            List<Product> result = bl.AprioriRecommender(products.ToList().Select(p => p.orderedProduct).ToList(),0.3,0.65).ToList();
             int index = random.Next(0, result.Count());
             if(result.Count() != 0)
-                AddedRecommendtionEvent.Invoke(this, bl.ConvertProductToOrderedProduct(result.ToList()[index]));
+                AddedRecommendtionEvent.Invoke(this, bl.ConvertProductToOrderedProduct(result.ToList()[0]));
 
         }
     }

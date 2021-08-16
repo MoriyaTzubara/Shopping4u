@@ -111,13 +111,20 @@ namespace Shopping4u.ViewModels
         
         public virtual void CreateProduct(OrderedProduct orderedProduct)
         {
-            products.Add(new OrderedProductViewModel(orderedProduct));
-            NumberOfProducts += 1;
-            TotalPrice += orderedProduct.unitPrice * orderedProduct.quantity;
+            int orderedProductIndex = products.ToList().FindIndex(o => o.BranchProductId == orderedProduct.branchProductId);
+            if (orderedProductIndex != -1)
+            {
+                products[orderedProductIndex].orderedProduct.quantity += orderedProduct.quantity;
+                products[orderedProductIndex].Quantity += orderedProduct.quantity;
+            }
+            else
+                products.Add(new OrderedProductViewModel(orderedProduct));
+            NumberOfProducts = products.Count();
+            TotalPrice = calculateTotalPrice();
         }
         public virtual void DeleteProduct(int productId)
         {
-            var product = Products.First(x => x.Id == productId);
+            OrderedProductViewModel product = Products.First(x => x.Id == productId);
             Products.Remove(product);
 
             NumberOfProducts -= 1;

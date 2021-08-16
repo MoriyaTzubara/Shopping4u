@@ -21,7 +21,7 @@ namespace Shopping4u.ViewModels
         {
             this.myShoppingListModel = myShoppingListModel;
             Title = "My Shopping List";
-            CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true };
+            CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true, CanSaveShoppingList = true };
 
             SaveShoppingListCommand = new SaveShoppingListCommand(this);
         }
@@ -30,7 +30,7 @@ namespace Shopping4u.ViewModels
         
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
-            // needs to get the source of the image of the barcode
+            myShoppingListModel.CreateProduct(orderedProduct);
             base.CreateProduct(orderedProduct);
             MessageBox.Show("CreateProduct @ MyShoppingList");
         }
@@ -39,17 +39,28 @@ namespace Shopping4u.ViewModels
             base.UpdateProduct(orderedProduct);
             MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
-        public override void DeleteProduct(int productId)
+        public override void DeleteProduct(int orderedProductId)
         {
-            //I need to  get shoppingListId and BranchProductId, or orderedProduct if it is more easier 
-            //bl.DeleteOrderedProduct(productId);
-            base.DeleteProduct(productId);
+            myShoppingListModel.DeleteProduct(orderedProductId);
+            base.DeleteProduct(orderedProductId);
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 
         public void SaveShoppingList()
         {
+            myShoppingListModel.SaveShoppingList();
             MessageBox.Show("Save");
+            Clean();
+            
+
+        }
+
+        private void Clean()
+        {
+            
+            Products = new System.Collections.ObjectModel.ObservableCollection<OrderedProductViewModel>();
+            //change
+            shoppingListId = myShoppingListModel.NewShoppingList();
         }
     }
 }
