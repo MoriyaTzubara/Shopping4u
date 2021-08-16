@@ -10,6 +10,7 @@ using BE;
 using Shopping4u.BL;
 using Shopping4u.Commands;
 using Shopping4u.ViewModels;
+using Shopping4u.Extensions;
 
 namespace Shopping4u.ViewModels
 {
@@ -64,7 +65,10 @@ namespace Shopping4u.ViewModels
         public int Quantity
         { 
             get { return quantity; } 
-            set { quantity = value; OnPropertyChanged(); } 
+            set { 
+                quantity = value; 
+                OnPropertyChanged(); 
+            } 
         }
 
         private double unitPrice;
@@ -94,6 +98,8 @@ namespace Shopping4u.ViewModels
         public void ProductSelected(Product selectedProduct)
         {
             ImgUrl = selectedProduct.imageUrl;
+            Quantity = 1;
+            UnitPrice = 0;
             showProperBranches(selectedProduct.id);
         }
 
@@ -102,6 +108,15 @@ namespace Shopping4u.ViewModels
             BranchProductId = selectedBranchProduct.branchProductId;
             UnitPrice = selectedBranchProduct.price;
             Quantity = 1;
+        }
+        public void ScannedProduct(OrderedProduct orderedProduct)
+        {
+            ProductSelected(orderedProduct.GetProduct());
+            BranchProductSelected(orderedProduct.GetBranchProduct());
+            //PropertyChanged = new PropertyChangedEventHandler()
+            //ImgUrl = orderedProductViewModel.ImgUrl;
+            //Quantity = orderedProductViewModel.Quantity;
+            //UnitPrice = orderedProductViewModel.UnitPrice;
         }
     }
 }
