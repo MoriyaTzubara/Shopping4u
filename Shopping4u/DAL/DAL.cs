@@ -1321,7 +1321,7 @@ namespace Shopping4u.DAL
             }
             return result;
         }
-        public Dictionary<DateTime, int> OrderedProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
+        public Dictionary<DateTime, int> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
         {
             Dictionary<DateTime, int> result = new Dictionary<DateTime, int>();
             string query = $"SELECT date,COUNT(*) AS counter " +
@@ -1346,20 +1346,20 @@ namespace Shopping4u.DAL
             }
             return result;
         }
-        public Dictionary<DateTime, int> OrderedProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId)
+        public Dictionary<DateTime, int> ProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId)
         {
 
             Dictionary<DateTime, int> result = new Dictionary<DateTime, int>();
             while (start.AddDays(7) <= end)
             {
-                result[start] = OrderedProductBetweenTwoDatesByDay(start, start.AddDays(7), consumerId, productId).Sum(s => s.Value);
+                result[start] = ProductBetweenTwoDatesByDay(start, start.AddDays(7), consumerId, productId).Sum(s => s.Value);
                 start = start.AddDays(7);
             }
             if (start != end)
-                result[start] = OrderedProductBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId, productId).Sum(s => s.Value);
+                result[start] = ProductBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId, productId).Sum(s => s.Value);
             return result;
         }
-        public Dictionary<string, int> OrderedProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
+        public Dictionary<string, int> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
         {
             Dictionary<string, int> result = new Dictionary<string, int>();
             string query = $"SELECT MONTH(date) AS month,COUNT(*) AS counter " +

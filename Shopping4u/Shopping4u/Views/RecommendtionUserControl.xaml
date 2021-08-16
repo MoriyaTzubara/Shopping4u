@@ -73,11 +73,11 @@
                                           Path=DataContext.CreateProductCommand}">
                                         <i:InvokeCommandAction.CommandParameter>
                                             <MultiBinding Converter="{StaticResource ProductConverter}">
-                                                <Binding Path="Text" ElementName="branchProductId"/>
-                                                <Binding Path="Text" ElementName="unitPrice"/>
-                                                <Binding Path="Text" ElementName="quantity"/>
-                                                <Binding Path="Text" ElementName="shoppingListId"/>
-                                                <Binding Path="Text" ElementName="id"/>
+                                                <Binding Path="Text" ElementName="orderedProduct.branchProductId"/>
+                                                <Binding Path="Text" ElementName="orderedProduct.unitPrice"/>
+                                                <Binding Path="Text" ElementName="orderedProduct.quantity"/>
+                                                <Binding Path="Text" ElementName="orderedProduct.shoppingListId"/>
+                                                <Binding Path="Text" ElementName="orderedProduct.id"/>
                                             </MultiBinding>
                                         </i:InvokeCommandAction.CommandParameter>
                                     </i:InvokeCommandAction>
@@ -90,11 +90,11 @@
                     </Grid>
 
                     <!--Hiddens-->
-                    <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="{Binding branchProductId}"/>
-                    <TextBlock x:Name="unitPrice" Style="{StaticResource Hidden}" Text="{Binding unitPrice}"/>
-                    <TextBlock x:Name="quantity" Style="{StaticResource Hidden}" Text="{Binding quantity}"/>
-                    <TextBlock x:Name="shoppingListId" Style="{StaticResource Hidden}" Text="{Binding shoppingListId}"/>
-                    <TextBlock x:Name="id" Style="{StaticResource Hidden}" Text="{Binding id}"/>
+                    <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="{Binding orderedProduct.branchProductId}"/>
+                    <TextBlock x:Name="unitPrice" Style="{StaticResource Hidden}" Text="{Binding orderedProduct.unitPrice}"/>
+                    <TextBlock x:Name="quantity" Style="{StaticResource Hidden}" Text="{Binding orderedProduct.quantity}"/>
+                    <TextBlock x:Name="shoppingListId" Style="{StaticResource Hidden}" Text="{Binding orderedProduct.shoppingListId}"/>
+                    <TextBlock x:Name="id" Style="{StaticResource Hidden}" Text="{Binding orderedProduct.id}"/>
 
 
                     
