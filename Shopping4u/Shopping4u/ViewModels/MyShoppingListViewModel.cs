@@ -14,9 +14,12 @@ using System.Windows.Forms;
 namespace Shopping4u.ViewModels
 {
     public class MyShoppingListViewModel : ShoppingListViewModel
-    {       
+    {
+        private MyShoppingListModel myShoppingListModel;
+
         public MyShoppingListViewModel(MyShoppingListModel myShoppingListModel): base(myShoppingListModel)
         {
+            this.myShoppingListModel = myShoppingListModel;
             Title = "My Shopping List";
             CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true };
 
@@ -58,9 +61,14 @@ namespace Shopping4u.ViewModels
             {
                 imgUrl = of.FileName;
             }
+            if (imgUrl == "")
+                return;
+
             MessageBox.Show($"SCAN QR COde {imgUrl}");
-            OrderedProduct orderedProduct = ((MyShoppingListModel) ShoppingListModel).CreateProduct(imgUrl);
-            CreateProduct(orderedProduct);
+
+            OrderedProduct orderedProduct = myShoppingListModel.EncodeBarcode(imgUrl);
+            CreateProductViewModel.ScannedProduct(orderedProduct);
+            //CreateProduct(orderedProduct);
         }
         public void SaveShoppingList()
         {
