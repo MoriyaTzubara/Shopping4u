@@ -1000,56 +1000,6 @@ namespace Shopping4u.DAL
         }
         #endregion
         #region FILTERS
-        public Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
-        {
-            Dictionary<int, int> result = new Dictionary<int, int>();
-            string query = $"SELECT branchProductId,SUM(quantity) AS quantity " +
-                $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
-                $"GROUP BY branchProductId";
-            if (OpenConnection() == true)
-            {
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
-                    if (!result.ContainsKey((int)dataReader["branchProductId"]))
-                        result[(int)dataReader["branchProductId"]] = 0;
-                    result[(int)dataReader["branchProductId"]] += (int)dataReader["quantity"];
-                }
-                //close Data Reader
-                dataReader.Close();
-
-                //close Connection
-                CloseConnection();
-            }
-            return result;
-        }
-        public Dictionary<DateTime, double> ShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
-        {
-            Dictionary<DateTime, double> result = new Dictionary<DateTime, double>();
-            string query = $"SELECT date,SUM(quantity * unitPrice) AS expenses " +
-                $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
-                $"GROUP BY date";
-            if (OpenConnection() == true)
-            {
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
-                    if (!result.ContainsKey((DateTime)dataReader["date"]))
-                        result[(DateTime)dataReader["date"]] = 0;
-                    result[(DateTime)dataReader["date"]] += (double)dataReader["expenses"];
-                }
-                //close Data Reader
-                dataReader.Close();
-
-                //close Connection
-                CloseConnection();
-            }
-            return result;
-        }
         public Product GetProductByName(string name)
         {
             Product result = new Product();
@@ -1209,6 +1159,285 @@ namespace Shopping4u.DAL
                     if (!result.ContainsKey((DateTime)dataReader["date"]))
                         result[(DateTime)dataReader["date"]] = 0;
                     result[(DateTime)dataReader["date"]] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        #endregion
+        #region GRAPH
+        public Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
+        {
+            Dictionary<int, int> result = new Dictionary<int, int>();
+            string query = $"SELECT branchProductId,SUM(quantity) AS quantity " +
+                $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY branchProductId";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((int)dataReader["branchProductId"]))
+                        result[(int)dataReader["branchProductId"]] = 0;
+                    result[(int)dataReader["branchProductId"]] += (int)dataReader["quantity"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public Dictionary<DateTime, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId)
+        {
+            Dictionary<DateTime, double> result = new Dictionary<DateTime, double>();
+            string query = $"SELECT date, SUM(quantity * unitPrice) AS expenses " +
+                $"FROM (SELECT productId FROM baseProduct WHERE categoryId = {categoryId}) AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY date";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((DateTime)dataReader["date"]))
+                        result[(DateTime)dataReader["date"]] = 0;
+                    result[(DateTime)dataReader["date"]] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public Dictionary<DateTime, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId)
+        {
+
+            Dictionary<DateTime, double> result = new Dictionary<DateTime, double>();
+            while (start.AddDays(7) <= end)
+            {
+                result[start] = CategoryBetweenTwoDatesByDay(start, start.AddDays(7), consumerId, categoryId).Sum(s => s.Value);
+                start = start.AddDays(7);
+            }
+            if (start != end)
+                result[start] = CategoryBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId, categoryId).Sum(s => s.Value);
+            return result;
+        }
+        public Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int categoryId)
+        {
+            Dictionary<string, double> result = new Dictionary<string, double>();
+            string query = $"SELECT MONTH(date) AS month, SUM(quantity * unitPrice) AS expenses " +
+                $"FROM (SELECT productId FROM baseProduct WHERE categoryId = {categoryId}) AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY MONTH(date)";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((string)dataReader["month"]))
+                        result[(string)dataReader["month"]] = 0;
+                    result[(string)dataReader["month"]] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public Dictionary<DateTime, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId)
+        {
+            Dictionary<DateTime, double> result = new Dictionary<DateTime, double>();
+            string query = $"SELECT date, SUM(quantity * unitPrice) AS expenses " +
+                $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where branchId = {branchId} AND {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY date";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((DateTime)dataReader["date"]))
+                        result[(DateTime)dataReader["date"]] = 0;
+                    result[(DateTime)dataReader["date"]] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public Dictionary<DateTime, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId)
+        {
+
+            Dictionary<DateTime, double> result = new Dictionary<DateTime, double>();
+            while (start.AddDays(7) <= end)
+            {
+                result[start] = BranchBetweenTwoDatesByDay(start, start.AddDays(7), consumerId, branchId).Sum(s => s.Value);
+                start = start.AddDays(7);
+            }
+            if (start != end)
+                result[start] = BranchBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId, branchId).Sum(s => s.Value);
+            return result;
+        }
+        public Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId)
+        {
+            Dictionary<string, double> result = new Dictionary<string, double>();
+            string query = $"SELECT MONTH(date) AS month, SUM(quantity * unitPrice) AS expenses " +
+                $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where branchId = {branchId} AND {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY MONTH(date)";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((string)dataReader["month"]))
+                        result[(string)dataReader["month"]] = 0;
+                    result[(string)dataReader["month"]] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public Dictionary<DateTime, int> OrderedProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
+        {
+            Dictionary<DateTime, int> result = new Dictionary<DateTime, int>();
+            string query = $"SELECT date,COUNT(*) AS counter " +
+                $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where productId = {productId} AND {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY date";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((DateTime)dataReader["date"]))
+                        result[(DateTime)dataReader["date"]] = 0;
+                    result[(DateTime)dataReader["date"]] += (int)dataReader["counter"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public Dictionary<DateTime, int> OrderedProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId)
+        {
+
+            Dictionary<DateTime, int> result = new Dictionary<DateTime, int>();
+            while (start.AddDays(7) <= end)
+            {
+                result[start] = OrderedProductBetweenTwoDatesByDay(start, start.AddDays(7), consumerId, productId).Sum(s => s.Value);
+                start = start.AddDays(7);
+            }
+            if (start != end)
+                result[start] = OrderedProductBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId, productId).Sum(s => s.Value);
+            return result;
+        }
+        public Dictionary<string, int> OrderedProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
+        {
+            Dictionary<string, int> result = new Dictionary<string, int>();
+            string query = $"SELECT MONTH(date) AS month,COUNT(*) AS counter " +
+                $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where productId = {productId} AND {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY MONTH(date)";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((string)dataReader["month"]))
+                        result[(string)dataReader["month"]] = 0;
+                    result[(string)dataReader["month"]] += (int)dataReader["counter"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId)
+        {
+            Dictionary<DateTime, double> result = new Dictionary<DateTime, double>();
+            string query = $"SELECT date,SUM(quantity * unitPrice) AS expenses " +
+                $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY date";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((DateTime)dataReader["date"]))
+                        result[(DateTime)dataReader["date"]] = 0;
+                    result[(DateTime)dataReader["date"]] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+            }
+            return result;
+        }
+        public Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId)
+        {
+
+            Dictionary<DateTime, double> result = new Dictionary<DateTime, double>();
+            while (start.AddDays(7) <= end)
+            {
+                result[start] = ShoppingsBetweenTwoDatesByDay(start, start.AddDays(7), consumerId).Sum(s => s.Value);
+                start = start.AddDays(7);
+            }
+            if (start != end)
+                result[start] = ShoppingsBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId).Sum(s => s.Value);
+            return result;
+        }
+        public Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId)
+        {
+            Dictionary<string, double> result = new Dictionary<string, double>();
+            string query = $"SELECT MONTH(date) AS month, SUM(quantity * unitPrice) AS expenses " +
+                $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where {consumerId} = consumerId AND date BETWEEN {start} AND {end} " +
+                $"GROUP BY MONTH(date)";
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey((string)dataReader["month"]))
+                        result[(string)dataReader["month"]] = 0;
+                    result[(string)dataReader["month"]] += (double)dataReader["expenses"];
                 }
                 //close Data Reader
                 dataReader.Close();
