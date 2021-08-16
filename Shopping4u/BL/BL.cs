@@ -23,7 +23,7 @@ namespace Shopping4u.BL
         #region SIGN IN SIGN UP
         private bool ValidateConsumer(Consumer consumer)
         {
-            if (dal.GetConsumer(consumer.id) != new Consumer())
+            if (dal.GetConsumer(consumer.id) != null)
                 return false;
             //validate email?
             return true;

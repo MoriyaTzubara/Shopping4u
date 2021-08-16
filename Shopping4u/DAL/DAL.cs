@@ -202,7 +202,7 @@ namespace Shopping4u.DAL
         }
         public Consumer GetConsumer(int consumerId)
         {
-            Consumer result = new Consumer();
+            Consumer result = null;
             string query = $"SELECT * FROM consumer where {consumerId} = consumerId";
             if (OpenConnection() == true)
             {
@@ -756,6 +756,13 @@ namespace Shopping4u.DAL
         }
         public OrderedProduct InsertOrderedProduct(OrderedProduct orderedProduct)
         {
+            OrderedProduct orderedProductExists = GetShoppingList(orderedProduct.shoppingListId).products.FirstOrDefault(o => o.branchProductId == orderedProduct.branchProductId);
+            if (orderedProductExists != null)
+            {
+                orderedProductExists.quantity = orderedProductExists.quantity + 1;
+                UpdateOrderedProduct(orderedProductExists);
+                return orderedProductExists;
+            }
             if (OpenConnection() == true)
             {
                 string query = $"INSERT INTO orderedProduct (ShoppingListId, branchProductId, unitPrice,quantity) " +
