@@ -34,12 +34,19 @@ namespace Shopping4u.ViewModels
             SelectProductCommand = new SelectProductCommand(this);
             SelectBranchProductCommand = new SelectBranchProductCommand(this);
             ScanQRCodeCommand = new ScanQRCodeCommand(this);
+            SlecteImgCommand = new SlecteImgCommand(this);
+            SaveImageProductCommand = new SaveImageProductCommand(this);
 
-            
             ImgUrl = "";
             Quantity = 0;
             UnitPrice = 0;
 
+        }
+
+        public void SaveImageProduct(string imgUrl, int productId)
+        {
+            // TODO //
+            MessageBox.Show($"SaveImageProduct: imgUrl = {imgUrl}, productId = {productId}");
         }
 
         public ObservableCollection<BranchProductViewModel> Branches { get; set; }
@@ -50,14 +57,36 @@ namespace Shopping4u.ViewModels
         public SelectProductCommand SelectProductCommand { get; set; }
         public SelectBranchProductCommand SelectBranchProductCommand { get; set; }
         public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
+        public SlecteImgCommand SlecteImgCommand { get; set; }
+        public SaveImageProductCommand SaveImageProductCommand { get; set; }
 
         public event EventHandler<BranchProduct> BranchProductSelectedEvent;
         public event EventHandler<Product> ProductSelectedEvent;
 
+        public OrderedProduct orderedProduct { 
+            get
+            {
+                return new OrderedProduct()
+                {
+                    branchProductId = this.BranchProductId,
+                    quantity = this.Quantity,
+                    unitPrice = this.UnitPrice
+                };
+            }
+            set
+            {
+
+            }
+        }
+
         private string imgUrl;
         public string ImgUrl 
         { 
-            get { return imgUrl; } 
+            get {
+                if (imgUrl == null || imgUrl == "")
+                    return "\\Img\\default-img.png";
+                return imgUrl;
+            } 
             set { 
                 imgUrl = value;
                 OnPropertyChanged(); 
@@ -138,6 +167,7 @@ namespace Shopping4u.ViewModels
             UnitPrice = selectedBranchProduct.price;
             Quantity = 1;
             SelectedBranchProduct = selectedBranchProduct;
+            BranchProductId = selectedBranchProduct.branchProductId;
             BranchProductSelectedEvent(this, selectedBranchProduct);
         }
         public void ScannedProduct(OrderedProduct orderedProduct)
@@ -169,5 +199,19 @@ namespace Shopping4u.ViewModels
             ScannedProduct(orderedProduct);
         }
 
+        public void SlecteImage()
+        {
+            string imgUrl = "";
+            OpenFileDialog of = new OpenFileDialog();
+            //For any other formats
+            of.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+            if (of.ShowDialog() == DialogResult.OK)
+            {
+                imgUrl = of.FileName;
+            }
+            if (imgUrl == "")
+                return;
+            ImgUrl = imgUrl;
+        }
     }
 }

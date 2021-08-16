@@ -82,10 +82,12 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ExportRecommendedListToPDFCommand.cs" />
     <Compile Include="Commands\IgnoreRecommendationCommand.cs" />
+    <Compile Include="Commands\SaveImageProductCommand.cs" />
     <Compile Include="Commands\SaveShoppingListCommand.cs" />
     <Compile Include="Commands\ScanQRCodeCommand.cs" />
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
+    <Compile Include="Commands\SlecteImgCommand.cs" />
     <Compile Include="Extensions\ProductExtension.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\MyShoppingListModel.cs" />
@@ -242,7 +244,9 @@
       <Name>Shopping4u.BL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Img\default-img.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Img\milk.jpg" />
   </ItemGroup>
