@@ -21,10 +21,10 @@ namespace Shopping4u.Views
     /// </summary>
     public partial class LineChartUserControl : UserControl
     {
-        public LineChartUserControl(ChartViewModel<double> statisticViewModel)
+        public LineChartUserControl(ILineChartViewModel lineChartViewModel)
         {
             InitializeComponent();
-            DataContext = statisticViewModel;
+            DataContext = lineChartViewModel;
         }
     }
 }
