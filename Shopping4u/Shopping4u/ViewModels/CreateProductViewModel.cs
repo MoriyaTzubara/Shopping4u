@@ -104,13 +104,17 @@ namespace Shopping4u.ViewModels
 
 
         public bool CanScanQRCode { get; set; }
-
+        public bool CanSaveShoppingList { get; set; }
         public string ScanQRCodeVisibility
         {
             get => CanScanQRCode ? "Visible" : "Collapsed";
             private set { }
         }
-
+        public string SaveShoppingListVisibility
+        {
+            get => CanSaveShoppingList ? "Visible" : "Collapsed";
+            private set { }
+        }
 
         private void showProperBranches(int productId)
         {

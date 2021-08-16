@@ -82,7 +82,8 @@
             <!--SAVE-->
             <Button Grid.Column="2" Margin="20 0" 
                     Command="{Binding SaveShoppingListCommand}"
-                    Style="{StaticResource MaterialDesignFlatButton}">
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Visibility="{Binding SaveShoppingListVisibility}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20*"/>

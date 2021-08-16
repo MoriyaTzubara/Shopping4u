@@ -385,6 +385,7 @@ namespace Shopping4u.BL
             bool Xexists = true;
             if(rules.StrongRules.Count() != 0)
             {
+                rules.StrongRules = rules.StrongRules.OrderByDescending(r => r.Confidence).ToList();
                 foreach (Rule rule in rules.StrongRules)
                 {
                     List<int> combination = rule.X.Split(',').Select(x => int.Parse(x)).ToList();
@@ -406,7 +407,8 @@ namespace Shopping4u.BL
             }
             if(result.Count() == 0 && rules.FrequentItems.Count() != 0)
             {
-                foreach (Item item in rules.FrequentItems)
+                List<Item> FrequentItems = rules.FrequentItems.OrderByDescending(item => item.Support).ToList();
+                foreach (Item item in FrequentItems)
                 {
                     foreach (string itemId in item.Name.Split(',').ToList())
                     {

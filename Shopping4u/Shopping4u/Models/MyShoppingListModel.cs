@@ -37,8 +37,10 @@ namespace Shopping4u.Models
             IBL bl = new BL.BL();
             bl.UpdateOrderedProduct(orderedProduct);
         }
-        public void DeleteProduct(int productId)
+        public void DeleteProduct(int orderedProductId)
         {
+            IBL bl = new BL.BL();
+            bl.DeleteOrderedProduct(orderedProductId);
         }
 
     }
