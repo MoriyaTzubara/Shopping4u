@@ -15,7 +15,17 @@
                     <RowDefinition Height="10*"/>
                     <RowDefinition Height="90*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding Title}" />
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="{Binding Title}" Grid.Column="0"/>
+                    <ComboBox ItemsSource="{Binding Options}" Grid.Column="1"/>
+                    
+                </Grid>
 
 
                 <Grid Grid.Row="1">

@@ -86,9 +86,13 @@
     <Compile Include="Commands\SaveShoppingListCommand.cs" />
     <Compile Include="Commands\ScanQRCodeCommand.cs" />
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
+    <Compile Include="Commands\SelectDatesCommand.cs" />
+    <Compile Include="Commands\SelectOptionCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
     <Compile Include="Commands\SlecteImgCommand.cs" />
     <Compile Include="Extensions\ProductExtension.cs" />
+    <Compile Include="Models\Charts\BranchesChartModel.cs" />
+    <Compile Include="Models\Charts\CategoriesChartModel.cs" />
     <Compile Include="Models\Charts\ProductsChartModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\MyShoppingListModel.cs" />
@@ -99,6 +103,8 @@
     <Compile Include="Models\ShoppingListModel.cs" />
     <Compile Include="Models\IChartModel.cs" />
     <Compile Include="ViewModels\BranchProductViewModel.cs" />
+    <Compile Include="ViewModels\Charts\BranchesChartViewModel.cs" />
+    <Compile Include="ViewModels\Charts\CategoriesChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\ProductsChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\PieChartViewModel.cs" />
     <Compile Include="ViewModels\RecommendtionViewModel.cs" />

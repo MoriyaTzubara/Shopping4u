@@ -9,31 +9,31 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.Models.Charts
 {
-    public class ProductsChartModel : ILineChartModel<Product>
+    public class CategoriesChartModel : ILineChartModel<string>
     {
-        public Dictionary<string, double> getData(int productId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
+        public Dictionary<string, double> getData(int categoryId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
         {
             // TODO //
             IBL bl = new BL.BL();
             switch (aggregateBy)
             {
                 case AggregateBy.MONTH:
-                    return bl.ProductBetweenTwoDatesByMonth(startDate, endDate, 123, productId);
+                    return bl.CategoryBetweenTwoDatesByMonth(startDate, endDate, 123, categoryId);
                 case AggregateBy.WEEK:
-                    return bl.ProductBetweenTwoDatesByWeek(startDate, endDate, 123, productId);
+                    return bl.CategoryBetweenTwoDatesByWeek(startDate, endDate, 123, categoryId);
                 case AggregateBy.DAY:
-                    return bl.ProductBetweenTwoDatesByDay(startDate, endDate, 123, productId);
+                    return bl.CategoryBetweenTwoDatesByDay(startDate, endDate, 123, categoryId);
                 default:
                     break;
             }
             return new Dictionary<string, double>();
         }
 
-        public IEnumerable<Product> getOption()
+        public IEnumerable<string> getOption()
         {
             // TODO //
             IBL bl = new BL.BL();
-            return bl.GetProducts();
+            return bl.GetCategoriesNames();
         }
     }
 }

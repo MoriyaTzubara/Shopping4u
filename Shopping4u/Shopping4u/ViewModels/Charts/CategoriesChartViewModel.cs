@@ -10,24 +10,25 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.ViewModels.Charts
 {
-    public class ProductsChartViewModel : ILineChartViewModel
+    public class CategoriesChartViewModel : ILineChartViewModel
     {
-        private ProductsChartModel productsChartModel;
-        public ProductsChartViewModel()
+        private CategoriesChartModel CategorysChartModel;
+        public CategoriesChartViewModel()
         {
-            productsChartModel = new ProductsChartModel();
+            CategorysChartModel = new CategoriesChartModel();
             Options = getOption();
-            CurrentProduct = Options.ElementAtOrDefault(0) as Product;
+            CurrentCategory = Options.ElementAtOrDefault(0) as string;
 
-            Data = productsChartModel.getData(CurrentProduct.id, AggregateBy.WEEK, DateTime.Now, DateTime.Now.AddDays(7));
+            Data = CategorysChartModel.getData(CurrentCategory, AggregateBy.WEEK, DateTime.Now, DateTime.Now.AddDays(7));
             setSeriesCollection(Data);
         }
 
         public Dictionary<string, double> Data { get; set; }
         public SeriesCollection SeriesCollection { get; set; }
         public IEnumerable<object> Options { get; set; }
-        public Product CurrentProduct { get; set; }
-        
+        public string CurrentCategory { get; set; }
+
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
@@ -40,23 +41,24 @@ namespace Shopping4u.ViewModels.Charts
 
         }
 
-        public Dictionary<string, double> getData(int productId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
+
+        public Dictionary<string, double> getData(int CategoryId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
         {
             // TODO //
-            return productsChartModel.getData(productId, aggregateBy, startDate, endDate);
+            return CategorysChartModel.getData(CategoryId, aggregateBy, startDate, endDate);
         }
 
-        public IEnumerable<Product> getOption()
+        public IEnumerable<string> getOption()
         {
             // TODO //
-            return productsChartModel.getOption();
+            return CategorysChartModel.getOption();
 
         }
 
         public void setSeriesCollection(Dictionary<string, double> data)
         {
             // TODO //
-            
+
             SeriesCollection = new SeriesCollection
             {
                 new LineSeries

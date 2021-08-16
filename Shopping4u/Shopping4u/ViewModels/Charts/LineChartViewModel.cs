@@ -15,6 +15,12 @@ namespace Shopping4u.ViewModels
         SeriesCollection SeriesCollection { get; set; }
         IEnumerable<object> Options { get; set; }
 
-        void setSeriesCollection();
+        DateTime StartDate { get; set; }
+        DateTime EndDate { get; set; }
+
+        void selectOption(object option);
+        void selectDates(DateTime start, DateTime end);
+
+        void setSeriesCollection(Dictionary<string, double> data);
     }
 }
