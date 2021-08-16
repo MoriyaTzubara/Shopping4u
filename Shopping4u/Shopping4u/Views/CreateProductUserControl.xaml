@@ -44,7 +44,8 @@
 
                 <!--Product Name-->
                 <Grid Grid.Column="1" Margin="0 0 10 0">
-                    <ComboBox x:Name="Products" ItemsSource="{Binding Path=Products}" IsTextSearchEnabled="True" FontWeight="Bold">
+                    <ComboBox x:Name="Products" 
+                             ItemsSource="{Binding Path=Products}" IsTextSearchEnabled="True" FontWeight="Bold">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding SelectProductCommand}" 
@@ -111,9 +112,7 @@
                                 Visibility="{Binding ScanQRCodeVisibility}"
                         
                         Style="{StaticResource CRUD}" 
-                        Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-                                          AncestorType={x:Type local:ShoppingListPage}}, 
-                                          Path=DataContext.ScanQRCodeCommand}"
+                        Command="{Binding ScanQRCodeCommand}"
                         CommandParameter="false">
                             <materialDesign:PackIcon Kind="QrcodeScan" Style="{StaticResource Icon}" />
                         </Button>

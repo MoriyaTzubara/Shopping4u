@@ -34,7 +34,7 @@ namespace Shopping4u.BL
         ShoppingList CreateUnapprovedShoppingList(int consumerId);
         void InsertApprovedShoppingList(ShoppingList shoppingList);
         void InsertOrderedProducts(List<OrderedProduct> orderedProducts, int shoppingListId);
-        OrderedProduct EncodeOrderedProductString(string orderedProductText, int shoppingListId);
+        OrderedProduct EncodeOrderedProductString(string orderedProductText);
         void InsertOrderedProduct(OrderedProduct orderedProduct);
         void InsertBaseProduct(Product product);
         Branch InsertBranch(Branch branch);

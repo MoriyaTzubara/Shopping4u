@@ -62,7 +62,7 @@ namespace Shopping4u.ViewModels
         }
 
 
-        public CreateProductViewModel CreateProductViewModel;
+        public CreateProductViewModel CreateProductViewModel { get; set; }
 
         private bool isShowCreateProduct;
         public bool IsShowCreateProduct {

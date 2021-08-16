@@ -24,14 +24,10 @@ namespace Shopping4u.ViewModels
             CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true };
 
             SaveShoppingListCommand = new SaveShoppingListCommand(this);
-
-            ScanQRCodeCommand = new ScanQRCodeCommand(this);
         }
 
         public SaveShoppingListCommand SaveShoppingListCommand { get; set; }
         
-        public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
-
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             // needs to get the source of the image of the barcode
@@ -51,25 +47,6 @@ namespace Shopping4u.ViewModels
             MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 
-        public void ScanQRCode()
-        {
-            string imgUrl = "";
-            OpenFileDialog of = new OpenFileDialog();
-            //For any other formats
-            of.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
-            if (of.ShowDialog() == DialogResult.OK)
-            {
-                imgUrl = of.FileName;
-            }
-            if (imgUrl == "")
-                return;
-
-            MessageBox.Show($"SCAN QR COde {imgUrl}");
-
-            OrderedProduct orderedProduct = myShoppingListModel.EncodeBarcode(imgUrl);
-            CreateProductViewModel.ScannedProduct(orderedProduct);
-            //CreateProduct(orderedProduct);
-        }
         public void SaveShoppingList()
         {
             MessageBox.Show("Save");

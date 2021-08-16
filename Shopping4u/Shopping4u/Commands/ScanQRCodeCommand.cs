@@ -15,11 +15,11 @@ namespace Shopping4u.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        private MyShoppingListViewModel myShoppingListViewModel;
+        private CreateProductViewModel createProductViewModel;
 
-        public ScanQRCodeCommand(MyShoppingListViewModel myShoppingListViewModel)
+        public ScanQRCodeCommand(CreateProductViewModel createProductViewModel)
         {
-            this.myShoppingListViewModel = myShoppingListViewModel;
+            this.createProductViewModel = createProductViewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -29,7 +29,7 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            myShoppingListViewModel.ScanQRCode();
+            createProductViewModel.ScanQRCode();
         }
     }
 }

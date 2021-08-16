@@ -15,18 +15,40 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Shopping4u.ViewModels;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Shopping4u.Extensions;
 
 namespace Shopping4u
 {
     /// <summary>
     /// Interaction logic for CreateProductUserControl.xaml
     /// </summary>
-    public partial class CreateProductUserControl : UserControl
+    public partial class CreateProductUserControl : UserControl, INotifyPropertyChanged
     {
+        public CreateProductViewModel CreateProductViewModel { get; set; }
         public CreateProductUserControl(CreateProductViewModel createProductViewModel)
         {
             InitializeComponent();
-            DataContext = createProductViewModel;
+            CreateProductViewModel = createProductViewModel;
+            DataContext = CreateProductViewModel;
+            CreateProductViewModel.ProductSelectedEvent += SelectProduct;
+            CreateProductViewModel.BranchProductSelectedEvent += SelectBranchProduct;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void SelectBranchProduct(object sender, BranchProduct branchProduct)
+        {
+            this.Branches.SelectedItem = Branches.Items.OfType<BranchProductViewModel>().FirstOrDefault(p => p.branchProduct.branchProductId == branchProduct.branchProductId);
+        }
+        public void SelectProduct(object sender, Product product)
+        {
+            this.Products.SelectedItem = Products.Items.OfType<Product>().FirstOrDefault(p => p.id == product.id);
         }
     }
 }
