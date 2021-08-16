@@ -9,7 +9,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              Height="100" Width="800"
-             >
+             x:Name="this">
 
     <materialDesign:Card>
         <Border Margin="10 30">
@@ -34,12 +34,18 @@
                 <TextBlock x:Name="branchProductId" Style="{StaticResource Hidden}" Text="{Binding BranchProductId}"/>
                 <!--BranchProductId (hidden field only for the converter)-->
                 <TextBlock x:Name="id" Style="{StaticResource Hidden}" Text="-1"/>
+                <!--BranchProductId (hidden field only for the converter)-->
+                <TextBlock x:Name="imgUrl" Style="{StaticResource Hidden}" Text="{Binding ImgUrl}"/>
 
 
 
                 <!--Image-->
-                <Grid Grid.Column="0"  Margin="-10 -30 0 -30">
-                    <Image Source="{Binding ImgUrl}"/>
+                <Grid Grid.Column="0"  Margin="5 -15 15 -15" Cursor="Hand">
+                    <Image Source="{Binding ImgUrl}">
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick" Command="{Binding SlecteImgCommand}" />
+                        </Image.InputBindings>
+                    </Image>
                 </Grid>
 
                 <!--Product Name-->
@@ -120,20 +126,29 @@
                         <!--Create-->
                         <Button ToolTip="Save changes"
                             Grid.Column="0"
-                        Style="{StaticResource CRUD}" 
-                        Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                        Style="{StaticResource CRUD}" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding SaveImageProductCommand}"
+                                                           CommandParameter="{Binding ElementName=this, Path=DataContext}"/>
+                                    
+                                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                           AncestorType={x:Type local:ShoppingListPage}}, 
                                           Path=DataContext.CreateProductCommand}">
-                            <Button.CommandParameter>
-                                <MultiBinding Converter="{StaticResource ProductConverter}">
-                                    <Binding Path="Text" ElementName="branchProductId"/>
-                                    <Binding Path="Text" ElementName="unitPrice"/>
-                                    <Binding Path="Text" ElementName="quantity"/>
-                                    <Binding Path="Text" ElementName="shoppingListId"/>
-                                    <Binding Path="Text" ElementName="id"/>
-                                </MultiBinding>
-                            </Button.CommandParameter>
-
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource ProductConverter}">
+                                                <Binding Path="Text" ElementName="branchProductId"/>
+                                                <Binding Path="Text" ElementName="unitPrice"/>
+                                                <Binding Path="Text" ElementName="quantity"/>
+                                                <Binding Path="Text" ElementName="shoppingListId"/>
+                                                <Binding Path="Text" ElementName="id"/>
+                                                <Binding Path="Text" ElementName="imgUrl"/>
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                    
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <materialDesign:PackIcon Kind="Check" Style="{StaticResource Icon}" />
                         </Button>
 
