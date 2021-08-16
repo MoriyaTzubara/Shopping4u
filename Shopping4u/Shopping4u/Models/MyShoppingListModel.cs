@@ -30,7 +30,6 @@ namespace Shopping4u.Models
             IBL bl = new BL.BL();
             string productText = bl.EncodeBarcode(imgUrl);
             OrderedProduct product = bl.InsertOrderedProduct(productText, shoppingListId);
-            Products.ToList().Add(product);
             return product;
         }
         public void CreateProduct(OrderedProduct orderedProduct)
