@@ -12,7 +12,7 @@ namespace Shopping4u.ViewModels
 {
     public class RecommendtionViewModel
     {
-        public OrderedProduct orderedProduct;
+        public OrderedProduct orderedProduct { get; set; }
 
         public RecommendtionViewModel(OrderedProduct orderedProduct)
         {

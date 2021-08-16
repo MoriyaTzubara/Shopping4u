@@ -67,20 +67,12 @@
 
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding IgnoreRecommendationCommand}" CommandParameter="{Binding ElementName=this}"/>
                                     <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                           AncestorType={x:Type local:MainWindow}}, 
-                                          Path=DataContext.CreateProductCommand}">
-                                        <i:InvokeCommandAction.CommandParameter>
-                                            <MultiBinding Converter="{StaticResource ProductConverter}">
-                                                <Binding Path="Text" ElementName="branchProductId"/>
-                                                <Binding Path="Text" ElementName="unitPrice"/>
-                                                <Binding Path="Text" ElementName="quantity"/>
-                                                <Binding Path="Text" ElementName="shoppingListId"/>
-                                                <Binding Path="Text" ElementName="id"/>
-                                            </MultiBinding>
-                                        </i:InvokeCommandAction.CommandParameter>
+                                          Path=DataContext.CreateProductCommand}"
+                                                           CommandParameter="{Binding ElementName=this, Path=DataContext.orderedProduct}">
                                     </i:InvokeCommandAction>
+                                    <i:InvokeCommandAction Command="{Binding IgnoreRecommendationCommand}" CommandParameter="{Binding ElementName=this}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
