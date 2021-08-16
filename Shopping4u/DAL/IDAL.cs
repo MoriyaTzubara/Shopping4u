@@ -26,6 +26,7 @@ namespace Shopping4u.DAL
         string[] GetShoppingLists();
         IEnumerable<string> GetProductsIdInList();
         string GetProductsIdOfList(int shoppingListId);
+        Consumer GetConsumer(string email);
         IEnumerable<string> GetProductsNamesInList();
         List<BranchProduct> GetBranchProductsOfSpecificProduct(int productId);
         List<string> GetProductsNameOfSpecificBranch(int branchId);
@@ -40,7 +41,7 @@ namespace Shopping4u.DAL
         void InsertBaseProduct(Product product);
         Branch InsertBranch(Branch branch);
         BranchProduct InsertBranchProduct(Product product,Branch branch, double price);
-        void InsertConsumer(Consumer consumer);
+        Consumer InsertConsumer(Consumer consumer);
         #endregion
         #region UPDATE
         void UpdateProductPicture(string url, int productId);
@@ -60,9 +61,9 @@ namespace Shopping4u.DAL
         IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName);
         #endregion
         #region GRAPH
-        Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId);
-        Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId);
-        Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int categoryId);
+        Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, string categoryName);
+        Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, string categoryName);
+        Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, string categoryName);
         Dictionary<string, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId);
         Dictionary<string, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId);
         Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId);

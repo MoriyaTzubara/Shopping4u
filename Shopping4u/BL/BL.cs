@@ -37,9 +37,12 @@ namespace Shopping4u.BL
             }
             return false;
         }
-        public bool SignIn(int consumerId,string password)
+        public Consumer GetConsumer(string email) {
+            return dal.GetConsumer(email);
+        }
+        public bool SignIn(string email,string password)
         {
-            Consumer consumer = GetConsumer(consumerId);
+            Consumer consumer = GetConsumer(email);
             if (consumer.password != password)
                 return false;
             return true;
@@ -230,9 +233,9 @@ namespace Shopping4u.BL
             return dal.InsertBranchProduct(product, branch, price);
         }
 
-        public void InsertConsumer(Consumer consumer)
+        public Consumer InsertConsumer(Consumer consumer)
         {
-            dal.InsertConsumer(consumer);
+            return dal.InsertConsumer(consumer);
         }
         #endregion
         #region UPDATE
@@ -319,17 +322,17 @@ namespace Shopping4u.BL
         }
         #endregion
         #region GRAPH
-        public Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId)
+        public Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, string categoryName)
         {
-            return dal.CategoryBetweenTwoDatesByDay(start, end, consumerId, categoryId);
+            return dal.CategoryBetweenTwoDatesByDay(start, end, consumerId, categoryName);
         }
-        public Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId)
+        public Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, string categoryName)
         {
-            return dal.CategoryBetweenTwoDatesByWeek(start, end, consumerId, categoryId);
+            return dal.CategoryBetweenTwoDatesByWeek(start, end, consumerId, categoryName);
         }
-        public Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int categoryId)
+        public Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, string categoryName)
         {
-            return dal.CategoryBetweenTwoDatesByMonth(start, end, consumerId, categoryId);
+            return dal.CategoryBetweenTwoDatesByMonth(start, end, consumerId, categoryName);
         }
         public Dictionary<string, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId)
         {

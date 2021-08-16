@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.Models.Charts
 {
-    public class BranchesChartModel : ILineChartModel<Branch>
+    public class BranchesChartModel : ILineChartModel<Branch,int>
     {
         public Dictionary<string, double> getData(int branchId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
         {
@@ -18,11 +18,11 @@ namespace Shopping4u.Models.Charts
             switch (aggregateBy)
             {
                 case AggregateBy.MONTH:
-                    return bl.BranchBetweenTwoDatesByMonth(startDate, endDate, 123, branchId);
+                    return bl.BranchBetweenTwoDatesByMonth(startDate, endDate.AddYears(1), 1, branchId);
                 case AggregateBy.WEEK:
-                    return bl.BranchBetweenTwoDatesByWeek(startDate, endDate, 123, branchId);
+                    return bl.BranchBetweenTwoDatesByWeek(startDate, endDate.AddMonths(1), 1, branchId);
                 case AggregateBy.DAY:
-                    return bl.BranchBetweenTwoDatesByDay(startDate, endDate, 123, branchId);
+                    return bl.BranchBetweenTwoDatesByDay(startDate, endDate.AddDays(7), 1, branchId);
                 default:
                     break;
             }
