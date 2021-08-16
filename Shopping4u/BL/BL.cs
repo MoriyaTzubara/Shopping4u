@@ -23,7 +23,7 @@ namespace Shopping4u.BL
         #region SIGN IN SIGN UP
         private bool ValidateConsumer(Consumer consumer)
         {
-            if (dal.GetConsumer(consumer.id) != new Consumer())
+            if (dal.GetConsumer(consumer.id) != null)
                 return false;
             //validate email?
             return true;
@@ -185,7 +185,7 @@ namespace Shopping4u.BL
             dal.InsertOrderedProducts(orderedProducts, shoppingListId);
         }
 
-        public OrderedProduct InsertOrderedProduct(string orderedProductText, int shoppingListId)
+        public OrderedProduct EncodeOrderedProductString(string orderedProductText, int shoppingListId)
         {
             // id, nameOfBranch, nameOfProduct, price
             string[] barcodeText = orderedProductText.Split(',');
@@ -209,7 +209,7 @@ namespace Shopping4u.BL
                 unitPrice = price,
                 quantity = 1
             };
-            return dal.InsertOrderedProduct(orderedProduct);
+            return orderedProduct;
         }
         public void InsertOrderedProduct(OrderedProduct orderedProduct)
         {
