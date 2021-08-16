@@ -61,7 +61,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -81,6 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ExportRecommendedListToPDFCommand.cs" />
+    <Compile Include="Commands\GoToSignInPageCommand.cs" />
     <Compile Include="Commands\IgnoreRecommendationCommand.cs" />
     <Compile Include="Commands\ScanQRCodeCommand.cs" />
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
@@ -94,11 +98,13 @@
     <Compile Include="Models\RecommendtionModel.cs" />
     <Compile Include="Models\ShoppingListModel.cs" />
     <Compile Include="Models\IChartModel.cs" />
+    <Compile Include="Models\SignInModel.cs" />
     <Compile Include="ViewModels\BranchProductViewModel.cs" />
     <Compile Include="ViewModels\PieChartViewModel.cs" />
     <Compile Include="ViewModels\RecommendtionViewModel.cs" />
     <Compile Include="ViewModels\LineChartViewModel.cs" />
     <Compile Include="ViewModels\ChartViewModel.cs" />
+    <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="Views\CartesianChartUserControl.xaml.cs">
       <DependentUpon>CartesianChartUserControl.xaml</DependentUpon>
     </Compile>
@@ -133,6 +139,9 @@
     </Compile>
     <Compile Include="Views\ShoppingHistoryPage.xaml.cs">
       <DependentUpon>ShoppingHistoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SignInPage.xaml.cs">
+      <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatisticsPage.xaml.cs">
       <DependentUpon>StatisticsPage.xaml</DependentUpon>
@@ -192,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShoppingHistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SignInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

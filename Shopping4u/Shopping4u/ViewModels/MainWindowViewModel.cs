@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
+using Shopping4u.Views;
 
 namespace Shopping4u.ViewModels
 {
@@ -20,6 +21,7 @@ namespace Shopping4u.ViewModels
         public ShoppingListPage myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel(new MyShoppingListModel()));
         public ShoppingHistoryPage shoppingHistoryPage = new ShoppingHistoryPage();
         public StatisticsPage statisticsPage = new StatisticsPage();
+        public SignInPage signInPage = new SignInPage(new SignInViewModel());
 
 
         public GoToRecommendedShoppingListPageCommand GoToRecommendedShoppingListPageCommand { get; set; }
@@ -27,6 +29,7 @@ namespace Shopping4u.ViewModels
         public GoToMyShoppingListPageCommand GoToMyShoppingListPageCommand { get; set;}
         public GoToShoppingHistoryPageCommand GoToShoppingHistoryPageCommand { get; set; }
         public GoToStatisticsPageCommand GoToStatisticsPageCommand { get; set; }
+        public GoToSignInPageCommand GoToSignInPageCommand { get; set; }
 
         public CreateProductCommand CreateProductCommand { get; set; }
 
@@ -46,6 +49,7 @@ namespace Shopping4u.ViewModels
             GoToMyShoppingListPageCommand = new GoToMyShoppingListPageCommand(mainWindow);
             GoToShoppingHistoryPageCommand = new GoToShoppingHistoryPageCommand(mainWindow);
             GoToStatisticsPageCommand = new GoToStatisticsPageCommand(mainWindow);
+            GoToSignInPageCommand = new GoToSignInPageCommand(mainWindow);
 
             
         }

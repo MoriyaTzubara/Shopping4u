@@ -34,7 +34,10 @@ namespace Shopping4u
             MainWindowViewModel = new MainWindowViewModel(this);
             DataContext = MainWindowViewModel;
 
-            goToPage(MainWindowViewModel.homePage);
+            if (App.Consumer != null)
+                GoToHomePage();
+            else
+                GoToSignInPage();
             MainWindowViewModel.AddedRecommendtionEvent += addRecommendtion;
         }
 
@@ -62,6 +65,11 @@ namespace Shopping4u
         public void GoToStatisticsPage()
         {
             goToPage(MainWindowViewModel.statisticsPage);
+        }
+
+        public void GoToSignInPage()
+        {
+            goToPage(MainWindowViewModel.signInPage);
         }
 
         private void goToPage(UserControl page)
