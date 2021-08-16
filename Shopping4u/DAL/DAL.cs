@@ -323,7 +323,8 @@ namespace Shopping4u.DAL
             List<string> result = new List<string>();
             List<int> shoppingListsId = new List<int>();
             string query = "SELECT shoppingListId " +
-                "FROM shoppinglist ";
+                "FROM shoppinglist " +
+                $"WHERE approved = {true}";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -703,7 +704,7 @@ namespace Shopping4u.DAL
             if (result.id != 0)
                 return result;
             result = new ShoppingList { date = DateTime.Now, consumerId = consumerId, approved = false, products = new List<OrderedProduct>() };
-            string query = $"INSERT INTO shoppingList (consumerId, date,approved) VALUES({result.consumerId}, {result.date},{result.approved})";
+            string query = $"INSERT INTO shoppingList (consumerId, date,approved) VALUES({result.consumerId}, '{result.date.ToString("yyyy-MM-dd")}',{result.approved})";
             //open connection
             if (OpenConnection() == true)
             {
@@ -759,7 +760,7 @@ namespace Shopping4u.DAL
             OrderedProduct orderedProductExists = GetShoppingList(orderedProduct.shoppingListId).products.FirstOrDefault(o => o.branchProductId == orderedProduct.branchProductId);
             if (orderedProductExists != null)
             {
-                orderedProductExists.quantity = orderedProductExists.quantity + 1;
+                orderedProductExists.quantity += orderedProduct.quantity;
                 UpdateOrderedProduct(orderedProductExists);
                 return orderedProductExists;
             }
@@ -970,11 +971,11 @@ namespace Shopping4u.DAL
                 CloseConnection();
             }
         }
-        public void UpdateShoppingList(int shoppingListId)
+        public void SaveShoppingList(int shoppingListId)
         {
             if (OpenConnection() == true)
             {
-                string query = $"UPDATE shoppingList set approved = {true} " +
+                string query = $"UPDATE shoppingList set approved = {true},date = '{DateTime.Now.ToString("yyyy-MM-dd")}' " +
                     $"where shoppingListId = {shoppingListId}";
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();

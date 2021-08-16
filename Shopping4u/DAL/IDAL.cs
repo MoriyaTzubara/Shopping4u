@@ -45,7 +45,7 @@ namespace Shopping4u.DAL
         #region UPDATE
         void UpdateProductPicture(string url, int productId);
         void UpdateOrderedProduct(OrderedProduct orderedProduct);
-        void UpdateShoppingList(int shoppingListId);
+        void SaveShoppingList(int shoppingListId);
         #endregion
         #region DELETE
         void DeleteOrderedProduct(int orderedProductId);

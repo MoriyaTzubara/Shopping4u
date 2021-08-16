@@ -244,9 +244,9 @@ namespace Shopping4u.BL
         {
             dal.UpdateProductPicture(downloadUrl, productId);
         }
-        public void UpdateShoppingList(int shoppingListId)
+        public void SaveShoppingList(int shoppingListId)
         {
-            dal.UpdateShoppingList(shoppingListId);
+            dal.SaveShoppingList(shoppingListId);
         }
         #endregion
         #region DELETE
@@ -388,6 +388,7 @@ namespace Shopping4u.BL
                 rules.StrongRules = rules.StrongRules.OrderByDescending(r => r.Confidence).ToList();
                 foreach (Rule rule in rules.StrongRules)
                 {
+                    Xexists = true;
                     List<int> combination = rule.X.Split(',').Select(x => int.Parse(x)).ToList();
                     foreach (int productId in combination)
                     {
