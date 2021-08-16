@@ -47,7 +47,10 @@
 
                 <!--Price Per Unit-->
                 <Grid Grid.Column="3">
-                    <TextBlock VerticalAlignment="Center" x:Name="unitPrice" FontSize="15" Text="{Binding UnitPrice}" TextAlignment="Center"/>
+                    <TextBlock VerticalAlignment="Center" x:Name="unitPrice" FontSize="15" TextAlignment="Center">
+                        <Run Text="{Binding UnitPrice}"/>
+                        <Run Text="$"/>
+                    </TextBlock>
                 </Grid>
 
                 <!--Branch-->
@@ -153,7 +156,7 @@
                         Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                           AncestorType={x:Type local:ShoppingListPage}}, 
                                           Path=DataContext.DeleteProductCommand}"
-                        CommandParameter="{Binding ElementName=branchProductId, Path=Text}">
+                        CommandParameter="{Binding ElementName=id, Path=Text}">
                             <materialDesign:PackIcon Kind="close" Style="{StaticResource Icon}"/>
                         </Button>
                     </WrapPanel>

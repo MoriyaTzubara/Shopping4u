@@ -41,6 +41,7 @@ namespace Shopping4u.ViewModels
             shoppingListId = shoppingListModel.shoppingListId;
         }
 
+
         internal void ExportRecommendedListToPDF()
         {
             MessageBox.Show("Export to PDF");

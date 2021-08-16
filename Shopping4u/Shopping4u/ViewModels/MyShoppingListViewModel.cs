@@ -20,15 +20,19 @@ namespace Shopping4u.ViewModels
             Title = "My Shopping List";
             CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true };
 
+            SaveShoppingListCommand = new SaveShoppingListCommand(this);
+
             ScanQRCodeCommand = new ScanQRCodeCommand(this);
         }
+
+        public SaveShoppingListCommand SaveShoppingListCommand { get; set; }
         
         public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             // needs to get the source of the image of the barcode
-            base.CreateProduct(orderedProduct);   
+            base.CreateProduct(orderedProduct);
             MessageBox.Show("CreateProduct @ MyShoppingList");
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
@@ -57,6 +61,10 @@ namespace Shopping4u.ViewModels
             MessageBox.Show($"SCAN QR COde {imgUrl}");
             OrderedProduct orderedProduct = ((MyShoppingListModel) ShoppingListModel).CreateProduct(imgUrl);
             CreateProduct(orderedProduct);
+        }
+        public void SaveShoppingList()
+        {
+            MessageBox.Show("Save");
         }
     }
 }

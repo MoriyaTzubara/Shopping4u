@@ -82,6 +82,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ExportRecommendedListToPDFCommand.cs" />
     <Compile Include="Commands\IgnoreRecommendationCommand.cs" />
+    <Compile Include="Commands\SaveShoppingListCommand.cs" />
     <Compile Include="Commands\ScanQRCodeCommand.cs" />
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />

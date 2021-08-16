@@ -68,7 +68,10 @@
 
                 <!--Price Per Unit-->
                 <Grid Grid.Column="3">
-                    <TextBlock x:Name="unitPrice" FontSize="15" Text="{Binding UnitPrice}" TextAlignment="Center"/>
+                    <TextBlock x:Name="unitPrice" FontSize="15" TextAlignment="Center">
+                        <Run Text="{Binding UnitPrice}"/>
+                        <Run Text="$"/>
+                    </TextBlock>
                 </Grid>
 
                 <!--Quantity-->
