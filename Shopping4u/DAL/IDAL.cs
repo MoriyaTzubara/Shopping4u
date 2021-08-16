@@ -66,9 +66,9 @@ namespace Shopping4u.DAL
         Dictionary<DateTime, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId);
         Dictionary<DateTime, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId);
         Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId);
-        Dictionary<DateTime, int> OrderedProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId);
-        Dictionary<DateTime, int> OrderedProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId);
-        Dictionary<string, int> OrderedProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<DateTime, int> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<DateTime, int> ProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<string, int> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId);
         Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId);
         Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId);
         Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId);
