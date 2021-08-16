@@ -60,17 +60,17 @@ namespace Shopping4u.DAL
         IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName);
         #endregion
         #region GRAPH
-        Dictionary<DateTime, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId);
-        Dictionary<DateTime, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId);
+        Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId);
+        Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId);
         Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int categoryId);
-        Dictionary<DateTime, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId);
-        Dictionary<DateTime, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId);
+        Dictionary<string, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId);
+        Dictionary<string, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId);
         Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId);
-        Dictionary<DateTime, int> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId);
-        Dictionary<DateTime, int> ProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId);
-        Dictionary<string, int> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId);
-        Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId);
-        Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId);
+        Dictionary<string, double> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<string, double> ProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<string, double> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<string, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId);
+        Dictionary<string, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId);
         Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId);
         #endregion
         #region APRIORI
