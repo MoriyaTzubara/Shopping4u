@@ -43,10 +43,13 @@ namespace Shopping4u.ViewModels
 
         }
 
-        public void SaveImageProduct(string imgUrl, int productId)
+        public void SaveImageProduct(string imgUrl, int branchProductId)
         {
-            // TODO //
-            MessageBox.Show($"SaveImageProduct: imgUrl = {imgUrl}, productId = {productId}");
+            IBL bl = new BL.BL();
+            Product product = bl.GetBranchProduct(branchProductId).GetProduct();
+            string downloadUrl = bl.StorePicture(imgUrl, product.name).Result;
+            bl.UpdateProductPicture(downloadUrl, product.id);
+            MessageBox.Show($"SaveImageProduct: imgUrl = {imgUrl}, productId = {branchProductId}");
         }
 
         public ObservableCollection<BranchProductViewModel> Branches { get; set; }

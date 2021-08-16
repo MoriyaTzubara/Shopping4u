@@ -306,7 +306,7 @@ namespace Shopping4u.BL
         }
         public double SumOfTotalShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
         {
-            IDictionary<DateTime, double> ResultOfShoppingsBetweenTwoDates = ShoppingsBetweenTwoDatesByDay(start, end, consumerId);
+            IDictionary<string, double> ResultOfShoppingsBetweenTwoDates = ShoppingsBetweenTwoDatesByDay(start, end, consumerId);
             return ResultOfShoppingsBetweenTwoDates.Sum(x => x.Value);
         }
         public IDictionary<DateTime, double> GetShoppingsInBranchBetweenTwoDates(DateTime start, DateTime end, int consumerId, int BranchId)
@@ -319,11 +319,11 @@ namespace Shopping4u.BL
         }
         #endregion
         #region GRAPH
-        public Dictionary<DateTime, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId)
+        public Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId)
         {
             return dal.CategoryBetweenTwoDatesByDay(start, end, consumerId, categoryId);
         }
-        public Dictionary<DateTime, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId)
+        public Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId)
         {
             return dal.CategoryBetweenTwoDatesByWeek(start, end, consumerId, categoryId);
         }
@@ -331,11 +331,11 @@ namespace Shopping4u.BL
         {
             return dal.CategoryBetweenTwoDatesByMonth(start, end, consumerId, categoryId);
         }
-        public Dictionary<DateTime, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId)
+        public Dictionary<string, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId)
         {
             return dal.BranchBetweenTwoDatesByDay(start, end, consumerId, branchId);
         }
-        public Dictionary<DateTime, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId)
+        public Dictionary<string, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId)
         {
             return dal.BranchBetweenTwoDatesByWeek(start, end, consumerId, branchId);
         }
@@ -343,23 +343,23 @@ namespace Shopping4u.BL
         {
             return BranchBetweenTwoDatesByMonth(start, end, consumerId, branchId);
         }
-        public Dictionary<DateTime, int> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
+        public Dictionary<string, double> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
         {
             return dal.ProductBetweenTwoDatesByDay(start, end, consumerId, productId);
         }
-        public Dictionary<DateTime, int> ProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId)
+        public Dictionary<string, double> ProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId)
         {
             return dal.ProductBetweenTwoDatesByWeek(start, end, consumerId, productId);
         }
-        public Dictionary<string, int> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
+        public Dictionary<string, double> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
         {
             return dal.ProductBetweenTwoDatesByMonth(start, end, consumerId, productId);
         }
-        public Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId)
+        public Dictionary<string, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId)
         {
             return dal.ShoppingsBetweenTwoDatesByDay(start, end, consumerId);
         }
-        public Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId)
+        public Dictionary<string, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId)
         {
             return dal.ShoppingsBetweenTwoDatesByWeek(start, end, consumerId);
         }
