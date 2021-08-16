@@ -52,7 +52,6 @@ namespace Shopping4u.BL
         #endregion
         #region FILTERS
         Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
-        Dictionary<DateTime, double> ShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId);
         Product GetProductByName(string name);
         List<OrderedProduct> FilterByBranches(List<string> branchesNames, int shoppingListId);
         IEnumerable<IGrouping<int, OrderedProduct>> GroupByBranchesTheRecommendedList(List<OrderedProduct> orderedProducts);
@@ -62,6 +61,21 @@ namespace Shopping4u.BL
         IDictionary<DateTime, double> GetShoppingsInBranchBetweenTwoDates(DateTime start, DateTime end, int consumerId, int BranchId);
         IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName);
         #endregion
+        #region GRAPH
+        Dictionary<DateTime, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId);
+        Dictionary<DateTime, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId);
+        Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int categoryId);
+        Dictionary<DateTime, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId);
+        Dictionary<DateTime, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId);
+        Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId);
+        Dictionary<DateTime, int> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<DateTime, int> ProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<string, int> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId);
+        Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId);
+        Dictionary<DateTime, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId);
+        Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId);
+        #endregion
+
         #region FIREBASE
         Task<string> StorePicture(string uploadUrl, string name);
         string EncodeBarcode(string downloadUrl);
