@@ -30,7 +30,7 @@ namespace Shopping4u.ViewModels
         
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
-            // needs to get the source of the image of the barcode
+            myShoppingListModel.CreateProduct(orderedProduct);
             base.CreateProduct(orderedProduct);
             MessageBox.Show("CreateProduct @ MyShoppingList");
         }
@@ -48,7 +48,19 @@ namespace Shopping4u.ViewModels
 
         public void SaveShoppingList()
         {
+            myShoppingListModel.SaveShoppingList();
             MessageBox.Show("Save");
+            Clean();
+            
+
+        }
+
+        private void Clean()
+        {
+            
+            Products = new System.Collections.ObjectModel.ObservableCollection<OrderedProductViewModel>();
+            //change
+            shoppingListId = myShoppingListModel.NewShoppingList();
         }
     }
 }

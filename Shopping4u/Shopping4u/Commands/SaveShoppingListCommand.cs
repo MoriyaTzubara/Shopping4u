@@ -22,13 +22,11 @@ namespace Shopping4u.Commands
 
         public bool CanExecute(object parameter)
         {
-            // SHOULD BE IMPLEMENTED
             return true;
         }
 
         public void Execute(object parameter)
         {
-            // SHOULD BE IMPLEMENTED
             myShoppingListViewModel.SaveShoppingList();
         }
     }
