@@ -32,7 +32,9 @@ namespace Shopping4u
 
             Panel1.Children.Add(new CartesianChartUserControl());
 
-            Panel2.Children.Add(new LineChartUserControl(productsChartViewModel));
+            Panel3.Children.Add(new LineChartUserControl(productsChartViewModel));
+            Panel4.Children.Add(new LineChartUserControl(new BranchesChartViewModel()));
+            Panel5.Children.Add(new LineChartUserControl(new ProductsChartViewModel()));
             
             //Panel3.Children.Add(new );
 
