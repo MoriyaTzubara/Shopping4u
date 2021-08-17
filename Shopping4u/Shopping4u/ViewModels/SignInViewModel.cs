@@ -22,7 +22,7 @@ namespace Shopping4u.ViewModels
 
         private SignInModel signInModel;
 
-        public event EventHandler<Consumer> SignInSuccess;
+        public event EventHandler<Consumer> SignInSuccessEvent;
 
         public SignInCommand SignInCommand { get; set; }
 
@@ -81,7 +81,7 @@ namespace Shopping4u.ViewModels
             if (signInModel.SignIn(email, password))
             {
                 App.Consumer = signInModel.GetConsumer(email);
-                SignInSuccess(this, App.Consumer);
+                SignInSuccessEvent(this, App.Consumer);
                 return true;
             }
 

@@ -25,19 +25,13 @@ namespace Shopping4u.Views
     public partial class SignInPage : UserControl, INotifyPropertyChanged
     {
         private SignInViewModel signInViewModel;
-        public SignInPage()
+        public SignInPage(SignInViewModel _signInViewModel)
         {
             InitializeComponent();
-            signInViewModel = new SignInViewModel();
+            signInViewModel = _signInViewModel;
             DataContext = signInViewModel;
-            signInViewModel.SignInSuccess += closeWindow;
         }
 
-
-        private void closeWindow(object sender, Consumer e)
-        {
-            
-        }
         
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)

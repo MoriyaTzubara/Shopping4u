@@ -10,20 +10,19 @@ namespace Shopping4u.Models
 {
     public class SignInModel
     {
-        public bool SignIn(string userName, string password)
+        public bool SignIn(string email, string password)
         {
             IBL bl = new BL.BL();
-            return false;
             // TODO //
-            //return bl.SignIn(userName, password);
+            return bl.SignIn(email, password);
         }
 
-        public Consumer GetConsumer(string userName)
+        public Consumer GetConsumer(string email)
         {
             IBL bl = new BL.BL();
-            //bl.GetConsumer(userName);
+            return bl.GetConsumer(email);
             // TODO //
-            return new Consumer();
+            //return new Consumer();
         }
     }
 }
