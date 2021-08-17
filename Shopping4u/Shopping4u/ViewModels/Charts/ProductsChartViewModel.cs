@@ -1,18 +1,29 @@
 ﻿using BE;
 using LiveCharts;
 using LiveCharts.Wpf;
+using Shopping4u.Commands;
 using Shopping4u.Models.Charts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Shopping4u.ViewModels.Charts
 {
-    public class ProductsChartViewModel : ILineChartViewModel
+    public class ProductsChartViewModel : ILineChartViewModel, INotifyPropertyChanged
     {
         private ProductsChartModel productsChartModel;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
         public ProductsChartViewModel()
         {
             productsChartModel = new ProductsChartModel();
@@ -21,6 +32,8 @@ namespace Shopping4u.ViewModels.Charts
 
             Data = productsChartModel.getData(CurrentProduct.id, AggregateBy.WEEK, DateTime.Now, DateTime.Now.AddDays(7));
             setSeriesCollection(Data);
+
+            SelectOptionCommand = new SelectOptionCommand(this);
         }
 
         public Dictionary<string, double> Data { get; set; }
@@ -30,6 +43,10 @@ namespace Shopping4u.ViewModels.Charts
         
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public AggregateBy AggregateBy { get; set; }
+
+        public SelectOptionCommand SelectOptionCommand { get; set; }
+
 
         public void selectOption(object option)
         {

@@ -2,6 +2,7 @@
 using LiveCharts;
 using LiveCharts.Wpf;
 using Shopping4u.BL;
+using Shopping4u.Commands;
 using Shopping4u.Models.Charts;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace Shopping4u.ViewModels.Charts
 
             Data = CategorysChartModel.getData(CurrentCategory, AggregateBy.WEEK, DateTime.Now, DateTime.Now.AddDays(7));
             setSeriesCollection(Data);
+
+            SelectOptionCommand = new SelectOptionCommand(this);
         }
 
         public Dictionary<string, double> Data { get; set; }
@@ -32,6 +35,10 @@ namespace Shopping4u.ViewModels.Charts
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public AggregateBy AggregateBy { get; set; }
+
+        public SelectOptionCommand SelectOptionCommand { get; set; }
+
 
         public void selectOption(object option)
         {
