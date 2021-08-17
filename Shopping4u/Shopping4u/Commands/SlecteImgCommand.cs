@@ -11,13 +11,13 @@ using System.Windows.Forms;
 
 namespace Shopping4u.Commands
 {
-    public class ScanQRCodeCommand : ICommand
+    public class SlecteImgCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
         private CreateProductViewModel createProductViewModel;
 
-        public ScanQRCodeCommand(CreateProductViewModel createProductViewModel)
+        public SlecteImgCommand(CreateProductViewModel createProductViewModel)
         {
             this.createProductViewModel = createProductViewModel;
         }
@@ -29,7 +29,7 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            createProductViewModel.ScanQRCode();
+            createProductViewModel.SlecteImage();
         }
     }
 }

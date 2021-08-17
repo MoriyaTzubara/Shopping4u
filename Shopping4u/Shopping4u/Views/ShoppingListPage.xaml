@@ -79,17 +79,18 @@
                 </Grid>
             </Button>
 
-            <!--PDF-->
+            <!--SAVE-->
             <Button Grid.Column="2" Margin="20 0" 
-                    Command="{Binding ExportRecommendedListToPDFCommand}"
-                    Style="{StaticResource MaterialDesignFlatButton}">
+                    Command="{Binding SaveShoppingListCommand}"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Visibility="{Binding SaveShoppingListVisibility}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="80*"/>
                     </Grid.ColumnDefinitions>
 
-                    <materialDesign:PackIcon Kind="Check" Grid.Column="0"/>
+                    <materialDesign:PackIcon Kind="CartCheck" Grid.Column="0"/>
                     <TextBlock Text="Save" Margin="5 0" Grid.Column="1"/>
                 </Grid>
             </Button>
@@ -133,10 +134,14 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" VerticalAlignment="Center" Text=""/>
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" >
-                    <Run Text="Number of products: "/>
-                    <Run Text="{Binding NumberOfProducts}"/>
-                </TextBlock>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="CartPlus" VerticalAlignment="Center" Margin="0 2 5 0"/>
+                    <TextBlock VerticalAlignment="Center">
+                        <Run Text="Number of products: "/>
+                        <Run Text="{Binding NumberOfProducts}"/>
+                    </TextBlock>
+                </StackPanel>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Cash" VerticalAlignment="Center" Margin="0 2 5 0"/>

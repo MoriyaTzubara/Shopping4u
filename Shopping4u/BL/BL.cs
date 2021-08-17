@@ -23,7 +23,7 @@ namespace Shopping4u.BL
         #region SIGN IN SIGN UP
         private bool ValidateConsumer(Consumer consumer)
         {
-            if (dal.GetConsumer(consumer.id) != new Consumer())
+            if (dal.GetConsumer(consumer.id) != null)
                 return false;
             //validate email?
             return true;
@@ -37,9 +37,12 @@ namespace Shopping4u.BL
             }
             return false;
         }
-        public bool SignIn(int consumerId,string password)
+        public Consumer GetConsumer(string email) {
+            return dal.GetConsumer(email);
+        }
+        public bool SignIn(string email,string password)
         {
-            Consumer consumer = GetConsumer(consumerId);
+            Consumer consumer = GetConsumer(email);
             if (consumer.password != password)
                 return false;
             return true;
@@ -185,7 +188,7 @@ namespace Shopping4u.BL
             dal.InsertOrderedProducts(orderedProducts, shoppingListId);
         }
 
-        public OrderedProduct InsertOrderedProduct(string orderedProductText, int shoppingListId)
+        public OrderedProduct EncodeOrderedProductString(string orderedProductText)
         {
             // id, nameOfBranch, nameOfProduct, price
             string[] barcodeText = orderedProductText.Split(',');
@@ -205,11 +208,11 @@ namespace Shopping4u.BL
             OrderedProduct orderedProduct = new OrderedProduct
             {
                 branchProductId = branchProduct.branchProductId,
-                shoppingListId = shoppingListId,
+                shoppingListId = -1,
                 unitPrice = price,
                 quantity = 1
             };
-            return dal.InsertOrderedProduct(orderedProduct);
+            return orderedProduct;
         }
         public void InsertOrderedProduct(OrderedProduct orderedProduct)
         {
@@ -230,9 +233,9 @@ namespace Shopping4u.BL
             return dal.InsertBranchProduct(product, branch, price);
         }
 
-        public void InsertConsumer(Consumer consumer)
+        public Consumer InsertConsumer(Consumer consumer)
         {
-            dal.InsertConsumer(consumer);
+            return dal.InsertConsumer(consumer);
         }
         #endregion
         #region UPDATE
@@ -244,9 +247,9 @@ namespace Shopping4u.BL
         {
             dal.UpdateProductPicture(downloadUrl, productId);
         }
-        public void UpdateShoppingList(int shoppingListId)
+        public void SaveShoppingList(int shoppingListId)
         {
-            dal.UpdateShoppingList(shoppingListId);
+            dal.SaveShoppingList(shoppingListId);
         }
         #endregion
         #region DELETE
@@ -263,11 +266,6 @@ namespace Shopping4u.BL
         public Dictionary<int, int> OrderedProductsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
         {
             return dal.OrderedProductsBetweenTwoDates(start, end, consumerId);
-        }
-
-        public Dictionary<DateTime, double> ShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
-        {
-            return dal.ShoppingsBetweenTwoDates(start, end, consumerId);
         }
 
         public Product GetProductByName(string name)
@@ -311,7 +309,7 @@ namespace Shopping4u.BL
         }
         public double SumOfTotalShoppingsBetweenTwoDates(DateTime start, DateTime end, int consumerId)
         {
-            IDictionary<DateTime, double> ResultOfShoppingsBetweenTwoDates = ShoppingsBetweenTwoDates(start, end, consumerId);
+            IDictionary<string, double> ResultOfShoppingsBetweenTwoDates = ShoppingsBetweenTwoDatesByDay(start, end, consumerId);
             return ResultOfShoppingsBetweenTwoDates.Sum(x => x.Value);
         }
         public IDictionary<DateTime, double> GetShoppingsInBranchBetweenTwoDates(DateTime start, DateTime end, int consumerId, int BranchId)
@@ -321,6 +319,56 @@ namespace Shopping4u.BL
         public IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName)
         {
             return dal.GetShoppingsInCategoryBetweenTwoDates(start, end, consumerId, categoryName);
+        }
+        #endregion
+        #region GRAPH
+        public Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, string categoryName)
+        {
+            return dal.CategoryBetweenTwoDatesByDay(start, end, consumerId, categoryName);
+        }
+        public Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, string categoryName)
+        {
+            return dal.CategoryBetweenTwoDatesByWeek(start, end, consumerId, categoryName);
+        }
+        public Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, string categoryName)
+        {
+            return dal.CategoryBetweenTwoDatesByMonth(start, end, consumerId, categoryName);
+        }
+        public Dictionary<string, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId)
+        {
+            return dal.BranchBetweenTwoDatesByDay(start, end, consumerId, branchId);
+        }
+        public Dictionary<string, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId)
+        {
+            return dal.BranchBetweenTwoDatesByWeek(start, end, consumerId, branchId);
+        }
+        public Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId)
+        {
+            return BranchBetweenTwoDatesByMonth(start, end, consumerId, branchId);
+        }
+        public Dictionary<string, double> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
+        {
+            return dal.ProductBetweenTwoDatesByDay(start, end, consumerId, productId);
+        }
+        public Dictionary<string, double> ProductBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int productId)
+        {
+            return dal.ProductBetweenTwoDatesByWeek(start, end, consumerId, productId);
+        }
+        public Dictionary<string, double> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
+        {
+            return dal.ProductBetweenTwoDatesByMonth(start, end, consumerId, productId);
+        }
+        public Dictionary<string, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId)
+        {
+            return dal.ShoppingsBetweenTwoDatesByDay(start, end, consumerId);
+        }
+        public Dictionary<string, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId)
+        {
+            return dal.ShoppingsBetweenTwoDatesByWeek(start, end, consumerId);
+        }
+        public Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId)
+        {
+            return dal.ShoppingsBetweenTwoDatesByMonth(start, end, consumerId);
         }
         #endregion
         #region APRIORI
@@ -340,8 +388,10 @@ namespace Shopping4u.BL
             bool Xexists = true;
             if(rules.StrongRules.Count() != 0)
             {
+                rules.StrongRules = rules.StrongRules.OrderByDescending(r => r.Confidence).ToList();
                 foreach (Rule rule in rules.StrongRules)
                 {
+                    Xexists = true;
                     List<int> combination = rule.X.Split(',').Select(x => int.Parse(x)).ToList();
                     foreach (int productId in combination)
                     {
@@ -361,7 +411,8 @@ namespace Shopping4u.BL
             }
             if(result.Count() == 0 && rules.FrequentItems.Count() != 0)
             {
-                foreach (Item item in rules.FrequentItems)
+                List<Item> FrequentItems = rules.FrequentItems.OrderByDescending(item => item.Support).ToList();
+                foreach (Item item in FrequentItems)
                 {
                     foreach (string itemId in item.Name.Split(',').ToList())
                     {
@@ -403,14 +454,6 @@ namespace Shopping4u.BL
             return dal.ProductsThatGoTogether(minConfidence);
         }
         #endregion
-        //#region APRIORI
-        //public IEnumerable<BE.Rule> AprioriRecommender(double minConfidence = 0.3,double minSupport = 0.2)
-        //{
-        //    IDictionary<int, int> forEachProduct = dal.GetSupportOfEachItem(minSupport);
-        //    List<BE.Rule> Rules = dal.AprioriRecommender(forEachProduct,minConfidence);
-        //    return Rules;
-        //}
-        //#endregion
-
+       
     }
 }

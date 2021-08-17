@@ -86,12 +86,20 @@
     <Compile Include="Commands\ExportRecommendedListToPDFCommand.cs" />
     <Compile Include="Commands\GoToSignInPageCommand.cs" />
     <Compile Include="Commands\IgnoreRecommendationCommand.cs" />
+    <Compile Include="Commands\SaveImageProductCommand.cs" />
+    <Compile Include="Commands\SaveShoppingListCommand.cs" />
     <Compile Include="Commands\ScanQRCodeCommand.cs" />
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
+    <Compile Include="Commands\SelectDatesCommand.cs" />
+    <Compile Include="Commands\SelectOptionCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
     <Compile Include="Commands\SignInCommand.cs" />
     <Compile Include="Converters\SignInConverter.cs" />
+    <Compile Include="Commands\SlecteImgCommand.cs" />
     <Compile Include="Extensions\ProductExtension.cs" />
+    <Compile Include="Models\Charts\BranchesChartModel.cs" />
+    <Compile Include="Models\Charts\CategoriesChartModel.cs" />
+    <Compile Include="Models\Charts\ProductsChartModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\MyShoppingListModel.cs" />
     <Compile Include="Models\PieChartModel.cs" />
@@ -102,10 +110,13 @@
     <Compile Include="Models\IChartModel.cs" />
     <Compile Include="Models\SignInModel.cs" />
     <Compile Include="ViewModels\BranchProductViewModel.cs" />
-    <Compile Include="ViewModels\PieChartViewModel.cs" />
+    <Compile Include="ViewModels\Charts\BranchesChartViewModel.cs" />
+    <Compile Include="ViewModels\Charts\CategoriesChartViewModel.cs" />
+    <Compile Include="ViewModels\Charts\ProductsChartViewModel.cs" />
+    <Compile Include="ViewModels\Charts\PieChartViewModel.cs" />
     <Compile Include="ViewModels\RecommendtionViewModel.cs" />
-    <Compile Include="ViewModels\LineChartViewModel.cs" />
-    <Compile Include="ViewModels\ChartViewModel.cs" />
+    <Compile Include="ViewModels\Charts\LineChartViewModel.cs" />
+    <Compile Include="ViewModels\Charts\ChartsViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="Views\CartesianChartUserControl.xaml.cs">
       <DependentUpon>CartesianChartUserControl.xaml</DependentUpon>
@@ -145,8 +156,8 @@
     <Compile Include="Views\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\StatisticsPage.xaml.cs">
-      <DependentUpon>StatisticsPage.xaml</DependentUpon>
+    <Compile Include="Views\ChartsPage.xaml.cs">
+      <DependentUpon>ChartsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\IProductViewModel.cs" />
     <Compile Include="ViewModels\CreateProductViewModel.cs" />
@@ -210,7 +221,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StatisticsPage.xaml">
+    <Page Include="Views\ChartsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,10 +267,13 @@
       <Name>Shopping4u.BL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Img\default-img.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Img\milk.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

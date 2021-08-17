@@ -27,7 +27,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             // SHOULD BE IMPLEMENTED
-            shoppingListViewModel.DeleteProduct(-1);
+            shoppingListViewModel.DeleteProduct(Int32.Parse(parameter.ToString()));
         }
     }
 }

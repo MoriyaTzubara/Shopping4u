@@ -21,7 +21,7 @@ namespace Shopping4u.Views
     /// </summary>
     public partial class PieChartUserControl : UserControl
     {
-        public PieChartUserControl(ChartViewModel<TitleValue> statisticViewModel)
+        public PieChartUserControl(ChartsViewModel<TitleValue> statisticViewModel)
         {
             InitializeComponent();
             DataContext = statisticViewModel;

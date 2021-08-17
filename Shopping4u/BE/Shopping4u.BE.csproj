@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Branch.cs" />
     <Compile Include="BranchProduct.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="DatabaseConnection.cs" />
     <Compile Include="OrderedProduct.cs" />
     <Compile Include="Product.cs" />

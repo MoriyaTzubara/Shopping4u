@@ -1,25 +1,23 @@
-﻿using Shopping4u.ViewModels;
+﻿using BE;
+using Shopping4u.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Shopping4u.Extensions;
-using BE;
-using System.Windows.Forms;
 
 namespace Shopping4u.Commands
 {
-    public class ScanQRCodeCommand : ICommand
+    public class SaveShoppingListCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
-        private CreateProductViewModel createProductViewModel;
+        private MyShoppingListViewModel myShoppingListViewModel;
 
-        public ScanQRCodeCommand(CreateProductViewModel createProductViewModel)
+        public SaveShoppingListCommand(MyShoppingListViewModel myShoppingListViewModel)
         {
-            this.createProductViewModel = createProductViewModel;
+            this.myShoppingListViewModel = myShoppingListViewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -29,8 +27,7 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            createProductViewModel.ScanQRCode();
+            myShoppingListViewModel.SaveShoppingList();
         }
     }
 }
-

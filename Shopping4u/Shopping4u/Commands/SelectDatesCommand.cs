@@ -5,21 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Shopping4u.Extensions;
-using BE;
-using System.Windows.Forms;
 
 namespace Shopping4u.Commands
 {
-    public class ScanQRCodeCommand : ICommand
+    public class SelectDatesCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
-        private CreateProductViewModel createProductViewModel;
+        private ILineChartViewModel lineChartViewModel;
 
-        public ScanQRCodeCommand(CreateProductViewModel createProductViewModel)
+        public SelectDatesCommand(ILineChartViewModel lineChartViewModel)
         {
-            this.createProductViewModel = createProductViewModel;
+            this.lineChartViewModel = lineChartViewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -29,8 +26,10 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            createProductViewModel.ScanQRCode();
+            DateTime start = (parameter as ILineChartViewModel).StartDate;
+            DateTime end = (parameter as ILineChartViewModel).EndDate;
+            
+            lineChartViewModel.selectDates(start, end);
         }
     }
 }
-
