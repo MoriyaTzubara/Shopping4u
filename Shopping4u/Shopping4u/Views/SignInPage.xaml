@@ -4,14 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Shopping4u"
+             xmlns:converters="clr-namespace:Shopping4u.Converters"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="850" 
-             d:DesignWidth="1100">
+             d:DesignWidth="1100"
+             Name="this">
     <Grid Background="#F6F6F8">
 
         <Border Margin="100 100">
             <Grid>
+                <Grid.Resources>
+                    <converters:SignInConverter x:Key="SignInConverter"/>
+                </Grid.Resources>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="2*"/>
@@ -25,25 +31,39 @@
 
                 </Border>
 
-                <Grid Margin="100 20" Grid.Row="1">
+                <Grid Margin="100 0" Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <StackPanel Margin="10" Grid.Row="0">
                         <TextBlock Text="Your email:"/>
-                        <TextBox Height="50" VerticalContentAlignment="Bottom" FontSize="16" Focusable="True"/>
+                        <TextBox x:Name="email" 
+                                 Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" 
+                                 Height="50" VerticalContentAlignment="Bottom" FontSize="16" Focusable="True"/>
                     </StackPanel>
                     <StackPanel Margin="10" Grid.Row="1">
                         <TextBlock Text="Your password"/>
-                        <PasswordBox Height="50" VerticalContentAlignment="Bottom" FontSize="16" Focusable="True"/>
+                        <PasswordBox PasswordChar="*"  x:Name="password"  Height="50" VerticalContentAlignment="Bottom" PasswordChanged="password_PasswordChanged" FontSize="16" Focusable="True"/>
+                        <TextBlock x:Name="flag" Tag="false"/>
                     </StackPanel>
+                    <TextBlock Grid.Row="2" Margin="10" Text="{Binding ErrorMessage}" VerticalAlignment="Center" Foreground="Red"/>
 
                 </Grid>
 
                 <Border Margin="15" Grid.Row="2">
-                    <Button Width="200">
+                    <Button Width="200" Command="{Binding SignInCommand}"
+                            IsEnabled="{Binding CanSignIn}"
+                            Name="SignInBtn">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource SignInConverter}" UpdateSourceTrigger="LostFocus">
+                                <Binding ElementName="email" Path="Text"/>
+                                <Binding ElementName="password"/>
+                                <Binding ElementName="flag" Path="Tag"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Login" Margin="10 0" VerticalAlignment="Center"/>
                             <TextBlock Text="Sign in" VerticalAlignment="Center"/>

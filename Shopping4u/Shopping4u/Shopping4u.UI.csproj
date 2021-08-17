@@ -89,6 +89,8 @@
     <Compile Include="Commands\ScanQRCodeCommand.cs" />
     <Compile Include="Commands\SelectBranchProductCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
+    <Compile Include="Commands\SignInCommand.cs" />
+    <Compile Include="Converters\SignInConverter.cs" />
     <Compile Include="Extensions\ProductExtension.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\MyShoppingListModel.cs" />

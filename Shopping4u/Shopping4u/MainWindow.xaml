@@ -35,7 +35,7 @@
                                     Command="{Binding GoToMyShoppingListPageCommand}"
                                     Foreground="Black" >
                                 <StackPanel>
-                                    <materialDesign:Badged Badge="3" Padding="-5">
+                                    <materialDesign:Badged Padding="-5">
                                         <materialDesign:PackIcon Kind="CartOutline" Style="{StaticResource MenuIcon}"/>
                                     </materialDesign:Badged>
                                 </StackPanel>

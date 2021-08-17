@@ -2,7 +2,9 @@
 using Shopping4u.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,18 +22,32 @@ namespace Shopping4u.Views
     /// <summary>
     /// Interaction logic for SignInUserControl.xaml
     /// </summary>
-    public partial class SignInPage : UserControl
+    public partial class SignInPage : UserControl, INotifyPropertyChanged
     {
-        public SignInPage(SignInViewModel signInViewModel)
+        private SignInViewModel signInViewModel;
+        public SignInPage()
         {
             InitializeComponent();
-            DataContext = this;
+            signInViewModel = new SignInViewModel();
+            DataContext = signInViewModel;
             signInViewModel.SignInSuccess += closeWindow;
         }
+
 
         private void closeWindow(object sender, Consumer e)
         {
             
+        }
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private void password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            this.flag.Tag = true;
         }
     }
 }

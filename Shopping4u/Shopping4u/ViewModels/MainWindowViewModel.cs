@@ -21,7 +21,7 @@ namespace Shopping4u.ViewModels
         public ShoppingListPage myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel(new MyShoppingListModel()));
         public ShoppingHistoryPage shoppingHistoryPage = new ShoppingHistoryPage();
         public StatisticsPage statisticsPage = new StatisticsPage();
-        public SignInPage signInPage = new SignInPage(new SignInViewModel());
+        public SignInPage signInPage = new SignInPage();
 
 
         public GoToRecommendedShoppingListPageCommand GoToRecommendedShoppingListPageCommand { get; set; }
