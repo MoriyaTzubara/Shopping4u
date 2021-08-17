@@ -20,7 +20,7 @@ namespace Shopping4u.Models
         private IEnumerable<OrderedProduct> getProducts()
         {
             IBL bl = new BL.BL();
-            var products = bl.GetRecommendedList(123);
+            var products = bl.GetRecommendedList(1);
             if (products == null)
                 return new List<OrderedProduct>();
             return products.Select(x => x.ToOrderedProduct());

@@ -8,6 +8,10 @@ namespace Shopping4u.BL
 {
     public interface IBL
     {
+        #region SIGN IN SIGN UP
+        bool SignUp(Consumer consumer);
+        bool SignIn(string email, string password);
+        #endregion
         #region SELECT
         List<Product> GetProducts();
         List<Branch> GetBranches();
@@ -15,6 +19,7 @@ namespace Shopping4u.BL
         Product GetProduct(int productId);
         Branch GetBranch(int branchId);
         Consumer GetConsumer(int consumerId);
+        Consumer GetConsumer(string email);
         ShoppingList GetShoppingList(int shoppingListId);
         List<ShoppingList> GetConsumerHistory(int consumerId);
         List<string> GetBranchesNameInList(int shoppingListId);
@@ -39,7 +44,7 @@ namespace Shopping4u.BL
         void InsertBaseProduct(Product product);
         Branch InsertBranch(Branch branch);
         BranchProduct InsertBranchProduct(Product product, Branch branch, double price);
-        void InsertConsumer(Consumer consumer);
+        Consumer InsertConsumer(Consumer consumer);
         #endregion
         #region UPDATE
         void UpdateProductPicture(string url, int productId);
@@ -62,9 +67,9 @@ namespace Shopping4u.BL
         IDictionary<DateTime, double> GetShoppingsInCategoryBetweenTwoDates(DateTime start, DateTime end, int consumerId, int categoryName);
         #endregion
         #region GRAPH
-        Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int categoryId);
-        Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int categoryId);
-        Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int categoryId);
+        Dictionary<string, double> CategoryBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, string categoryId);
+        Dictionary<string, double> CategoryBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, string categoryId);
+        Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, string categoryId);
         Dictionary<string, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId);
         Dictionary<string, double> BranchBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId, int branchId);
         Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId);
@@ -75,7 +80,6 @@ namespace Shopping4u.BL
         Dictionary<string, double> ShoppingsBetweenTwoDatesByWeek(DateTime start, DateTime end, int consumerId);
         Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId);
         #endregion
-
         #region FIREBASE
         Task<string> StorePicture(string uploadUrl, string name);
         string EncodeBarcode(string downloadUrl);

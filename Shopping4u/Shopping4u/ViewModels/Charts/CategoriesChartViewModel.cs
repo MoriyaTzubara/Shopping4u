@@ -1,6 +1,7 @@
 ﻿using BE;
 using LiveCharts;
 using LiveCharts.Wpf;
+using Shopping4u.BL;
 using Shopping4u.Models.Charts;
 using System;
 using System.Collections.Generic;
@@ -42,10 +43,10 @@ namespace Shopping4u.ViewModels.Charts
         }
 
 
-        public Dictionary<string, double> getData(int CategoryId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
+        public Dictionary<string, double> getData(string CategoryName, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
         {
             // TODO //
-            return CategorysChartModel.getData(CategoryId, aggregateBy, startDate, endDate);
+            return CategorysChartModel.getData(CategoryName, aggregateBy, startDate, endDate);
         }
 
         public IEnumerable<string> getOption()

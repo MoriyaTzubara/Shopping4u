@@ -26,8 +26,8 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            DateTime start = (parameter as ILineChartViewModel).startDate;
-            DateTime end = (parameter as ILineChartViewModel).endDate;
+            DateTime start = (parameter as ILineChartViewModel).StartDate;
+            DateTime end = (parameter as ILineChartViewModel).EndDate;
             
             lineChartViewModel.selectDates(start, end);
         }

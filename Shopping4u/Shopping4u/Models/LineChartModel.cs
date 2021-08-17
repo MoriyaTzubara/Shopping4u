@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Shopping4u.Models
 {
-    public interface ILineChartModel<T>
+    public interface ILineChartModel<T,J>
     {
-        Dictionary<string, double> getData(int productId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate);
+        Dictionary<string, double> getData(J productId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate);
         IEnumerable<T> getOption();
     }
 }
