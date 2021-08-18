@@ -25,9 +25,13 @@ namespace Shopping4u.ViewModels.Charts
 
         public BranchesChartViewModel()
         {
+            Title = "Branches";
             BranchsChartModel = new BranchesChartModel();
             Options = getOption();
-            CurrentBranch = Options.ElementAtOrDefault(0) as Branch;
+            CurrentOption = Options.ElementAtOrDefault(0);
+
+            Branch current = CurrentOption as Branch;
+
 
             EndDate = DateTime.Now;
             StartDate = DateTime.Now.AddDays(-7);
@@ -53,13 +57,14 @@ namespace Shopping4u.ViewModels.Charts
             set { seriesCollection = value; OnPropertyChanged(); }
         }
         public IEnumerable<object> Options { get; set; }
-        public Branch CurrentBranch { get; set; }
+        public object CurrentOption { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public AggregateBy AggregateBy { get; set; }
 
         public SelectOptionCommand SelectOptionCommand { get; set; }
+        public string Title { get; set; }
 
         public void selectOption(object option)
         {

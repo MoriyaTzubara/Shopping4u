@@ -31,10 +31,11 @@ namespace Shopping4u
             ILineChartViewModel productsChartViewModel = new ProductsChartViewModel();
 
             Panel1.Children.Add(new CartesianChartUserControl());
+            Panel2.Children.Add(new ProductsGroupUserControl(new ProductsGroupViewModel()));
 
             Panel3.Children.Add(new LineChartUserControl(productsChartViewModel));
             Panel4.Children.Add(new LineChartUserControl(new BranchesChartViewModel()));
-            Panel5.Children.Add(new LineChartUserControl(new ProductsChartViewModel()));
+            Panel5.Children.Add(new LineChartUserControl(new CategoriesChartViewModel()));
             
             //Panel3.Children.Add(new );
 
