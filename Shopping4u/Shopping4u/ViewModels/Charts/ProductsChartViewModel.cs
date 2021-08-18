@@ -26,21 +26,44 @@ namespace Shopping4u.ViewModels.Charts
 
         public ProductsChartViewModel()
         {
+            Title = "Products";
+
             productsChartModel = new ProductsChartModel();
             Options = getOption();
-            CurrentProduct = Options.ElementAtOrDefault(0) as Product;
+            CurrentOption = Options.ElementAtOrDefault(0);
 
-            Data = productsChartModel.getData(CurrentProduct.id, AggregateBy.WEEK, DateTime.Now);
+            Product current = CurrentOption as Product;
+
+            EndDate = DateTime.Now;
+            StartDate = DateTime.Now.AddDays(-7);
+
+            AggregateBy = AggregateBy.WEEK;
+
+            Data = productsChartModel.getData(current.id, AggregateBy.WEEK, DateTime.Now);
             setSeriesCollection(Data);
 
             SelectOptionCommand = new SelectOptionCommand(this);
+            selectOption(current);
         }
 
-        public Dictionary<string, double> Data { get; set; }
-        public SeriesCollection SeriesCollection { get; set; }
+        public string Title { get; set; }
+
+        private Dictionary<string, double> data;
+        public Dictionary<string, double> Data
+        {
+            get { return data; }
+            set { data = value; OnPropertyChanged(); }
+        }
+
+        private SeriesCollection seriesCollection;
+        public SeriesCollection SeriesCollection
+        {
+            get { return seriesCollection; }
+            set { seriesCollection = value; OnPropertyChanged(); }
+        }
         public IEnumerable<object> Options { get; set; }
-        public Product CurrentProduct { get; set; }
-        
+        public object CurrentOption { get; set; }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public AggregateBy AggregateBy { get; set; }
@@ -50,7 +73,9 @@ namespace Shopping4u.ViewModels.Charts
 
         public void selectOption(object option)
         {
-
+            int productId = (option as Product).id;
+            Data = getData(productId, AggregateBy, EndDate);
+            setSeriesCollection(Data);
         }
         public void selectDates(DateTime start, DateTime end)
         {

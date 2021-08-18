@@ -107,6 +107,7 @@
     <Compile Include="ViewModels\Charts\CategoriesChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\ProductsChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\PieChartViewModel.cs" />
+    <Compile Include="ViewModels\ProductsGroupViewModel.cs" />
     <Compile Include="ViewModels\RecommendtionViewModel.cs" />
     <Compile Include="ViewModels\Charts\LineChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\ChartsViewModel.cs" />
@@ -132,6 +133,9 @@
     <Compile Include="Extensions\OrderedProductExtension.cs" />
     <Compile Include="Views\PieChartUserControl.xaml.cs">
       <DependentUpon>PieChartUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductsGroupUserControl.xaml.cs">
+      <DependentUpon>ProductsGroupUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProductUserControl.xaml.cs">
       <DependentUpon>ProductUserControl.xaml</DependentUpon>
@@ -187,6 +191,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\PieChartUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProductsGroupUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
