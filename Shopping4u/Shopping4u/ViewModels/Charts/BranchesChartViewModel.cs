@@ -38,7 +38,7 @@ namespace Shopping4u.ViewModels.Charts
 
             AggregateBy = AggregateBy.WEEK;
 
-            Data = BranchsChartModel.getData(current.id, AggregateBy.WEEK, DateTime.Now);
+            Data = BranchsChartModel.getData(CurrentBranch.id, AggregateBy.WEEK,DateTime.Now.AddMonths(-1), DateTime.Now);
             setSeriesCollection(Data);
             SelectOptionCommand = new SelectOptionCommand(this);
         }
@@ -69,7 +69,7 @@ namespace Shopping4u.ViewModels.Charts
         public void selectOption(object option)
         {
             int branchId = (option as Branch).id;
-            Data = getData(branchId, AggregateBy, EndDate);
+            Data = getData(branchId, AggregateBy,StartDate, EndDate);
             setSeriesCollection(Data);
         }
         public void selectDates(DateTime start, DateTime end)
@@ -77,10 +77,10 @@ namespace Shopping4u.ViewModels.Charts
 
         }
 
-        public Dictionary<string, double> getData(int branchId, AggregateBy aggregateBy, DateTime endDate)
+        public Dictionary<string, double> getData(int branchId, AggregateBy aggregateBy,DateTime startDate, DateTime endDate)
         {
             // TODO //
-            return BranchsChartModel.getData(branchId, aggregateBy, endDate);
+            return BranchsChartModel.getData(branchId, aggregateBy,startDate, endDate);
         }
 
         public IEnumerable<Branch> getOption()

@@ -40,7 +40,7 @@ namespace Shopping4u.ViewModels.Charts
 
             AggregateBy = AggregateBy.WEEK;
 
-            Data = CategoriesChartModel.getData(current, AggregateBy.WEEK, DateTime.Now);
+            Data = CategorysChartModel.getData(CurrentCategory, AggregateBy.WEEK,DateTime.Now.AddMonths(-1), DateTime.Now);
             setSeriesCollection(Data);
 
             SelectOptionCommand = new SelectOptionCommand(this);
@@ -83,10 +83,11 @@ namespace Shopping4u.ViewModels.Charts
 
         }
 
-        public Dictionary<string, double> getData(string categoryName, AggregateBy aggregateBy, DateTime endDate)
+
+        public Dictionary<string, double> getData(string CategoryName, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
         {
             // TODO //
-            return CategoriesChartModel.getData(categoryName, aggregateBy, endDate);
+            return CategorysChartModel.getData(CategoryName, aggregateBy, startDate, endDate);
         }
 
         public IEnumerable<string> getOption()
