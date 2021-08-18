@@ -40,7 +40,7 @@ namespace Shopping4u.ViewModels.Charts
 
             AggregateBy = AggregateBy.WEEK;
 
-            Data = CategoriesChartModel.getData(current, AggregateBy.WEEK,DateTime.Now.AddMonths(-1), DateTime.Now);
+            Data = CategoriesChartModel.getData(current, AggregateBy.DAY,StartDate, EndDate);
             setSeriesCollection(Data);
 
             SelectOptionCommand = new SelectOptionCommand(this);
