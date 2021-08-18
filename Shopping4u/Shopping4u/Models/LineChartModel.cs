@@ -9,7 +9,7 @@ namespace Shopping4u.Models
 {
     public interface ILineChartModel<T,J>
     {
-        Dictionary<string, double> getData(J productId, AggregateBy aggregateBy, DateTime endDate);
+        Dictionary<string, double> getData(J productId, AggregateBy aggregateBy,DateTime startDate, DateTime endDate);
         IEnumerable<T> getOption();
     }
 }
