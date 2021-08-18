@@ -49,7 +49,7 @@ namespace Shopping4u.BL
         }
         #endregion
         #region FIREBASE
-        public async Task<string> StorePicture(string uploadUrl, string name)
+        public async static Task StorePicture(string uploadUrl, string name, int productId)
         {
             var stream = File.Open(uploadUrl, FileMode.Open);
 
@@ -63,8 +63,9 @@ namespace Shopping4u.BL
 
             // Await the task to wait until upload is completed and get the download url
             var downloadUrl = await task;
-            //Console.WriteLine(downloadUrl);
-            return downloadUrl;
+            stream.Close();
+            IBL bl = new BL();
+            bl.UpdateProductPicture(downloadUrl, productId);
         }
         // encodes the barcodes
         public string EncodeBarcode(string downloadUrl)

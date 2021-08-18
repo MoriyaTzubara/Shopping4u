@@ -174,7 +174,7 @@ namespace Shopping4u.DAL
         }
         public Product GetProduct(int productId)
         {
-            Product result = new Product();
+            Product result = null;
             string query = $"SELECT * FROM baseproduct where {productId} = productId";
             if (OpenConnection() == true)
             {
@@ -833,7 +833,7 @@ namespace Shopping4u.DAL
         public void InsertBaseProduct(Product product)
         {
             InsertCategory(product.category);
-            if (GetProduct(product.id).id == 0)
+            if (GetProduct(product.id) == null)
             {
                 if (OpenConnection() == true)
                 {
@@ -936,6 +936,7 @@ namespace Shopping4u.DAL
                     MySqlDataReader dataReader = cmd.ExecuteReader();
                     if (!dataReader.Read())
                     {
+                        dataReader.Close();
                         query = $"INSERT INTO branchProduct (branchId,productId,price) " +
                                     $"VALUES({branch.id},{product.id},{price})";
                         cmd = new MySqlCommand(query, connection);
@@ -976,14 +977,18 @@ namespace Shopping4u.DAL
         #region UPDATE
         public void UpdateProductPicture(string url, int productId)
         {
-            if (OpenConnection() == true)
+            if (GetProduct(productId) != null) 
             {
-                if (GetProduct(productId) != new Product())
+                if (OpenConnection() == true)
                 {
-                    string query = $"UPDATE baseproduct set itemImageUrl = {url} " +
-                        $"where productId = {productId}";
-                    MySqlCommand cmd = new MySqlCommand(query, connection);
-                    cmd.ExecuteNonQuery();
+                    try
+                    {
+                        string query = $"UPDATE baseproduct set itemImageUrl = '{url}' " +
+                            $"where productId = {productId}";
+                        MySqlCommand cmd = new MySqlCommand(query, connection);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception e) { }
                 }
                 CloseConnection();
             }
@@ -1244,7 +1249,7 @@ namespace Shopping4u.DAL
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
             string query = $"SELECT date, SUM(quantity * unitPrice) AS expenses " +
-                $"FROM (SELECT productId FROM baseProduct WHERE categoryName = {categoryName}) AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"FROM (SELECT productId FROM baseProduct WHERE categoryName = '{categoryName}') AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
                 $"GROUP BY date";
             if (OpenConnection() == true)
@@ -1253,9 +1258,9 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    if (!result.ContainsKey((string)dataReader["date"]))
-                        result[(string)dataReader["date"]] = 0;
-                    result[(string)dataReader["date"]] += (double)dataReader["expenses"];
+                    if (!result.ContainsKey(((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")))
+                        result[((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")] = 0;
+                    result[((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")] += (double)dataReader["expenses"];
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -1281,10 +1286,10 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, string categoryName)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            string query = $"SELECT MONTH(date) AS month, SUM(quantity * unitPrice) AS expenses " +
+            string query = $"SELECT MONTHNAME(date) AS month, SUM(quantity * unitPrice) AS expenses " +
                 $"FROM (SELECT productId FROM baseProduct WHERE categoryName = {categoryName}) AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
-                $"GROUP BY MONTH(date)";
+                $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -1316,9 +1321,9 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    if (!result.ContainsKey((string)dataReader["date"]))
-                        result[(string)dataReader["date"]] = 0;
-                    result[(string)dataReader["date"]] += (double)dataReader["expenses"];
+                    if (!result.ContainsKey(((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")))
+                        result[((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")] = 0;
+                    result[((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")] += (double)dataReader["expenses"];
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -1344,10 +1349,10 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            string query = $"SELECT MONTH(date) AS month, SUM(quantity * unitPrice) AS expenses " +
+            string query = $"SELECT MONTHNAME(date) AS month, SUM(quantity * unitPrice) AS expenses " +
                 $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where approved = {true} AND branchId = {branchId} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
-                $"GROUP BY MONTH(date)";
+                $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -1407,10 +1412,10 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            string query = $"SELECT MONTH(date) AS month,COUNT(*) AS counter " +
+            string query = $"SELECT MONTHNAME(date) AS month,COUNT(*) AS counter " +
                 $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where approved = {true} AND productId = {productId} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
-                $"GROUP BY MONTH(date)";
+                $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -1419,7 +1424,7 @@ namespace Shopping4u.DAL
                 {
                     if (!result.ContainsKey((string)dataReader["month"]))
                         result[(string)dataReader["month"]] = 0;
-                    result[(string)dataReader["month"]] += (double)dataReader["counter"];
+                    result[(string)dataReader["month"]] += dataReader.GetDouble("counter");
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -1442,9 +1447,9 @@ namespace Shopping4u.DAL
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    if (!result.ContainsKey((string)dataReader["date"]))
-                        result[(string)dataReader["date"]] = 0;
-                    result[(string)dataReader["date"]] += (double)dataReader["expenses"];
+                    if (!result.ContainsKey(((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")))
+                        result[((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")] = 0;
+                    result[((DateTime)dataReader["date"]).ToString("yyyy-MM-dd")] += (double)dataReader["expenses"];
                 }
                 //close Data Reader
                 dataReader.Close();
@@ -1470,10 +1475,10 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            string query = $"SELECT MONTH(date) AS month, SUM(quantity * unitPrice) AS expenses " +
+            string query = $"SELECT MONTHNAME(date) AS month, SUM(quantity * unitPrice) AS expenses " +
                 $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
-                $"GROUP BY MONTH(date)";
+                $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);

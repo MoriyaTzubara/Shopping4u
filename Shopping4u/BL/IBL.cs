@@ -81,7 +81,7 @@ namespace Shopping4u.BL
         Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId);
         #endregion
         #region FIREBASE
-        Task<string> StorePicture(string uploadUrl, string name);
+        //Task<string> StorePicture(string uploadUrl, string name);
         string EncodeBarcode(string downloadUrl);
         #endregion
         #region APRIORI

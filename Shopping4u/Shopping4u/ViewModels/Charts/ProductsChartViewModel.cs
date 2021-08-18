@@ -30,7 +30,7 @@ namespace Shopping4u.ViewModels.Charts
             Options = getOption();
             CurrentProduct = Options.ElementAtOrDefault(0) as Product;
 
-            Data = productsChartModel.getData(CurrentProduct.id, AggregateBy.WEEK, DateTime.Now, DateTime.Now.AddDays(7));
+            Data = productsChartModel.getData(CurrentProduct.id, AggregateBy.WEEK, DateTime.Now);
             setSeriesCollection(Data);
 
             SelectOptionCommand = new SelectOptionCommand(this);
@@ -57,10 +57,10 @@ namespace Shopping4u.ViewModels.Charts
 
         }
 
-        public Dictionary<string, double> getData(int productId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
+        public Dictionary<string, double> getData(int productId, AggregateBy aggregateBy, DateTime endDate)
         {
             // TODO //
-            return productsChartModel.getData(productId, aggregateBy, startDate, endDate);
+            return productsChartModel.getData(productId, aggregateBy, endDate);
         }
 
         public IEnumerable<Product> getOption()

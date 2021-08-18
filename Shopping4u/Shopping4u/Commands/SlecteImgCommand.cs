@@ -29,7 +29,7 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            createProductViewModel.SlecteImage();
+            createProductViewModel.SlectedImage();
         }
     }
 }
