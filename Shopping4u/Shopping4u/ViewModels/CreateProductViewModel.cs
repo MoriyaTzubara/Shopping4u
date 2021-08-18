@@ -161,7 +161,7 @@ namespace Shopping4u.ViewModels
             ImgUrl = selectedProduct.imageUrl;
             Quantity = 1;
             UnitPrice = 0;
-            this.SelectedProduct = selectedProduct;
+            SelectedProduct = selectedProduct;
             showProperBranches(selectedProduct.id);
             ProductSelectedEvent(this, selectedProduct);
         }

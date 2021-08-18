@@ -48,7 +48,7 @@ namespace Shopping4u
         }
         public void SelectProduct(object sender, Product product)
         {
-            //this.Products.SelectedItem = Products.Items.OfType<Product>().FirstOrDefault(p => p.id == product.id);
+            this.Products.SelectedItem = Products.Items.OfType<Product>().FirstOrDefault(p => p.id == product.id);
         }
     }
 }

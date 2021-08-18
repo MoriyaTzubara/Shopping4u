@@ -424,28 +424,44 @@ namespace Shopping4u.BL
             }
             return result;
         }
-        public List<List<Product>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
+        //public List<List<Product>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
+        //{
+        //    List<List<Product>> result = new List<List<Product>>();
+        //    IApriori apriori = new Apriori();
+        //    Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingListsOfConsumer(consumerId));
+        //    List<Product> ProductsTogether;
+        //    if (rules.ClosedItemSets.Count() != 0)
+        //    {
+        //        foreach (KeyValuePair<string,Dictionary<string,double>> closedItems in rules.ClosedItemSets)
+        //        {
+        //            List<List<int>> ListOfClosedItems = closedItems.Value.Keys.ToList().Select(k => k.Split(',').Select(x => int.Parse(x)).ToList()).ToList();
+                    
+        //            foreach (List<int> listOfProductsId in ListOfClosedItems)
+        //            {
+        //                ProductsTogether = new List<Product>();
+        //                foreach (int productId in listOfProductsId)
+        //                {
+        //                    ProductsTogether.Add(GetProduct(productId));
+        //                }
+        //                result.Add(ProductsTogether);
+        //            }
+                    
+        //        }
+        //    }
+        //    return result;
+        //}
+        public Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
         {
-            List<List<Product>> result = new List<List<Product>>();
             IApriori apriori = new Apriori();
-            Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingListsOfConsumer(consumerId));
-            List<Product> ProductsTogether;
-            if (rules.ClosedItemSets.Count() != 0)
+            Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingLists());
+            Dictionary<double, Dictionary<string, string>> result = new Dictionary<double, Dictionary<string, string>>();
+            foreach (KeyValuePair<string, Dictionary<string, double>> closedItems in rules.ClosedItemSets)
             {
-                foreach (KeyValuePair<string,Dictionary<string,double>> closedItems in rules.ClosedItemSets)
+                foreach (var item in closedItems.Value)
                 {
-                    List<List<int>> ListOfClosedItems = closedItems.Value.Keys.ToList().Select(k => k.Split(',').Select(x => int.Parse(x)).ToList()).ToList();
-                    
-                    foreach (List<int> listOfProductsId in ListOfClosedItems)
-                    {
-                        ProductsTogether = new List<Product>();
-                        foreach (int productId in listOfProductsId)
-                        {
-                            ProductsTogether.Add(GetProduct(productId));
-                        }
-                        result.Add(ProductsTogether);
-                    }
-                    
+                    if (!result.ContainsKey(item.Value))
+                        result[item.Value] = new Dictionary<string, string>();
+                    result[item.Value].Add(GetProductName(int.Parse(closedItems.Key)), GetProductName(int.Parse(item.Key))); 
                 }
             }
             return result;
