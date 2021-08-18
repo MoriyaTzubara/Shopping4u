@@ -459,9 +459,10 @@ namespace Shopping4u.BL
             {
                 foreach (var item in closedItems.Value)
                 {
-                    if (!result.ContainsKey(item.Value))
+                    if (!result.ContainsKey(item.Value * 100))
                         result[item.Value] = new Dictionary<string, string>();
-                    result[item.Value].Add(GetProductName(int.Parse(closedItems.Key)), GetProductName(int.Parse(item.Key))); 
+                    result[item.Value * 100].Add(string.Join(", ", closedItems.Key.Split(',').Select(i => GetProductName(int.Parse(i)))),
+                        string.Join(", ", item.Key.Split(',').Select(i => GetProductName(int.Parse(i)))));
                 }
             }
             return result;
