@@ -39,7 +39,7 @@ namespace Shopping4u.ViewModels.Charts
 
             AggregateBy = AggregateBy.WEEK;
 
-            Data = productsChartModel.getData(CurrentProduct.id, AggregateBy.WEEK,DateTime.Now.AddMonths(-1), DateTime.Now);
+            Data = productsChartModel.getData(current.id, AggregateBy.DAY, StartDate, EndDate);
             setSeriesCollection(Data);
 
             SelectOptionCommand = new SelectOptionCommand(this);
@@ -74,7 +74,7 @@ namespace Shopping4u.ViewModels.Charts
         public void selectOption(object option)
         {
             int productId = (option as Product).id;
-            Data = getData(productId, AggregateBy, EndDate);
+            Data = getData(productId, AggregateBy, StartDate, EndDate);
             setSeriesCollection(Data);
         }
         public void selectDates(DateTime start, DateTime end)
