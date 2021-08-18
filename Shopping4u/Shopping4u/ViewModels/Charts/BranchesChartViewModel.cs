@@ -38,7 +38,7 @@ namespace Shopping4u.ViewModels.Charts
 
             AggregateBy = AggregateBy.WEEK;
 
-            Data = BranchsChartModel.getData(current.id, AggregateBy.WEEK,DateTime.Now.AddMonths(-1), DateTime.Now);
+            Data = BranchsChartModel.getData(current.id, AggregateBy.DAY,StartDate, EndDate);
             setSeriesCollection(Data);
             SelectOptionCommand = new SelectOptionCommand(this);
         }
