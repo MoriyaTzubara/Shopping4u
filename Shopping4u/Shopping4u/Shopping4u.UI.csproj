@@ -95,11 +95,16 @@
     <Compile Include="Commands\SelectProductCommand.cs" />
     <Compile Include="Commands\SignInCommand.cs" />
     <Compile Include="Converters\SignInConverter.cs" />
+    <Compile Include="Commands\SetAggregateByCommand.cs" />
+    <Compile Include="Commands\SetEndDateCommand.cs" />
+    <Compile Include="Commands\SetStartDateCommand.cs" />
     <Compile Include="Commands\SlecteImgCommand.cs" />
     <Compile Include="Extensions\ProductExtension.cs" />
     <Compile Include="Models\Charts\BranchesChartModel.cs" />
     <Compile Include="Models\Charts\CategoriesChartModel.cs" />
     <Compile Include="Models\Charts\ProductsChartModel.cs" />
+    <Compile Include="Models\Charts\ProductsGroupModel.cs" />
+    <Compile Include="Models\Charts\TotalPriceChartModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\MyShoppingListModel.cs" />
     <Compile Include="Models\PieChartModel.cs" />
@@ -110,10 +115,13 @@
     <Compile Include="Models\IChartModel.cs" />
     <Compile Include="Models\SignInModel.cs" />
     <Compile Include="ViewModels\BranchProductViewModel.cs" />
+    <Compile Include="ViewModels\ChartsPageViewModel.cs" />
     <Compile Include="ViewModels\Charts\BranchesChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\CategoriesChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\ProductsChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\PieChartViewModel.cs" />
+    <Compile Include="ViewModels\Charts\ProductsGroupViewModel.cs" />
+    <Compile Include="ViewModels\Charts\TotalPriceChartViewModel.cs" />
     <Compile Include="ViewModels\RecommendtionViewModel.cs" />
     <Compile Include="ViewModels\Charts\LineChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\ChartsViewModel.cs" />
@@ -140,6 +148,9 @@
     <Compile Include="Extensions\OrderedProductExtension.cs" />
     <Compile Include="Views\PieChartUserControl.xaml.cs">
       <DependentUpon>PieChartUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProductsGroupUserControl.xaml.cs">
+      <DependentUpon>ProductsGroupUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProductUserControl.xaml.cs">
       <DependentUpon>ProductUserControl.xaml</DependentUpon>
@@ -198,6 +209,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\PieChartUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProductsGroupUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

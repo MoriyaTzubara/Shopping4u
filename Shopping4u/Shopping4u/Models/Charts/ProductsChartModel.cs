@@ -11,18 +11,18 @@ namespace Shopping4u.Models.Charts
 {
     public class ProductsChartModel : ILineChartModel<Product,int>
     {
-        public Dictionary<string, double> getData(int productId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
+        public Dictionary<string, double> getData(int productId, AggregateBy aggregateBy,DateTime startDate, DateTime endDate)
         {
             // TODO //
             IBL bl = new BL.BL();
             switch (aggregateBy)
             {
                 case AggregateBy.MONTH:
-                    return bl.ProductBetweenTwoDatesByMonth(startDate.AddYears(-1), startDate, 1, productId);
+                    return bl.ProductBetweenTwoDatesByMonth(startDate, endDate, 1, productId);
                 case AggregateBy.WEEK:
-                    return bl.ProductBetweenTwoDatesByWeek(startDate.AddMonths(-1), startDate, 1, productId);
+                    return bl.ProductBetweenTwoDatesByWeek(startDate, endDate, 1, productId);
                 case AggregateBy.DAY:
-                    return bl.ProductBetweenTwoDatesByDay(startDate.AddDays(-7), startDate, 1, productId);
+                    return bl.ProductBetweenTwoDatesByDay(startDate, endDate, 1, productId);
                 default:
                     break;
             }

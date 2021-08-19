@@ -43,13 +43,12 @@ namespace Shopping4u.ViewModels
 
         }
 
-        public void SaveImageProduct(string imgUrl, int branchProductId)
+        public async void SaveImageProduct(string imgUrl, int branchProductId)
         {
             IBL bl = new BL.BL();
             Product product = bl.GetBranchProduct(branchProductId).GetProduct();
-            string downloadUrl = bl.StorePicture(imgUrl, product.name).Result;
-            bl.UpdateProductPicture(downloadUrl, product.id);
-            MessageBox.Show($"SaveImageProduct: imgUrl = {imgUrl}, productId = {branchProductId}");
+            await BL.BL.StorePicture(imgUrl, product.name, product.id);
+            ImgUrl = bl.GetBranchProduct(branchProductId).GetProduct().imageUrl;
         }
 
         public ObservableCollection<BranchProductViewModel> Branches { get; set; }
@@ -162,6 +161,7 @@ namespace Shopping4u.ViewModels
             ImgUrl = selectedProduct.imageUrl;
             Quantity = 1;
             UnitPrice = 0;
+            SelectedProduct = selectedProduct;
             showProperBranches(selectedProduct.id);
             ProductSelectedEvent(this, selectedProduct);
         }
@@ -200,25 +200,27 @@ namespace Shopping4u.ViewModels
             if (imgUrl == "")
                 return;
 
-            MessageBox.Show($"SCAN QR Code {imgUrl}");
+            //MessageBox.Show($"SCAN QR Code {imgUrl}");
 
-            OrderedProduct orderedProduct = this.EncodeBarcode(imgUrl);
+            OrderedProduct orderedProduct = EncodeBarcode(imgUrl);
             ScannedProduct(orderedProduct);
         }
 
-        public void SlecteImage()
+        public void SlectedImage()
         {
             string imgUrl = "";
-            OpenFileDialog of = new OpenFileDialog();
-            //For any other formats
-            of.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
-            if (of.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog of = new OpenFileDialog())
             {
-                imgUrl = of.FileName;
-            }            
+                //For any other formats
+                of.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+                if (of.ShowDialog() == DialogResult.OK)
+                {
+                    imgUrl = of.FileName;
+                }
+            }
             if (imgUrl == "")
                 return;
-            ImgUrl = imgUrl;
+            SaveImageProduct(imgUrl,branchProductId);
         }
     }
 }

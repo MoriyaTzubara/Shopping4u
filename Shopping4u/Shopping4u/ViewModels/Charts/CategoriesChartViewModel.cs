@@ -1,41 +1,87 @@
 ﻿using BE;
 using LiveCharts;
 using LiveCharts.Wpf;
-using Shopping4u.BL;
+using Shopping4u.Commands;
 using Shopping4u.Models.Charts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Shopping4u.ViewModels.Charts
 {
-    public class CategoriesChartViewModel : ILineChartViewModel
+    public class CategoriesChartViewModel : ILineChartViewModel, INotifyPropertyChanged
     {
-        private CategoriesChartModel CategorysChartModel;
-        public CategoriesChartViewModel()
-        {
-            CategorysChartModel = new CategoriesChartModel();
-            Options = getOption();
-            CurrentCategory = Options.ElementAtOrDefault(0) as string;
+        private CategoriesChartModel CategoriesChartModel;
 
-            Data = CategorysChartModel.getData(CurrentCategory, AggregateBy.WEEK, DateTime.Now, DateTime.Now.AddDays(7));
-            setSeriesCollection(Data);
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public Dictionary<string, double> Data { get; set; }
-        public SeriesCollection SeriesCollection { get; set; }
-        public IEnumerable<object> Options { get; set; }
-        public string CurrentCategory { get; set; }
+        public CategoriesChartViewModel()
+        {
+            Title = "Categories";
 
+            CategoriesChartModel = new CategoriesChartModel();
+            Options = getOption();
+            CurrentOption = Options.ElementAtOrDefault(0);
+
+            string current = CurrentOption.ToString();
+
+
+            EndDate = DateTime.Now;
+            StartDate = DateTime.Now.AddDays(-7);
+
+            AggregateBy = AggregateBy.DAY;
+
+            Data = CategoriesChartModel.getData(current, AggregateBy.DAY,StartDate, EndDate);
+            setSeriesCollection(Data);
+
+            SelectOptionCommand = new SelectOptionCommand(this);
+            selectOption(current);
+
+            Labels = Data.Select(x => x.Key).ToArray();
+
+        }
+
+        public string Title { get; set; }
+
+        private Dictionary<string, double> data;
+        public Dictionary<string, double> Data
+        {
+            get { return data; }
+            set { data = value; OnPropertyChanged(); }
+        }
+
+        private SeriesCollection seriesCollection;
+        public SeriesCollection SeriesCollection
+        {
+            get { return seriesCollection; }
+            set { seriesCollection = value; OnPropertyChanged(); }
+        }
+        public IEnumerable<object> Options { get; set; }
+        public string[] Labels { get; set; }
+
+        public object CurrentOption { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public AggregateBy AggregateBy { get; set; }
+
+        public SelectOptionCommand SelectOptionCommand { get; set; }
+
 
         public void selectOption(object option)
         {
-
+            string categoryName = option.ToString();
+            Data = getData(categoryName, AggregateBy, StartDate, EndDate);
+            setSeriesCollection(Data);
         }
         public void selectDates(DateTime start, DateTime end)
         {
@@ -46,13 +92,13 @@ namespace Shopping4u.ViewModels.Charts
         public Dictionary<string, double> getData(string CategoryName, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
         {
             // TODO //
-            return CategorysChartModel.getData(CategoryName, aggregateBy, startDate, endDate);
+            return CategoriesChartModel.getData(CategoryName, aggregateBy, startDate, endDate);
         }
 
         public IEnumerable<string> getOption()
         {
             // TODO //
-            return CategorysChartModel.getOption();
+            return CategoriesChartModel.getOption();
 
         }
 
@@ -67,6 +113,16 @@ namespace Shopping4u.ViewModels.Charts
                     Values = new ChartValues<double>(data.Values),
                 }
             };
+        }
+
+        public void updateSeriesCollection(DateTime startDate, DateTime endDate, AggregateBy aggregateBy)
+        {
+            StartDate = startDate;
+            EndDate = endDate;
+            AggregateBy = aggregateBy;
+
+            Data = getData(CurrentOption.ToString(), aggregateBy, startDate, endDate);
+            setSeriesCollection(Data);
         }
     }
 }

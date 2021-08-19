@@ -49,7 +49,7 @@ namespace Shopping4u.BL
         }
         #endregion
         #region FIREBASE
-        public async Task<string> StorePicture(string uploadUrl, string name)
+        public async static Task StorePicture(string uploadUrl, string name, int productId)
         {
             var stream = File.Open(uploadUrl, FileMode.Open);
 
@@ -63,8 +63,9 @@ namespace Shopping4u.BL
 
             // Await the task to wait until upload is completed and get the download url
             var downloadUrl = await task;
-            //Console.WriteLine(downloadUrl);
-            return downloadUrl;
+            stream.Close();
+            IBL bl = new BL();
+            bl.UpdateProductPicture(downloadUrl, productId);
         }
         // encodes the barcodes
         public string EncodeBarcode(string downloadUrl)
@@ -344,7 +345,7 @@ namespace Shopping4u.BL
         }
         public Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId)
         {
-            return BranchBetweenTwoDatesByMonth(start, end, consumerId, branchId);
+            return dal.BranchBetweenTwoDatesByMonth(start, end, consumerId, branchId);
         }
         public Dictionary<string, double> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
         {
@@ -423,28 +424,47 @@ namespace Shopping4u.BL
             }
             return result;
         }
-        public List<List<Product>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
+        //public List<List<Product>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
+        //{
+        //    List<List<Product>> result = new List<List<Product>>();
+        //    IApriori apriori = new Apriori();
+        //    Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingListsOfConsumer(consumerId));
+        //    List<Product> ProductsTogether;
+        //    if (rules.ClosedItemSets.Count() != 0)
+        //    {
+        //        foreach (KeyValuePair<string,Dictionary<string,double>> closedItems in rules.ClosedItemSets)
+        //        {
+        //            List<List<int>> ListOfClosedItems = closedItems.Value.Keys.ToList().Select(k => k.Split(',').Select(x => int.Parse(x)).ToList()).ToList();
+
+        //            foreach (List<int> listOfProductsId in ListOfClosedItems)
+        //            {
+        //                ProductsTogether = new List<Product>();
+        //                foreach (int productId in listOfProductsId)
+        //                {
+        //                    ProductsTogether.Add(GetProduct(productId));
+        //                }
+        //                result.Add(ProductsTogether);
+        //            }
+
+        //        }
+        //    }
+        //    return result;
+        //}
+        public Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
         {
-            List<List<Product>> result = new List<List<Product>>();
             IApriori apriori = new Apriori();
-            Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingListsOfConsumer(consumerId));
-            List<Product> ProductsTogether;
-            if (rules.ClosedItemSets.Count() != 0)
+            Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingLists());
+            Dictionary<double, Dictionary<string, string>> result = new Dictionary<double, Dictionary<string, string>>();
+            foreach (KeyValuePair<string, Dictionary<string, double>> closedItems in rules.ClosedItemSets)
             {
-                foreach (KeyValuePair<string,Dictionary<string,double>> closedItems in rules.ClosedItemSets)
+                foreach (var item in closedItems.Value)
                 {
-                    List<List<int>> ListOfClosedItems = closedItems.Value.Keys.ToList().Select(k => k.Split(',').Select(x => int.Parse(x)).ToList()).ToList();
-                    
-                    foreach (List<int> listOfProductsId in ListOfClosedItems)
-                    {
-                        ProductsTogether = new List<Product>();
-                        foreach (int productId in listOfProductsId)
-                        {
-                            ProductsTogether.Add(GetProduct(productId));
-                        }
-                        result.Add(ProductsTogether);
-                    }
-                    
+                    if (!result.ContainsKey(item.Value * 100))
+                        result[item.Value*100] = new Dictionary<string, string>();
+                    string key = string.Join(", ", closedItems.Key.Split(',').Select(i => GetProductName(int.Parse(i))));
+                    string value = string.Join(", ", item.Key.Split(',').Select(i => GetProductName(int.Parse(i))));
+                    if (!result[item.Value * 100].ContainsKey(key))
+                        result[item.Value * 100][key] = value;
                 }
             }
             return result;

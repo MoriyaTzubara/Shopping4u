@@ -18,11 +18,11 @@ namespace Shopping4u.Models.Charts
             switch (aggregateBy)
             {
                 case AggregateBy.MONTH:
-                    return bl.CategoryBetweenTwoDatesByMonth(startDate.AddYears(-1), startDate, 1, categoryName);
+                    return bl.CategoryBetweenTwoDatesByMonth(startDate, endDate, 1, categoryName);
                 case AggregateBy.WEEK:
-                    return bl.CategoryBetweenTwoDatesByWeek(startDate.AddMonths(-1), startDate, 1, categoryName);
+                    return bl.CategoryBetweenTwoDatesByWeek(startDate, endDate, 1, categoryName);
                 case AggregateBy.DAY:
-                    return bl.CategoryBetweenTwoDatesByDay(startDate.AddDays(-7), startDate, 1, categoryName);
+                    return bl.CategoryBetweenTwoDatesByDay(startDate, endDate, 1, categoryName);
                 default:
                     break;
             }

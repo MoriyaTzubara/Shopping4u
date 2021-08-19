@@ -129,8 +129,8 @@
                         Style="{StaticResource CRUD}" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding SaveImageProductCommand}"
-                                                           CommandParameter="{Binding ElementName=this, Path=DataContext}"/>
+                                    <!--<i:InvokeCommandAction Command="{Binding SaveImageProductCommand}"
+                                                           CommandParameter="{Binding ElementName=this, Path=DataContext}"/>-->
                                     
                                     <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                           AncestorType={x:Type local:ShoppingListPage}}, 

@@ -32,12 +32,12 @@ namespace Shopping4u.ViewModels
         {
             myShoppingListModel.CreateProduct(orderedProduct);
             base.CreateProduct(orderedProduct);
-            MessageBox.Show("CreateProduct @ MyShoppingList");
+            //MessageBox.Show("CreateProduct @ MyShoppingList");
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
             base.UpdateProduct(orderedProduct);
-            MessageBox.Show("UpdateProduct @ MyShoppingList");
+            //MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int orderedProductId)
         {

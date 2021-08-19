@@ -7,13 +7,14 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="450" d:DesignWidth="800">
     <materialDesign:Card UniformCornerRadius="10">
-        <Border Margin="20">
+        <Border Margin="10">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10*"/>
-                    <RowDefinition Height="90*"/>
+                    <RowDefinition Height="15*"/>
+                    <RowDefinition Height="85*"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
@@ -22,15 +23,27 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <TextBlock Text="{Binding Title}" Grid.Column="0"/>
-                    <ComboBox ItemsSource="{Binding Options}" Grid.Column="1"/>
+                    <TextBlock Text="{Binding Title}" FontWeight="Medium" VerticalAlignment="Center" Grid.Column="0"/>
+                    <ComboBox x:Name="options" ItemsSource="{Binding Options}" SelectedItem="{Binding CurrentOption}" Grid.Column="1" FontSize="10">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectOptionCommand}" 
+                                                       CommandParameter="{Binding ElementName=options, Path=SelectedItem}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
                     
                 </Grid>
 
 
                 <Grid Grid.Row="1">
-                    <lvc:CartesianChart Series="{Binding SeriesCollection}"  />
+                    <lvc:CartesianChart Series="{Binding SeriesCollection}">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Labels="{Binding Labels}"/>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
                 </Grid>
+                
             </Grid>
         </Border>
 

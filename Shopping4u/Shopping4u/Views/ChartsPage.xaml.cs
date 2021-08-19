@@ -14,8 +14,8 @@ using Shopping4u.Models;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Shopping4u.ViewModels;
-using Shopping4u.Views;
 using Shopping4u.ViewModels.Charts;
+using Shopping4u.Views;
 
 namespace Shopping4u
 {
@@ -28,18 +28,15 @@ namespace Shopping4u
         {
             InitializeComponent();
 
-            ILineChartViewModel productsChartViewModel = new ProductsChartViewModel();
+            ChartsPageViewModel chartsPageViewModel = new ChartsPageViewModel();
+            DataContext = chartsPageViewModel;
 
-            Panel1.Children.Add(new CartesianChartUserControl());
+            Panel1.Children.Add(new CartesianChartUserControl(new TotalPriceChartViewModel()));
+            Panel2.Children.Add(new ProductsGroupUserControl(new ProductsGroupViewModel()));
 
-            Panel2.Children.Add(new LineChartUserControl(productsChartViewModel));
-            
-            //Panel3.Children.Add(new );
-
-            //Panel4.Children.Add(new );
-
-            //Panel5.Children.Add(new );
-
+            Panel3.Children.Add(new LineChartUserControl(chartsPageViewModel.ProductsChartViewModel));
+            Panel4.Children.Add(new LineChartUserControl(chartsPageViewModel.BranchesChartViewModel));
+            Panel5.Children.Add(new LineChartUserControl(chartsPageViewModel.CategoriesChartViewModel));
         }                                                
     }
 }
