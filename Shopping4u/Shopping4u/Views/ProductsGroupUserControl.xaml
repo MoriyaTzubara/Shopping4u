@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:Shopping4u.Views"
              mc:Ignorable="d" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card>
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
+    <materialDesign:Card UniformCornerRadius="10">
         <ListView ItemsSource="{Binding ProductsGroup}">
                 <ListView.ItemTemplate>
                 <DataTemplate>

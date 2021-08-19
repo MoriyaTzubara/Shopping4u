@@ -38,13 +38,16 @@ namespace Shopping4u.ViewModels.Charts
             EndDate = DateTime.Now;
             StartDate = DateTime.Now.AddDays(-7);
 
-            AggregateBy = AggregateBy.WEEK;
+            AggregateBy = AggregateBy.DAY;
 
             Data = CategoriesChartModel.getData(current, AggregateBy.DAY,StartDate, EndDate);
             setSeriesCollection(Data);
 
             SelectOptionCommand = new SelectOptionCommand(this);
             selectOption(current);
+
+            Labels = Data.Select(x => x.Key).ToArray();
+
         }
 
         public string Title { get; set; }
@@ -63,6 +66,8 @@ namespace Shopping4u.ViewModels.Charts
             set { seriesCollection = value; OnPropertyChanged(); }
         }
         public IEnumerable<object> Options { get; set; }
+        public string[] Labels { get; set; }
+
         public object CurrentOption { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -108,6 +113,16 @@ namespace Shopping4u.ViewModels.Charts
                     Values = new ChartValues<double>(data.Values),
                 }
             };
+        }
+
+        public void updateSeriesCollection(DateTime startDate, DateTime endDate, AggregateBy aggregateBy)
+        {
+            StartDate = startDate;
+            EndDate = endDate;
+            AggregateBy = aggregateBy;
+
+            Data = getData(CurrentOption.ToString(), aggregateBy, startDate, endDate);
+            setSeriesCollection(Data);
         }
     }
 }

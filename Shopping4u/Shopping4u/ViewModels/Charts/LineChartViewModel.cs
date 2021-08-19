@@ -15,6 +15,7 @@ namespace Shopping4u.ViewModels
         string Title { get; set; }
         Dictionary<string, double> Data { get; set; }
         SeriesCollection SeriesCollection { get; set; }
+        string[] Labels { get; set; }
         IEnumerable<object> Options { get; set; }
         AggregateBy AggregateBy { get; set; }
         object CurrentOption { get; set; }
@@ -28,5 +29,6 @@ namespace Shopping4u.ViewModels
         void selectDates(DateTime start, DateTime end);
 
         void setSeriesCollection(Dictionary<string, double> data);
+        void updateSeriesCollection(DateTime startDate, DateTime endDate, AggregateBy aggregateBy);
     }
 }
