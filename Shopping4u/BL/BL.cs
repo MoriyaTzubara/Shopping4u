@@ -450,20 +450,21 @@ namespace Shopping4u.BL
         //    }
         //    return result;
         //}
-        public Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
+        public Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.5, double minConfidence = 0.7)
         {
             IApriori apriori = new Apriori();
             Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingLists());
             Dictionary<double, Dictionary<string, string>> result = new Dictionary<double, Dictionary<string, string>>();
-            foreach (KeyValuePair<string, Dictionary<string, double>> closedItems in rules.ClosedItemSets)
+            rules.StrongRules = rules.StrongRules.Where(k => k.X.Split(',').Count() == 1).ToList();
+            foreach (Rule rule in rules.StrongRules)
             {
-                foreach (var item in closedItems.Value)
-                {
-                    if (!result.ContainsKey(item.Value * 100))
-                        result[item.Value] = new Dictionary<string, string>();
-                    result[item.Value * 100].Add(string.Join(", ", closedItems.Key.Split(',').Select(i => GetProductName(int.Parse(i)))),
-                        string.Join(", ", item.Key.Split(',').Select(i => GetProductName(int.Parse(i)))));
-                }
+                if (!result.ContainsKey(rule.Confidence * 100))
+                    result[rule.Confidence * 100] = new Dictionary<string, string>();
+                string key = string.Join(", ", rule.X.Split(',').Select(i => GetProductName(int.Parse(i))).Distinct());
+                string value = string.Join(", ", rule.Y.Split(',').Select(i => GetProductName(int.Parse(i))).Where(name => name != key).Distinct());
+                if (!result[rule.Confidence * 100].ContainsKey(key))
+                    result[rule.Confidence * 100][key] = value;
+
             }
             return result;
         }
