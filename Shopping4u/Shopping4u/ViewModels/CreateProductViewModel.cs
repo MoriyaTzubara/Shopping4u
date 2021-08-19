@@ -163,7 +163,7 @@ namespace Shopping4u.ViewModels
             UnitPrice = 0;
             SelectedProduct = selectedProduct;
             showProperBranches(selectedProduct.id);
-            ProductSelectedEvent(this, selectedProduct);
+            //ProductSelectedEvent(this, selectedProduct);
         }
 
         public void BranchProductSelected(BranchProduct selectedBranchProduct)
