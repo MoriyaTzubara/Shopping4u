@@ -34,13 +34,8 @@ namespace Shopping4u
             
             MainWindowViewModel = new MainWindowViewModel(this);
             DataContext = MainWindowViewModel;
-
-            if (App.Consumer != null)
-                GoToHomePage();
-            else
-                GoToSignInPage();
+            GoToSignInPage();
             MainWindowViewModel.AddedRecommendtionEvent += addRecommendtion;
-
             ChartsBtn.IsEnabled = false;
             HomeBtn.IsEnabled = false;
             MyShoppingListBtn.IsEnabled = false;
