@@ -55,8 +55,7 @@
 
                 <!--Branch-->
                 <Grid Grid.Column="2" Margin="10 0">
-                    <ComboBox x:Name="Branches" IsReadOnly="{Binding IsReadOnly}">
-                    </ComboBox>
+                    <TextBlock VerticalAlignment="Center" Text="{Binding BranchName}" FontWeight="Bold" FontSize="16" TextAlignment="Center" />
                 </Grid>
 
                 <!--Quantity-->

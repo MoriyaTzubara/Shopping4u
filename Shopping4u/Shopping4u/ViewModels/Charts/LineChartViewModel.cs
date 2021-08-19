@@ -28,7 +28,7 @@ namespace Shopping4u.ViewModels
         void selectOption(object option);
         void selectDates(DateTime start, DateTime end);
 
-        void setSeriesCollection(Dictionary<string, double> data);
+        void setSeriesCollection(Dictionary<string, double> data, AggregateBy aggregateBy);
         void updateSeriesCollection(DateTime startDate, DateTime endDate, AggregateBy aggregateBy);
     }
 }

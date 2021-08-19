@@ -28,8 +28,9 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            Product product = parameter as Product;
-            createProductViewModel.ProductSelected(product);
+            Product product = parameter as Product;            
+            if (product != null)
+                createProductViewModel.ProductSelected(product);
         }
     }
 }

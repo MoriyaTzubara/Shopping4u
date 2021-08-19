@@ -147,7 +147,7 @@ namespace Shopping4u.ViewModels
             private set { }
         }
 
-        private void showProperBranches(int productId)
+        public void showProperBranches(int productId)
         {
             IBL bl = new BL.BL();
             Branches = new ObservableCollection<BranchProductViewModel>(bl.GetBranchProductsOfSpecificProduct(productId).Select(x=> new BranchProductViewModel(x)));

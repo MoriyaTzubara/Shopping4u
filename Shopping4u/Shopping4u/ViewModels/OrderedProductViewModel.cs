@@ -63,9 +63,9 @@ namespace Shopping4u.ViewModels
 
         public string ImgUrl { get; set; }
 
-        public String BranchName { get; set; }
+        public string BranchName { get; set; }
         
-        public String ProductName { get; set; }
+        public string ProductName { get; set; }
 
         public bool IsNotReadOnly { get; set; }
         public bool IsReadOnly { get { return !IsNotReadOnly; } set { } }
