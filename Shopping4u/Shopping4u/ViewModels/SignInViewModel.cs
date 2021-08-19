@@ -20,6 +20,7 @@ namespace Shopping4u.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+
         private SignInModel signInModel;
 
         public event EventHandler<Consumer> SignInSuccessEvent;

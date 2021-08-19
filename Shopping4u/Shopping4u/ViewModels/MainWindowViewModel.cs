@@ -49,20 +49,19 @@ namespace Shopping4u.ViewModels
             signInPage = new SignInPage(signInViewModel);
 
             signInViewModel.SignInSuccessEvent += SignInSuccess;
+            signInViewModel.SignInSuccessEvent += mainWindow.SignInSuccess;
 
             GoToRecommendedShoppingListPageCommand = new GoToRecommendedShoppingListPageCommand(mainWindow);
             GoToHomePageCommand = new GoToHomePageCommand(mainWindow);
             GoToMyShoppingListPageCommand = new GoToMyShoppingListPageCommand(mainWindow);
             GoToShoppingHistoryPageCommand = new GoToShoppingHistoryPageCommand(mainWindow);
             GoToStatisticsPageCommand = new GoToStatisticsPageCommand(mainWindow);
-            GoToSignInPageCommand = new GoToSignInPageCommand(mainWindow);
-
-
-            
+            GoToSignInPageCommand = new GoToSignInPageCommand(mainWindow);            
         }
 
         private void SignInSuccess(object sender, Consumer consumer)
         {
+            homePage.ConsumerName = consumer.firstName;
             GoToHomePageCommand.Execute(null);
         }
 

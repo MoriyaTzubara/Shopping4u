@@ -20,7 +20,7 @@ namespace Shopping4u.Commands
 
         public bool CanExecute(object parameter)
         {
-            return App.Consumer != null;
+            return true;
         }
 
         public void Execute(object parameter)

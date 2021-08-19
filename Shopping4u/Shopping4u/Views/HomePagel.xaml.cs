@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,11 +20,22 @@ namespace Shopping4u
     /// <summary>
     /// Interaction logic for HomePage.xaml
     /// </summary>
-    public partial class HomePage : UserControl
+    public partial class HomePage : UserControl, INotifyPropertyChanged
     {
+        private string consumerName;
+        public string ConsumerName { get { return consumerName; } set { consumerName = value; OnPropertyChanged(); } }
+
         public HomePage()
         {
             InitializeComponent();
+            DataContext = this;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
     }
 }
