@@ -33,9 +33,10 @@
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
                                     HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
                                     Command="{Binding GoToMyShoppingListPageCommand}"
+                                    x:Name="MyShoppingListBtn"
                                     Foreground="Black" >
                                 <StackPanel>
-                                    <materialDesign:Badged Badge="3" Padding="-5">
+                                    <materialDesign:Badged Padding="-5">
                                         <materialDesign:PackIcon Kind="CartOutline" Style="{StaticResource MenuIcon}"/>
                                     </materialDesign:Badged>
                                 </StackPanel>
@@ -48,6 +49,7 @@
                                     Command="{Binding GoToHomePageCommand}"
                                     CommandParameter="{x:Null}"
                                     HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
+                                    x:Name="HomeBtn"
                                     Foreground="Black">
                                 <StackPanel Margin="-5">
                                     <materialDesign:PackIcon Kind="Home"  Style="{StaticResource MenuIcon}"/>
@@ -61,6 +63,7 @@
                                     Command="{Binding GoToRecommendedShoppingListPageCommand}"
                                     CommandParameter="{x:Null}"
                                     HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
+                                    x:Name="RecommendedShoppingListBtn"
                                     Foreground="Black">
                                 <StackPanel Margin="-5">
                                     <materialDesign:PackIcon Kind="StarOutline"  Style="{StaticResource MenuIcon}"/>
@@ -73,6 +76,7 @@
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
                                     HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
                                     Command="{Binding GoToShoppingHistoryPageCommand}"
+                                    x:Name="ShoppingHistoryBtn"
                                     Foreground="Black">
                                 <StackPanel Margin="-5">
                                     <materialDesign:PackIcon Kind="History"  Style="{StaticResource MenuIcon}"/>
@@ -85,6 +89,7 @@
                             <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
                                     HorizontalAlignment="Left" BorderBrush="{x:Null}" Background="{x:Null}"
                                     Command="{Binding GoToStatisticsPageCommand}"
+                                    x:Name="ChartsBtn"
                                     Foreground="Black">
                                 <StackPanel Margin="-5">
                                     <materialDesign:PackIcon Kind="ChartBar"  Style="{StaticResource MenuIcon}"/>

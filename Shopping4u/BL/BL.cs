@@ -435,7 +435,7 @@ namespace Shopping4u.BL
         //        foreach (KeyValuePair<string,Dictionary<string,double>> closedItems in rules.ClosedItemSets)
         //        {
         //            List<List<int>> ListOfClosedItems = closedItems.Value.Keys.ToList().Select(k => k.Split(',').Select(x => int.Parse(x)).ToList()).ToList();
-                    
+
         //            foreach (List<int> listOfProductsId in ListOfClosedItems)
         //            {
         //                ProductsTogether = new List<Product>();
@@ -445,7 +445,7 @@ namespace Shopping4u.BL
         //                }
         //                result.Add(ProductsTogether);
         //            }
-                    
+
         //        }
         //    }
         //    return result;

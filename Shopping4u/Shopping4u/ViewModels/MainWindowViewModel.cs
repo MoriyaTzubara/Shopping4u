@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
+using Shopping4u.Views;
 
 namespace Shopping4u.ViewModels
 {
@@ -14,11 +15,13 @@ namespace Shopping4u.ViewModels
     {
         private ReccomendedShoppingListModel reccomendedShoppingListModel;
         private RecommendedShoppingListViewModel recommendedShoppingListViewModel;
+        private SignInViewModel signInViewModel;
 
         public HomePage homePage = new HomePage();
         public ShoppingListPage recommendedShoppingListPage;
         public ShoppingListPage myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel(new MyShoppingListModel()));
         public ShoppingHistoryPage shoppingHistoryPage = new ShoppingHistoryPage();
+        public SignInPage signInPage;
         public ChartsPage chartsPage = new ChartsPage();
 
 
@@ -27,6 +30,7 @@ namespace Shopping4u.ViewModels
         public GoToMyShoppingListPageCommand GoToMyShoppingListPageCommand { get; set;}
         public GoToShoppingHistoryPageCommand GoToShoppingHistoryPageCommand { get; set; }
         public GoToStatisticsPageCommand GoToStatisticsPageCommand { get; set; }
+        public GoToSignInPageCommand GoToSignInPageCommand { get; set; }
 
         public CreateProductCommand CreateProductCommand { get; set; }
 
@@ -41,13 +45,24 @@ namespace Shopping4u.ViewModels
             recommendedShoppingListViewModel.AddedRecommendtionEvent += addedRecommendtionHandler;
             CreateProductCommand = new CreateProductCommand(recommendedShoppingListViewModel);
 
+            signInViewModel = new SignInViewModel();
+            signInPage = new SignInPage(signInViewModel);
+
+            signInViewModel.SignInSuccessEvent += SignInSuccess;
+            signInViewModel.SignInSuccessEvent += mainWindow.SignInSuccess;
+
             GoToRecommendedShoppingListPageCommand = new GoToRecommendedShoppingListPageCommand(mainWindow);
             GoToHomePageCommand = new GoToHomePageCommand(mainWindow);
             GoToMyShoppingListPageCommand = new GoToMyShoppingListPageCommand(mainWindow);
             GoToShoppingHistoryPageCommand = new GoToShoppingHistoryPageCommand(mainWindow);
             GoToStatisticsPageCommand = new GoToStatisticsPageCommand(mainWindow);
+            GoToSignInPageCommand = new GoToSignInPageCommand(mainWindow);            
+        }
 
-            
+        private void SignInSuccess(object sender, Consumer consumer)
+        {
+            homePage.ConsumerName = consumer.firstName;
+            GoToHomePageCommand.Execute(null);
         }
 
         private async void addedRecommendtionHandler(object sender, OrderedProduct orderedProduct)

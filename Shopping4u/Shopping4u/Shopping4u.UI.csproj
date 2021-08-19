@@ -61,7 +61,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -81,6 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ExportRecommendedListToPDFCommand.cs" />
+    <Compile Include="Commands\GoToSignInPageCommand.cs" />
     <Compile Include="Commands\IgnoreRecommendationCommand.cs" />
     <Compile Include="Commands\SaveImageProductCommand.cs" />
     <Compile Include="Commands\SaveShoppingListCommand.cs" />
@@ -89,6 +93,8 @@
     <Compile Include="Commands\SelectDatesCommand.cs" />
     <Compile Include="Commands\SelectOptionCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
+    <Compile Include="Commands\SignInCommand.cs" />
+    <Compile Include="Converters\SignInConverter.cs" />
     <Compile Include="Commands\SetAggregateByCommand.cs" />
     <Compile Include="Commands\SetEndDateCommand.cs" />
     <Compile Include="Commands\SetStartDateCommand.cs" />
@@ -107,6 +113,7 @@
     <Compile Include="Models\RecommendtionModel.cs" />
     <Compile Include="Models\ShoppingListModel.cs" />
     <Compile Include="Models\IChartModel.cs" />
+    <Compile Include="Models\SignInModel.cs" />
     <Compile Include="ViewModels\BranchProductViewModel.cs" />
     <Compile Include="ViewModels\ChartsPageViewModel.cs" />
     <Compile Include="ViewModels\Charts\BranchesChartViewModel.cs" />
@@ -115,10 +122,10 @@
     <Compile Include="ViewModels\Charts\PieChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\ProductsGroupViewModel.cs" />
     <Compile Include="ViewModels\Charts\TotalPriceChartViewModel.cs" />
-    <Compile Include="ViewModels\ProductsGroupViewModel.cs" />
     <Compile Include="ViewModels\RecommendtionViewModel.cs" />
     <Compile Include="ViewModels\Charts\LineChartViewModel.cs" />
     <Compile Include="ViewModels\Charts\ChartsViewModel.cs" />
+    <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="Views\CartesianChartUserControl.xaml.cs">
       <DependentUpon>CartesianChartUserControl.xaml</DependentUpon>
     </Compile>
@@ -156,6 +163,9 @@
     </Compile>
     <Compile Include="Views\ShoppingHistoryPage.xaml.cs">
       <DependentUpon>ShoppingHistoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SignInPage.xaml.cs">
+      <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChartsPage.xaml.cs">
       <DependentUpon>ChartsPage.xaml</DependentUpon>
@@ -219,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShoppingHistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SignInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
