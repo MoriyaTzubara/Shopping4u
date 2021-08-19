@@ -314,7 +314,6 @@ namespace Shopping4u.DAL
 
                 //close Connection
                 CloseConnection();
-
                 result.ForEach(x => x.products = GetOrderedProductsOfList(x.id));
                 //return list to be displayed
                 return result;
