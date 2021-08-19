@@ -9,7 +9,7 @@ namespace Shopping4u.Models.Charts
 {
     public class TotalPriceChartModel
     {
-
+        // TALYA TODO //
         public IEnumerable<double> getData()
         {
             // TODO //
