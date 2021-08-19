@@ -102,7 +102,7 @@ namespace Shopping4u.ViewModels.Charts
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double>(data.Values),
+                    Values = new ChartValues<double>(data.Keys.OrderBy(k => TotalPriceChartModel.allMonths.ToList().IndexOf(k)).Select(k => data[k])),
                 }
             };
         }

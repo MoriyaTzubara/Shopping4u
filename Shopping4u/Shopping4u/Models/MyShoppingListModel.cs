@@ -21,9 +21,10 @@ namespace Shopping4u.Models
         private IEnumerable<OrderedProduct> getProducts()
         {
             IBL bl = new BL.BL();
-            var shoppingList = bl.CreateUnapprovedShoppingList(1);
+            ShoppingList shoppingList = bl.CreateUnapprovedShoppingList(App.Consumer.id);
             shoppingListId = shoppingList.id;
             return shoppingList.products;
+
         }
 
         public void CreateProduct(OrderedProduct orderedProduct)
@@ -52,7 +53,7 @@ namespace Shopping4u.Models
         public int NewShoppingList()
         {
             IBL bl = new BL.BL();
-            ShoppingList shoppingList = bl.CreateUnapprovedShoppingList(1);
+            ShoppingList shoppingList = bl.CreateUnapprovedShoppingList(App.Consumer.id);
             shoppingListId = shoppingList.id;
             Products = new List<OrderedProduct>();
             return shoppingListId;

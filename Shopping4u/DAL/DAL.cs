@@ -1288,7 +1288,7 @@ namespace Shopping4u.DAL
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
             string query = $"SELECT MONTHNAME(date) AS month, SUM(quantity * unitPrice) AS expenses " +
-                $"FROM (SELECT productId FROM baseProduct WHERE categoryName = {categoryName}) AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"FROM (SELECT productId FROM baseProduct WHERE categoryName = '{categoryName}') AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
                 $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
                 $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
