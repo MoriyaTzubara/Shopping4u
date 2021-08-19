@@ -9,11 +9,13 @@ namespace Shopping4u.ViewModels.Charts
 {
     public class ProductsGroupViewModel
     {
-        ProductsGroupViewModel productsGroupViewModel;
+        ProductsGroupModel productsGroupModel;
+        public Dictionary<double, Dictionary<string, string>> ProductsGroup { get; set; }
 
         public ProductsGroupViewModel()
         {
-            productsGroupViewModel = new ProductsGroupViewModel();
+            productsGroupModel = new ProductsGroupModel();
+            ProductsGroup = productsGroupModel.getProductsGroup();
         }
          
     }

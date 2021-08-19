@@ -97,7 +97,7 @@
     <Compile Include="Models\Charts\BranchesChartModel.cs" />
     <Compile Include="Models\Charts\CategoriesChartModel.cs" />
     <Compile Include="Models\Charts\ProductsChartModel.cs" />
-    <Compile Include="Models\Charts\ProductsGroupVModel.cs" />
+    <Compile Include="Models\Charts\ProductsGroupModel.cs" />
     <Compile Include="Models\Charts\TotalPriceChartModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\MyShoppingListModel.cs" />
