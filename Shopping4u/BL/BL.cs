@@ -43,7 +43,7 @@ namespace Shopping4u.BL
         public bool SignIn(string email,string password)
         {
             Consumer consumer = GetConsumer(email);
-            if (consumer.password != password)
+            if (consumer == null ||consumer.password != password)
                 return false;
             return true;
         }

@@ -8,42 +8,88 @@ using System.Text;
 using System.Threading.Tasks;
 using BE;
 using Shopping4u.Views;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Shopping4u.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel: INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private MainWindow mainWindow;
         private ReccomendedShoppingListModel reccomendedShoppingListModel;
         private RecommendedShoppingListViewModel recommendedShoppingListViewModel;
         private SignInViewModel signInViewModel;
 
         public HomePage homePage = new HomePage();
         public ShoppingListPage recommendedShoppingListPage;
-        public ShoppingListPage myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel(new MyShoppingListModel()));
-        public ShoppingHistoryPage shoppingHistoryPage = new ShoppingHistoryPage();
+        public ShoppingListPage myShoppingListPage;
+        public ShoppingHistoryPage shoppingHistoryPage;
         public SignInPage signInPage;
-        public ChartsPage chartsPage = new ChartsPage();
+        public ChartsPage chartsPage;
 
 
-        public GoToRecommendedShoppingListPageCommand GoToRecommendedShoppingListPageCommand { get; set; }
-        public GoToHomePageCommand GoToHomePageCommand { get; set; }
-        public GoToMyShoppingListPageCommand GoToMyShoppingListPageCommand { get; set;}
-        public GoToShoppingHistoryPageCommand GoToShoppingHistoryPageCommand { get; set; }
-        public GoToStatisticsPageCommand GoToStatisticsPageCommand { get; set; }
-        public GoToSignInPageCommand GoToSignInPageCommand { get; set; }
+        private GoToRecommendedShoppingListPageCommand goToRecommendedShoppingListPageCommand;
+        public GoToRecommendedShoppingListPageCommand GoToRecommendedShoppingListPageCommand
+        {
+            get { return goToRecommendedShoppingListPageCommand; }
+            set { goToRecommendedShoppingListPageCommand = value; OnPropertyChanged(); }
+        }
 
-        public CreateProductCommand CreateProductCommand { get; set; }
+        private GoToHomePageCommand goToHomePageCommand;
+        public GoToHomePageCommand GoToHomePageCommand
+        {
+            get { return goToHomePageCommand; }
+            set { goToHomePageCommand = value; OnPropertyChanged(); }
+        }
+
+        public GoToMyShoppingListPageCommand goToMyShoppingListPageCommand;
+        public GoToMyShoppingListPageCommand GoToMyShoppingListPageCommand
+        {
+            get { return goToMyShoppingListPageCommand; }
+            set { goToMyShoppingListPageCommand = value; OnPropertyChanged(); }
+        }
+
+        public GoToShoppingHistoryPageCommand goToShoppingHistoryPageCommand;
+        public GoToShoppingHistoryPageCommand GoToShoppingHistoryPageCommand
+        {
+            get { return goToShoppingHistoryPageCommand; }
+            set { goToShoppingHistoryPageCommand = value; OnPropertyChanged(); }
+        }
+
+        public GoToStatisticsPageCommand goToStatisticsPageCommand;
+        public GoToStatisticsPageCommand GoToStatisticsPageCommand
+        {
+            get { return goToStatisticsPageCommand; }
+            set { goToStatisticsPageCommand = value; OnPropertyChanged(); }
+        }
+
+        public GoToSignInPageCommand goToSignInPageCommand;
+        public GoToSignInPageCommand GoToSignInPageCommand
+        {
+            get { return goToSignInPageCommand; }
+            set { goToSignInPageCommand = value; OnPropertyChanged(); }
+        }
+
+        public CreateProductCommand createProductCommand;
+        public CreateProductCommand CreateProductCommand
+        {
+            get { return createProductCommand; }
+            set { createProductCommand = value; OnPropertyChanged(); }
+        }
+
 
         public event EventHandler<RecommendtionViewModel> AddedRecommendtionEvent;
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
-            reccomendedShoppingListModel = new ReccomendedShoppingListModel();
-            recommendedShoppingListViewModel = new RecommendedShoppingListViewModel(reccomendedShoppingListModel);
-            recommendedShoppingListPage = new ShoppingListPage(recommendedShoppingListViewModel);
-
-            recommendedShoppingListViewModel.AddedRecommendtionEvent += addedRecommendtionHandler;
-            CreateProductCommand = new CreateProductCommand(recommendedShoppingListViewModel);
+            this.mainWindow = mainWindow;
+            
 
             signInViewModel = new SignInViewModel();
             signInPage = new SignInPage(signInViewModel);
@@ -51,16 +97,28 @@ namespace Shopping4u.ViewModels
             signInViewModel.SignInSuccessEvent += SignInSuccess;
             signInViewModel.SignInSuccessEvent += mainWindow.SignInSuccess;
 
-            GoToRecommendedShoppingListPageCommand = new GoToRecommendedShoppingListPageCommand(mainWindow);
-            GoToHomePageCommand = new GoToHomePageCommand(mainWindow);
-            GoToMyShoppingListPageCommand = new GoToMyShoppingListPageCommand(mainWindow);
-            GoToShoppingHistoryPageCommand = new GoToShoppingHistoryPageCommand(mainWindow);
-            GoToStatisticsPageCommand = new GoToStatisticsPageCommand(mainWindow);
+
             GoToSignInPageCommand = new GoToSignInPageCommand(mainWindow);            
         }
 
         private void SignInSuccess(object sender, Consumer consumer)
         {
+            myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel(new MyShoppingListModel()));
+            shoppingHistoryPage = new ShoppingHistoryPage();
+            chartsPage = new ChartsPage();
+            reccomendedShoppingListModel = new ReccomendedShoppingListModel();
+            recommendedShoppingListViewModel = new RecommendedShoppingListViewModel(reccomendedShoppingListModel);
+            recommendedShoppingListPage = new ShoppingListPage(recommendedShoppingListViewModel);
+
+            recommendedShoppingListViewModel.AddedRecommendtionEvent += addedRecommendtionHandler;
+            CreateProductCommand = new CreateProductCommand(recommendedShoppingListViewModel);
+
+            GoToRecommendedShoppingListPageCommand = new GoToRecommendedShoppingListPageCommand(mainWindow);
+            GoToHomePageCommand = new GoToHomePageCommand(mainWindow);
+            GoToMyShoppingListPageCommand = new GoToMyShoppingListPageCommand(mainWindow);
+            GoToShoppingHistoryPageCommand = new GoToShoppingHistoryPageCommand(mainWindow);
+            GoToStatisticsPageCommand = new GoToStatisticsPageCommand(mainWindow);
+
             homePage.ConsumerName = consumer.firstName;
             GoToHomePageCommand.Execute(null);
         }
