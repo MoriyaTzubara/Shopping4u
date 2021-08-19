@@ -306,7 +306,7 @@ namespace Shopping4u.DAL
                     shoppingList.consumerId = (int)dataReader["consumerId"];
                     shoppingList.date = (DateTime)dataReader["date"];
                     shoppingList.approved = dataReader.GetBoolean("approved");
-                    shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
+                    
                     result.Add(shoppingList);
                 }
                 //close Data Reader
@@ -314,7 +314,6 @@ namespace Shopping4u.DAL
 
                 //close Connection
                 CloseConnection();
-
                 //return list to be displayed
                 return result;
             }
