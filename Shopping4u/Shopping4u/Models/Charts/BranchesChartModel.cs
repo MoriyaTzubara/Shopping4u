@@ -18,11 +18,11 @@ namespace Shopping4u.Models.Charts
             switch (aggregateBy)
             {
                 case AggregateBy.MONTH:
-                    return bl.BranchBetweenTwoDatesByMonth(startDate, endDate, 1, branchId);
+                    return bl.BranchBetweenTwoDatesByMonth(startDate, endDate, App.Consumer.id, branchId);
                 case AggregateBy.WEEK:
-                    return bl.BranchBetweenTwoDatesByWeek(startDate, endDate, 1, branchId);
+                    return bl.BranchBetweenTwoDatesByWeek(startDate, endDate, App.Consumer.id, branchId);
                 case AggregateBy.DAY:
-                    return bl.BranchBetweenTwoDatesByDay(startDate, endDate, 1, branchId);
+                    return bl.BranchBetweenTwoDatesByDay(startDate, endDate, App.Consumer.id, branchId);
                 default:
                     break;
             }
