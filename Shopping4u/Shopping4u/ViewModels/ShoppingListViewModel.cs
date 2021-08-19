@@ -46,6 +46,11 @@ namespace Shopping4u.ViewModels
         }
 
 
+        private string format(object obj, int len=30)
+        {
+            string str = obj.ToString();
+            return str + string.Concat(Enumerable.Repeat(" ", len - str.Length));
+        }
         internal void ExportRecommendedListToPDF()
         {
             MessageBox.Show("Export to PDF");
@@ -57,27 +62,16 @@ namespace Shopping4u.ViewModels
             XFont fontBold = new XFont("Verdana", 10, XFontStyle.Bold);
             XFont fontHeader = new XFont("Verdana", 18, XFontStyle.Bold);
 
-            List<string> productsAsString = Products.Select(x => $"{x.ProductName}              {x.BranchName}                  {x.Quantity}                {x.UnitPrice}$").ToList();
-            List<string> list = new List<string>()
-            {
-                "product1                93$                    osher-ad",
-                "product1                93$                    osher-ad",
-                "product1                93$                    osher-ad",
-                "product1                93$                    osher-ad",
-                "product1                93$                    osher-ad",
-                "product1                93$                    osher-ad",
-            };
-
-            list = productsAsString;
+            List<string> productsAsString = Products.Select(x => $"   {format(x.ProductName)}{format(x.BranchName)}{format(x.Quantity)}{format(x.UnitPrice+"$")}").ToList();
 
             graph.DrawString("Recommended Shopping List", fontHeader, XBrushes.Purple, 30, 70);
-            graph.DrawString("Name                     Price                   Branch", fontBold, XBrushes.Black, 40, 150);
+            graph.DrawString($"{format("Product Name", 25)}{format("Branch Name", 25)}{format("Quantity", 25)}{format("UnitPrice", 25)}", fontBold, XBrushes.Black, 40, 150);
 
 
             int i = 1;
             graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
 
-            foreach (var item in list)
+            foreach (var item in productsAsString)
             {
                 i += 1;
                 graph.DrawString(item, font, XBrushes.Black, 30, 100 + 40*i);
