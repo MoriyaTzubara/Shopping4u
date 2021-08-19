@@ -54,7 +54,7 @@
                              ItemsSource="{Binding Path=Products}" IsTextSearchEnabled="True" FontWeight="Bold">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding SelectProductCommand}" 
+                                <i:InvokeCommandAction Command="{Binding SelectProductCommand, Mode=OneWay}" 
                                                    CommandParameter="{Binding ElementName=Products, Path=SelectedItem}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -66,7 +66,7 @@
                     <ComboBox x:Name="Branches" ItemsSource="{Binding Path=Branches}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged" >
-                                <i:InvokeCommandAction Command="{Binding SelectBranchProductCommand}" CommandParameter="{Binding ElementName=Branches, Path=SelectedItem}"/>
+                                <i:InvokeCommandAction Command="{Binding SelectBranchProductCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=Branches, Path=SelectedItem}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 

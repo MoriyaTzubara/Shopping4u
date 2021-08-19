@@ -26,7 +26,7 @@ namespace Shopping4u.ViewModels
             CategoriesChartViewModel = new CategoriesChartViewModel();
 
             AggregateBy = AggregateBy.DAY;
-            StartDate = DateTime.Now.AddDays(-7);
+            StartDate = DateTime.Now.AddMonths(-1);
             EndDate = DateTime.Now;
         }
 

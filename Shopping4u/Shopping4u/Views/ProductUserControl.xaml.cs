@@ -52,7 +52,7 @@ namespace Shopping4u
             item.Tag = branchProduct.branchProductId;
             item.IsSelected = selected;
 
-            Branches.Items.Add(item);
+            //Branches.Items.Add(item);
         }
 
     }
