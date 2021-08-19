@@ -290,7 +290,7 @@ namespace Shopping4u.DAL
         public List<ShoppingList> GetConsumerHistory(int consumerId)
         {
             List<ShoppingList> result = new List<ShoppingList>();
-            string query = "SELECT *`" +
+            string query = "SELECT * " +
                 "FROM `shoppinglist` " +
                 $"where `consumerId` = {consumerId}";
             if (OpenConnection() == true)
@@ -306,15 +306,16 @@ namespace Shopping4u.DAL
                     shoppingList.consumerId = (int)dataReader["consumerId"];
                     shoppingList.date = (DateTime)dataReader["date"];
                     shoppingList.approved = dataReader.GetBoolean("approved");
-                    shoppingList.products = GetOrderedProductsOfList(shoppingList.id);
                     result.Add(shoppingList);
                 }
+
                 //close Data Reader
                 dataReader.Close();
 
                 //close Connection
                 CloseConnection();
 
+                result.ForEach(x => x.products = GetOrderedProductsOfList(x.id));
                 //return list to be displayed
                 return result;
             }

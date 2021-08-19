@@ -25,7 +25,7 @@ namespace Shopping4u.ViewModels
 
         public OrderedProduct orderedProduct;
 
-        public OrderedProductViewModel(OrderedProduct orderedProduct)
+        public OrderedProductViewModel(OrderedProduct orderedProduct, bool isNotReadOnly = true)
         {
             this.orderedProduct = orderedProduct;
 
@@ -39,6 +39,7 @@ namespace Shopping4u.ViewModels
             ImgUrl = orderedProduct.GetProduct().imageUrl;
             BranchName = orderedProduct.GetBranch().name;
             ProductName = orderedProduct.GetProduct().name;
+            IsNotReadOnly = isNotReadOnly;
         }
 
 
@@ -65,6 +66,9 @@ namespace Shopping4u.ViewModels
         public String BranchName { get; set; }
         
         public String ProductName { get; set; }
+
+        public bool IsNotReadOnly { get; set; }
+        public bool IsReadOnly { get { return !IsNotReadOnly; } set { } }
 
     }
 }
