@@ -6,17 +6,72 @@
              xmlns:local="clr-namespace:Shopping4u"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="850" d:DesignWidth="1100">
+             d:DesignHeight="850" d:DesignWidth="1100"
+             x:Name="this">
 
     <Grid Background="#F6F6F8">
 
-        <StackPanel Margin="20">
-            <TextBlock Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0" Margin="50 0" Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                         Text="Shopping History" />
 
+            <DataGrid Grid.Row="1" Margin="50 0" ItemsSource="{Binding ShoppingLists}" AutoGenerateColumns="False">
 
-        </StackPanel>
+                <DataGrid.RowStyle>
+
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="MinHeight" Value="50"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn MinWidth="200" Header="Date" IsReadOnly="True" Binding="{Binding Date}" />
+                    <DataGridTextColumn MinWidth="200" Header="Number of products" IsReadOnly="True" Binding="{Binding NumbersOfProducts}" />
+                    <DataGridTextColumn MinWidth="200" Header="Total price" IsReadOnly="True" Binding="{Binding TotalPrice}" />
+                    <DataGridTemplateColumn MinWidth="100" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource CRUD}" 
+                                        Command="{Binding ElementName=this, Path=DataContext.ViewShoppingListCommand}" CommandParameter="{Binding Id}">
+                                    <materialDesign:PackIcon Kind="Eye"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
 
 
+        </Grid>
+
+
+        <Grid x:Name="ViewListGrid" Background="#F6F6F8" Visibility="{Binding ViewListVisibility}">
+            <Grid Margin="10 20 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                    <!-- Products -->
+                <ListView Name="ProductsPanel" HorizontalAlignment="Center" ItemsSource="{Binding Products}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                <WrapPanel HorizontalAlignment="Center">
+                                    <local:ProductUserControl />
+                                </WrapPanel>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button Grid.Row="1" Content="Close" Width="100" Margin="10" Command="{Binding CloseViewShoppingListCommand}"/>
+            </Grid>
+        </Grid>
+        
     </Grid>
 </UserControl>

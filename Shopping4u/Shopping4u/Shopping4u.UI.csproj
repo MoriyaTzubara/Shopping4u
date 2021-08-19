@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\CloseViewShoppingListCommand.cs" />
     <Compile Include="Commands\ExportRecommendedListToPDFCommand.cs" />
     <Compile Include="Commands\GoToSignInPageCommand.cs" />
     <Compile Include="Commands\IgnoreRecommendationCommand.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Commands\SelectOptionCommand.cs" />
     <Compile Include="Commands\SelectProductCommand.cs" />
     <Compile Include="Commands\SignInCommand.cs" />
+    <Compile Include="Commands\ViewShoppingListCommand.cs" />
     <Compile Include="Converters\SignInConverter.cs" />
     <Compile Include="Commands\SetAggregateByCommand.cs" />
     <Compile Include="Commands\SetEndDateCommand.cs" />
