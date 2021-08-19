@@ -12,6 +12,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Shopping4u.Models;
 using System.Windows;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+using System.Diagnostics;
+using PdfSharp.Drawing.Layout;
 
 namespace Shopping4u.ViewModels
 {
@@ -45,7 +49,48 @@ namespace Shopping4u.ViewModels
         internal void ExportRecommendedListToPDF()
         {
             MessageBox.Show("Export to PDF");
+
+            PdfDocument pdf = new PdfDocument();
+            PdfPage pdfPage = pdf.AddPage();
+            XGraphics graph = XGraphics.FromPdfPage(pdfPage);
+            XFont font = new XFont("Verdana", 10, XFontStyle.Regular);
+            XFont fontBold = new XFont("Verdana", 10, XFontStyle.Bold);
+            XFont fontHeader = new XFont("Verdana", 18, XFontStyle.Bold);
+
+            List<string> productsAsString = Products.Select(x => $"{x.ProductName}              {x.BranchName}                  {x.Quantity}                {x.UnitPrice}$").ToList();
+            List<string> list = new List<string>()
+            {
+                "product1                93$                    osher-ad",
+                "product1                93$                    osher-ad",
+                "product1                93$                    osher-ad",
+                "product1                93$                    osher-ad",
+                "product1                93$                    osher-ad",
+                "product1                93$                    osher-ad",
+            };
+
+            list = productsAsString;
+
+            graph.DrawString("Recommended Shopping List", fontHeader, XBrushes.Purple, 30, 70);
+            graph.DrawString("Name                     Price                   Branch", fontBold, XBrushes.Black, 40, 150);
+
+
+            int i = 1;
+            graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
+
+            foreach (var item in list)
+            {
+                i += 1;
+                graph.DrawString(item, font, XBrushes.Black, 30, 100 + 40*i);
+                graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
+            }
+
+
+            string filename = "HelloWorld.pdf";
+            pdf.Save(filename);
+
+            Process.Start(filename);
         }
+
 
         public ShowCreateProductCommand ShowCreateProductCommand { get; set; }
         public CreateProductCommand CreateProductCommand { get; set; }
