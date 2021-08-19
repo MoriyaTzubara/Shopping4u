@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Shopping4u"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DesignHeight="850" d:DesignWidth="1100">
 
     <Grid Background="#F6F6F8">
@@ -26,12 +27,34 @@
             <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                         Text="Graphs and Statistics" />
 
-            <DatePicker Margin="10 0" Grid.Column="1" ToolTip="Start date"/>
-            <DatePicker Margin="10 0" Grid.Column="2" ToolTip="End date"/>
-            <ComboBox   Margin="10 0" Grid.Column="3" ToolTip="Aggregate by">
+            <DatePicker x:Name="StartDate" SelectedDate="{Binding StartDate}" Margin="10 0" Grid.Column="1" ToolTip="Start date">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedDateChanged">
+                        <i:InvokeCommandAction Command="{Binding SetStartDateCommand}" CommandParameter="{Binding ElementName=StartDate, Path=SelectedDate}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DatePicker>
+
+            <DatePicker x:Name="EndDate" SelectedDate="{Binding EndDate}" Margin="10 0" Grid.Column="2" ToolTip="End date">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedDateChanged">
+                        <i:InvokeCommandAction Command="{Binding SetEndDateCommand}" CommandParameter="{Binding ElementName=EndDate, Path=SelectedDate, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DatePicker>
+
+            <ComboBox SelectedIndex="0" Margin="10 0" Grid.Column="3" ToolTip="Aggregate by" x:Name="AggregateBy">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SetAggregateByCommand}" CommandParameter="{Binding ElementName=AggregateBy, Path=SelectedItem.Content, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+
                 <ComboBoxItem Content="Day"/>
-                <ComboBoxItem Name="Week"/>
-                <ComboBoxItem Name="Month"/>
+                <ComboBoxItem Content="Week"/>
+                <ComboBoxItem Content="Month"/>
+                
             </ComboBox>
 
         </Grid>
