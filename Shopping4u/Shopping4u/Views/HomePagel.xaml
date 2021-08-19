@@ -17,7 +17,7 @@
                                Text="Good Morning," />
                     <TextBlock Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                                FontWeight="DemiBold"
-                               Text="Talya" />
+                               Text="{Binding ConsumerName}" />
 
                     <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
                             HorizontalAlignment="Left"

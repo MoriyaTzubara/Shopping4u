@@ -13,6 +13,12 @@ namespace Shopping4u.Extensions
             if (val == null)
                 return fallback;
             return val;
+        }        
+        public static T getOrElse<T>(this T val, T fallback)
+        {
+            if (val == null)
+                return fallback;
+            return val;
         }
         public static object getOrElse(this bool val, object fallback)
         {

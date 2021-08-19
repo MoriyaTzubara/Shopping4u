@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Shopping4u.Views;
+using BE;
 
 namespace Shopping4u
 {
@@ -34,8 +35,17 @@ namespace Shopping4u
             MainWindowViewModel = new MainWindowViewModel(this);
             DataContext = MainWindowViewModel;
 
-            goToPage(MainWindowViewModel.homePage);
+            if (App.Consumer != null)
+                GoToHomePage();
+            else
+                GoToSignInPage();
             MainWindowViewModel.AddedRecommendtionEvent += addRecommendtion;
+
+            ChartsBtn.IsEnabled = false;
+            HomeBtn.IsEnabled = false;
+            MyShoppingListBtn.IsEnabled = false;
+            RecommendedShoppingListBtn.IsEnabled = false;
+            ShoppingHistoryBtn.IsEnabled = false;
         }
 
         public void GoToHomePage()
@@ -64,6 +74,11 @@ namespace Shopping4u
             goToPage(MainWindowViewModel.chartsPage);
         }
 
+        public void GoToSignInPage()
+        {
+            goToPage(MainWindowViewModel.signInPage);
+        }
+
         private void goToPage(UserControl page)
         {
             RenderPages.Children.Clear();
@@ -84,6 +99,13 @@ namespace Shopping4u
             });
         }
 
-
+        internal void SignInSuccess(object sender, Consumer consumer)
+        {
+            ChartsBtn.IsEnabled = true;
+            HomeBtn.IsEnabled = true;
+            MyShoppingListBtn.IsEnabled = true;
+            RecommendedShoppingListBtn.IsEnabled = true;
+            ShoppingHistoryBtn.IsEnabled = true;
+        }
     }
 }

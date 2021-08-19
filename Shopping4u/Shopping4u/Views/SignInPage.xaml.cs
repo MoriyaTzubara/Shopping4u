@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BE;
+using Shopping4u.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,27 +17,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Shopping4u
+namespace Shopping4u.Views
 {
     /// <summary>
-    /// Interaction logic for HomePage.xaml
+    /// Interaction logic for SignInUserControl.xaml
     /// </summary>
-    public partial class HomePage : UserControl, INotifyPropertyChanged
+    public partial class SignInPage : UserControl, INotifyPropertyChanged
     {
-        private string consumerName;
-        public string ConsumerName { get { return consumerName; } set { consumerName = value; OnPropertyChanged(); } }
-
-        public HomePage()
+        private SignInViewModel signInViewModel;
+        public SignInPage(SignInViewModel _signInViewModel)
         {
             InitializeComponent();
-            DataContext = this;
+            signInViewModel = _signInViewModel;
+            DataContext = signInViewModel;
         }
 
+        
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        private void password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            this.flag.Tag = true;
+        }
     }
 }

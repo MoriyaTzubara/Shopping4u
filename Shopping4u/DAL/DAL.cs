@@ -249,7 +249,8 @@ namespace Shopping4u.DAL
                         firstName = dataReader["firstName"] + "",
                         lastName = dataReader["lastName"] + "",
                         email = dataReader["email"] + "",
-                        phoneNumber = dataReader["phoneNumber"] + ""
+                        phoneNumber = dataReader["phoneNumber"] + "",
+                        password = dataReader["password"] + ""
                     };
                 }
                 //close Data Reader

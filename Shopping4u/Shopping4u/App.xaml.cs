@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using BE;
 
 namespace Shopping4u
 {
@@ -13,5 +14,6 @@ namespace Shopping4u
     /// </summary>
     public partial class App : Application
     {
+        public static Consumer Consumer = null; 
     }
 }
