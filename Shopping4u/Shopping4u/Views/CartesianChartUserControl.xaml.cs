@@ -30,6 +30,11 @@ namespace Shopping4u.Views
             DataContext = totalPriceChartViewModel;
         }
 
+        private void CartesianChart_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         //    SeriesCollection = new SeriesCollection
         //    {
         //        new ColumnSeries

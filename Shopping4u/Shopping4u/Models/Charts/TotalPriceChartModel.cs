@@ -10,16 +10,19 @@ namespace Shopping4u.Models.Charts
     public class TotalPriceChartModel
     {
         // TALYA TODO //
-        public IEnumerable<double> getData()
+        string[] allMonths = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+    public IEnumerable<double> getData()
         {
             // TODO //
             IBL bl = new BL.BL();
-            return new List<double>() { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120 };
+            //var resulttt = bl.ProductsBoughtTogether(1);
+            Dictionary<string,double> result = bl.ShoppingsBetweenTwoDatesByMonth(DateTime.Now.AddYears(-1), DateTime.Now, 1);
+            return result.Keys.OrderBy(k => allMonths.ToList().IndexOf(k)).Select(k => result[k]);
         }
 
         public string[] getLabels()
         {
-            return new string[] { "January", "February", "March", "April", "May", "June", "July", "August"};
+            return allMonths;
         }
     }
 }

@@ -331,7 +331,7 @@ namespace BL
             }
 
             strongRules.Sort();
-            return strongRules;
+            return strongRules.OrderByDescending(r => r.Confidence).ToList();
         }
 
         private void AddStrongRule(Rule rule, string XY, List<Rule> strongRules, double minConfidence, ItemsDictionary allFrequentItems)
