@@ -55,7 +55,7 @@
 
                 <!--Branch-->
                 <Grid Grid.Column="2" Margin="10 0">
-                    <ComboBox x:Name="Branches" >
+                    <ComboBox x:Name="Branches" IsReadOnly="{Binding IsReadOnly}">
                     </ComboBox>
                 </Grid>
 
@@ -68,7 +68,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <!--Minus-->
-                    <Button Grid.Column="0" Style="{StaticResource CrudBtn}">
+                    <Button Grid.Column="0" Style="{StaticResource CrudBtn}" IsEnabled="{Binding IsNotReadOnly}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding UpdateQuantityCommand}" CommandParameter="-1"/>
@@ -94,10 +94,10 @@
                     </Button>
 
                     <!--Quantity-->
-                    <TextBox Grid.Column="1" Margin="0 0 0 5" TextAlignment="Center" x:Name="quantity" Text="{Binding Quantity}"/>
+                    <TextBox Grid.Column="1" Margin="0 0 0 5" TextAlignment="Center" x:Name="quantity" Text="{Binding Quantity}" IsReadOnly="{Binding IsReadOnly}"/>
 
                     <!--Plus-->
-                    <Button Grid.Column="2" Style="{StaticResource CrudBtn}">
+                    <Button Grid.Column="2" Style="{StaticResource CrudBtn}" IsEnabled="{Binding IsNotReadOnly}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding UpdateQuantityCommand}" CommandParameter="1"/>
@@ -150,6 +150,7 @@
 
                         <!--Delete-->
                         <Button ToolTip="Delete product"
+                            IsEnabled="{Binding IsNotReadOnly}"
                             Grid.Column="1"
                         
                         Style="{StaticResource CRUD}" 
