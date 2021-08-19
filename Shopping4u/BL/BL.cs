@@ -435,7 +435,7 @@ namespace Shopping4u.BL
         //        foreach (KeyValuePair<string,Dictionary<string,double>> closedItems in rules.ClosedItemSets)
         //        {
         //            List<List<int>> ListOfClosedItems = closedItems.Value.Keys.ToList().Select(k => k.Split(',').Select(x => int.Parse(x)).ToList()).ToList();
-                    
+
         //            foreach (List<int> listOfProductsId in ListOfClosedItems)
         //            {
         //                ProductsTogether = new List<Product>();
@@ -445,7 +445,7 @@ namespace Shopping4u.BL
         //                }
         //                result.Add(ProductsTogether);
         //            }
-                    
+
         //        }
         //    }
         //    return result;
@@ -460,9 +460,11 @@ namespace Shopping4u.BL
                 foreach (var item in closedItems.Value)
                 {
                     if (!result.ContainsKey(item.Value * 100))
-                        result[item.Value] = new Dictionary<string, string>();
-                    result[item.Value * 100].Add(string.Join(", ", closedItems.Key.Split(',').Select(i => GetProductName(int.Parse(i)))),
-                        string.Join(", ", item.Key.Split(',').Select(i => GetProductName(int.Parse(i)))));
+                        result[item.Value*100] = new Dictionary<string, string>();
+                    string key = string.Join(", ", closedItems.Key.Split(',').Select(i => GetProductName(int.Parse(i))));
+                    string value = string.Join(", ", item.Key.Split(',').Select(i => GetProductName(int.Parse(i))));
+                    if (!result[item.Value * 100].ContainsKey(key))
+                        result[item.Value * 100][key] = value;
                 }
             }
             return result;

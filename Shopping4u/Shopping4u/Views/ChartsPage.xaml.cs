@@ -16,7 +16,6 @@ using System.Windows.Shapes;
 using Shopping4u.ViewModels;
 using Shopping4u.ViewModels.Charts;
 using Shopping4u.Views;
-using Shopping4u.ViewModels.Charts;
 
 namespace Shopping4u
 {
@@ -33,7 +32,7 @@ namespace Shopping4u
             DataContext = chartsPageViewModel;
 
             Panel1.Children.Add(new CartesianChartUserControl(new TotalPriceChartViewModel()));
-            Panel2.Children.Add(new ProductsGroupUserControl(new ViewModels.ProductsGroupViewModel()));
+            Panel2.Children.Add(new ProductsGroupUserControl(new ProductsGroupViewModel()));
 
             Panel3.Children.Add(new LineChartUserControl(chartsPageViewModel.ProductsChartViewModel));
             Panel4.Children.Add(new LineChartUserControl(chartsPageViewModel.BranchesChartViewModel));
