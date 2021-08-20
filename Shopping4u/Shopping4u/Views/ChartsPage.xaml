@@ -29,7 +29,7 @@
 
             <DatePicker x:Name="StartDate" SelectedDate="{Binding StartDate}" Margin="10 0" Grid.Column="1" ToolTip="Start date">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectedDateChanged">
+                    <i:EventTrigger  EventName="SelectedDateChanged">
                         <i:InvokeCommandAction Command="{Binding SetStartDateCommand}" CommandParameter="{Binding ElementName=StartDate, Path=SelectedDate}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
