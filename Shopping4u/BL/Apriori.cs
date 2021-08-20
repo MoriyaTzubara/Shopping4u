@@ -337,7 +337,6 @@ namespace BL
         private void AddStrongRule(Rule rule, string XY, List<Rule> strongRules, double minConfidence, ItemsDictionary allFrequentItems)
         {
             double confidence = GetConfidence(rule.X, XY, allFrequentItems);
-
             if (confidence >= minConfidence)
             {
                 Rule newRule = new Rule(rule.X, rule.Y, confidence);

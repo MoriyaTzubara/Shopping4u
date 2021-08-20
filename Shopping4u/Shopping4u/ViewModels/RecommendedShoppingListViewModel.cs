@@ -14,15 +14,14 @@ namespace Shopping4u.ViewModels
 {
     public class RecommendedShoppingListViewModel : ShoppingListViewModel
     {
-        Random random = new Random();
         public RecommendedShoppingListViewModel(ReccomendedShoppingListModel reccomendedShoppingListModel): base(reccomendedShoppingListModel)
         {
             Title = "Recommended Shopping List";
             CreateProductViewModel = new CreateProductViewModel()
             {
                 CanScanQRCode = false,
-                CanSaveShoppingList = false
             };
+            IsShowSaveList = "Collapsed";
         }
 
         public override void CreateProduct(OrderedProduct orderedProduct)
@@ -35,28 +34,16 @@ namespace Shopping4u.ViewModels
                 tryRecommend(this.Products);
             }).Start();
 
-            MessageBox.Show("CreateProduct @ RecommendedShoppingListViewModel");
 
-            //products.Add(new ProductViewModel(orderedProduct));
         }
 
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
             base.UpdateProduct(orderedProduct);
-            //It doesn't come here but still do the job well
-            //int deleteIndex = products.FindIndex(o => o.ShoppingListId == orderedProduct.shoppingListId && o.BranchProductId == orderedProduct.branchProductId);
-            //products[deleteIndex] =new ProductViewModel(orderedProduct);
-            //MessageBox.Show($"Command parameter: {orderedProduct.getOrElse("null")}");
-            //MessageBox.Show("UpdateProduct @ RecommendedShoppingList");
         }
         public override void DeleteProduct(int productId)
         {
             base.DeleteProduct(productId);
-
-            //int deleteIndex = products.FindIndex(o => o.ShoppingListId == orderedProduct.shoppingListId && o.BranchProductId == orderedProduct.branchProductId);
-            //products.RemoveAt(deleteIndex);
-            MessageBox.Show($"Command parameter: {productId.getOrElse("null")}");
-            MessageBox.Show("DeleteProduct @ RecommendedShoppingList");
         }
 
         public event EventHandler<OrderedProduct> AddedRecommendtionEvent;
@@ -71,7 +58,6 @@ namespace Shopping4u.ViewModels
 
             IBL bl = new BL.BL();
             List<Product> result = bl.AprioriRecommender(products.ToList().Select(p => p.orderedProduct).ToList(),0.3,0.65).ToList();
-            int index = random.Next(0, result.Count());
             if(result.Count() != 0)
                 AddedRecommendtionEvent.Invoke(this, bl.ConvertProductToOrderedProduct(result.ToList()[0]));
 

@@ -1151,7 +1151,7 @@ namespace Shopping4u.DAL
             IDictionary<DateTime, int> result = new Dictionary<DateTime, int>();
             string query = $"SELECT date(date) AS date,SUM(quantity) AS quantity " +
                            $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
-                           $"where productId = {productId} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                           $"where productId = {productId} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                            $"GROUP BY date(date)";
             if (OpenConnection() == true)
             {
@@ -1174,7 +1174,7 @@ namespace Shopping4u.DAL
             IDictionary<DateTime, double> result = new Dictionary<DateTime, double>();
             string query = $"SELECT date(date) AS date,SUM(quantity * unitPrice) AS expenses " +
                 $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where branchId = {BranchId} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where branchId = {BranchId} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY date(date)";
             if (OpenConnection() == true)
             {
@@ -1199,7 +1199,7 @@ namespace Shopping4u.DAL
             IDictionary<DateTime, double> result = new Dictionary<DateTime, double>();
             string query = $"SELECT date(date) AS date,SUM(quantity * unitPrice) AS expenses " +
                 $"FROM baseProduct NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where categoryName = {categoryName} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where categoryName = {categoryName} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY date(date)";
             if (OpenConnection() == true)
             {
@@ -1226,7 +1226,7 @@ namespace Shopping4u.DAL
             Dictionary<int, int> result = new Dictionary<int, int>();
             string query = $"SELECT branchProductId,SUM(quantity) AS quantity " +
                 $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY branchProductId";
             if (OpenConnection() == true)
             {
@@ -1251,7 +1251,7 @@ namespace Shopping4u.DAL
             Dictionary<string, double> result = new Dictionary<string, double>();
             string query = $"SELECT date, SUM(quantity * unitPrice) AS expenses " +
                 $"FROM (SELECT productId FROM baseProduct WHERE categoryName = '{categoryName}') AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY date";
             if (OpenConnection() == true)
             {
@@ -1289,7 +1289,7 @@ namespace Shopping4u.DAL
             Dictionary<string, double> result = new Dictionary<string, double>();
             string query = $"SELECT MONTHNAME(date) AS month, SUM(quantity * unitPrice) AS expenses " +
                 $"FROM (SELECT productId FROM baseProduct WHERE categoryName = '{categoryName}') AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
             {
@@ -1314,7 +1314,7 @@ namespace Shopping4u.DAL
             Dictionary<string, double> result = new Dictionary<string, double>();
             string query = $"SELECT date, SUM(quantity * unitPrice) AS expenses " +
                 $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND branchId = {branchId} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND branchId = {branchId} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY date";
             if (OpenConnection() == true)
             {
@@ -1352,7 +1352,7 @@ namespace Shopping4u.DAL
             Dictionary<string, double> result = new Dictionary<string, double>();
             string query = $"SELECT MONTHNAME(date) AS month, SUM(quantity * unitPrice) AS expenses " +
                 $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND branchId = {branchId} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND branchId = {branchId} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
             {
@@ -1375,9 +1375,9 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            string query = $"SELECT date,COUNT(*) AS counter " +
+            string query = $"SELECT date,SUM(quantity) AS counter " +
                 $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND productId = {productId} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND productId = {productId} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY date";
             if (OpenConnection() == true)
             {
@@ -1413,9 +1413,9 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            string query = $"SELECT MONTHNAME(date) AS month,COUNT(*) AS counter " +
+            string query = $"SELECT MONTHNAME(date) AS month,SUM(quantity) AS counter " +
                 $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND productId = {productId} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND productId = {productId} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
             {
@@ -1440,7 +1440,7 @@ namespace Shopping4u.DAL
             Dictionary<string, double> result = new Dictionary<string, double>();
             string query = $"SELECT date,SUM(quantity * unitPrice) AS expenses " +
                 $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY date";
             if (OpenConnection() == true)
             {
@@ -1478,7 +1478,7 @@ namespace Shopping4u.DAL
             Dictionary<string, double> result = new Dictionary<string, double>();
             string query = $"SELECT MONTHNAME(date) AS month, SUM(quantity * unitPrice) AS expenses " +
                 $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
-                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start.ToString("yyyy-MM-dd")}' AND '{end.ToString("yyyy-MM-dd")}' " +
+                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
                 $"GROUP BY MONTHNAME(date)";
             if (OpenConnection() == true)
             {

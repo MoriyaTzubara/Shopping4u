@@ -78,6 +78,8 @@ namespace Shopping4u.BL
             var bitmap = new Bitmap(stream);
             IBarcodeReader reader = new BarcodeReader();
             var result = reader.Decode(bitmap);
+            if (result == null)
+                return null;
             return result.Text;
         }
         #endregion
@@ -191,7 +193,9 @@ namespace Shopping4u.BL
 
         public OrderedProduct EncodeOrderedProductString(string orderedProductText)
         {
-            // id, nameOfBranch, nameOfProduct, price
+            if (orderedProductText == null)
+                return null;
+            // id, nameOfBranch, category, nameOfProduct, price
             string[] barcodeText = orderedProductText.Split(',');
             Branch branch = new Branch
             {
@@ -381,7 +385,7 @@ namespace Shopping4u.BL
             }
             return true;
         }
-        public IEnumerable<Product> AprioriRecommender(List<OrderedProduct> orderedProducts, double minSupport = 0.01, double minConfidence=0.01)
+        public IEnumerable<Product> AprioriRecommender(List<OrderedProduct> orderedProducts, double minSupport, double minConfidence)
         {
             IApriori apriori = new Apriori();
             Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingLists());
@@ -415,41 +419,17 @@ namespace Shopping4u.BL
                 List<Item> FrequentItems = rules.FrequentItems.OrderByDescending(item => item.Support).ToList();
                 foreach (Item item in FrequentItems)
                 {
-                    foreach (string itemId in item.Name.Split(',').ToList())
+                    if (item.Name.Split(',').Count() == 1)
                     {
-                        if (!result.Exists(p => p.id == int.Parse(itemId)) && !DoesProductExistsInList(orderedProducts, int.Parse(itemId)))
-                            result.Add(GetProduct(int.Parse(itemId)));
+                        int itemId = int.Parse(item.Name.Split(',')[0]);
+                        if (!DoesProductExistsInList(orderedProducts, itemId))
+                            result.Add(GetProduct(itemId));
                     }
                 }
             }
             return result;
         }
-        //public List<List<Product>> ProductsBoughtTogether(int consumerId, double minSupport = 0.01, double minConfidence = 0.01)
-        //{
-        //    List<List<Product>> result = new List<List<Product>>();
-        //    IApriori apriori = new Apriori();
-        //    Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingListsOfConsumer(consumerId));
-        //    List<Product> ProductsTogether;
-        //    if (rules.ClosedItemSets.Count() != 0)
-        //    {
-        //        foreach (KeyValuePair<string,Dictionary<string,double>> closedItems in rules.ClosedItemSets)
-        //        {
-        //            List<List<int>> ListOfClosedItems = closedItems.Value.Keys.ToList().Select(k => k.Split(',').Select(x => int.Parse(x)).ToList()).ToList();
 
-        //            foreach (List<int> listOfProductsId in ListOfClosedItems)
-        //            {
-        //                ProductsTogether = new List<Product>();
-        //                foreach (int productId in listOfProductsId)
-        //                {
-        //                    ProductsTogether.Add(GetProduct(productId));
-        //                }
-        //                result.Add(ProductsTogether);
-        //            }
-
-        //        }
-        //    }
-        //    return result;
-        //}
         public Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.5, double minConfidence = 0.7)
         {
             IApriori apriori = new Apriori();
