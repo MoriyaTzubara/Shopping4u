@@ -12,6 +12,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Shopping4u.Models;
 using System.Windows;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+using System.Diagnostics;
+using PdfSharp.Drawing.Layout;
 
 namespace Shopping4u.ViewModels
 {
@@ -42,10 +46,45 @@ namespace Shopping4u.ViewModels
         }
 
 
+        private string format(object obj, int len=30)
+        {
+            string str = obj.ToString();
+            return str + string.Concat(Enumerable.Repeat(" ", len - str.Length));
+        }
         internal void ExportRecommendedListToPDF()
         {
             MessageBox.Show("Export to PDF");
+
+            PdfDocument pdf = new PdfDocument();
+            PdfPage pdfPage = pdf.AddPage();
+            XGraphics graph = XGraphics.FromPdfPage(pdfPage);
+            XFont font = new XFont("Verdana", 10, XFontStyle.Regular);
+            XFont fontBold = new XFont("Verdana", 10, XFontStyle.Bold);
+            XFont fontHeader = new XFont("Verdana", 18, XFontStyle.Bold);
+
+            List<string> productsAsString = Products.Select(x => $"   {format(x.ProductName)}{format(x.BranchName)}{format(x.Quantity)}{format(x.UnitPrice+"$")}").ToList();
+
+            graph.DrawString("Recommended Shopping List", fontHeader, XBrushes.Purple, 30, 70);
+            graph.DrawString($"{format("Product Name", 25)}{format("Branch Name", 25)}{format("Quantity", 25)}{format("UnitPrice", 25)}", fontBold, XBrushes.Black, 40, 150);
+
+
+            int i = 1;
+            graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
+
+            foreach (var item in productsAsString)
+            {
+                i += 1;
+                graph.DrawString(item, font, XBrushes.Black, 30, 100 + 40*i);
+                graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
+            }
+
+
+            string filename = "HelloWorld.pdf";
+            pdf.Save(filename);
+
+            Process.Start(filename);
         }
+
 
         public ShowCreateProductCommand ShowCreateProductCommand { get; set; }
         public CreateProductCommand CreateProductCommand { get; set; }
