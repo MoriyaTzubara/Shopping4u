@@ -109,7 +109,7 @@ namespace Shopping4u.ViewModels.Charts
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double>(data.Keys.OrderBy(k => TotalPriceChartModel.allMonths.ToList().IndexOf(k)).Select(k => data[k])),
+                    Values = new ChartValues<double>(data.Keys.OrderBy(k => ShoppingList.allMonths.ToList().IndexOf(k)).Select(k => data[k])),
                 }
             };
         }
@@ -122,7 +122,7 @@ namespace Shopping4u.ViewModels.Charts
 
             Data = getData((CurrentOption as Product).id, aggregateBy, startDate, endDate);
             if (AggregateBy == AggregateBy.MONTH)
-                Labels = data.ToList().OrderBy(k => TotalPriceChartModel.allMonths.ToList().IndexOf(k.Key)).Select(k => k.Key).ToArray();
+                Labels = data.ToList().OrderBy(k => ShoppingList.allMonths.ToList().IndexOf(k.Key)).Select(k => k.Key).ToArray();
             else
                 Labels = Data.OrderBy(k => Convert.ToDateTime(k.Key)).Select(x => x.Key).ToArray();
             setSeriesCollection(Data, AggregateBy);

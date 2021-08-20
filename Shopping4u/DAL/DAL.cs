@@ -1496,6 +1496,11 @@ namespace Shopping4u.DAL
                 //close Connection
                 CloseConnection();
             }
+            foreach (string month in ShoppingList.allMonths)
+            {
+                if (!result.ContainsKey(month))
+                    result[month] = 0;
+            }
             return result;
         }
         #endregion
