@@ -113,7 +113,7 @@ namespace Shopping4u.ViewModels
             recommendedShoppingListViewModel.AddedRecommendtionEvent += addedRecommendtionHandler;
             CreateProductCommand = new CreateProductCommand(recommendedShoppingListViewModel);
 
-            GoToRecommendedShoppingListPageCommand = new GoToRecommendedShoppingListPageCommand(mainWindow);
+            GoToRecommendedShoppingListPageCommand = new GoToRecommendedShoppingListPageCommand();
             GoToHomePageCommand = new GoToHomePageCommand(mainWindow);
             GoToMyShoppingListPageCommand = new GoToMyShoppingListPageCommand(mainWindow);
             GoToShoppingHistoryPageCommand = new GoToShoppingHistoryPageCommand(mainWindow);

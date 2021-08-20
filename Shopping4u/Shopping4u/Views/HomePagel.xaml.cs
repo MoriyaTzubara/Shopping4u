@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Shopping4u.Commands;
+using Shopping4u.ViewModels;
 
 namespace Shopping4u
 {
@@ -24,10 +26,25 @@ namespace Shopping4u
     {
         private string consumerName;
         public string ConsumerName { get { return consumerName; } set { consumerName = value; OnPropertyChanged(); } }
+        public GoToRecommendedShoppingListPageCommand GoToRecommendedShoppingListPageCommand { get; set; }
+
+        public string Greeting
+        {
+            get
+            {
+                if (DateTime.Now.Hour < 13 && DateTime.Now.Hour >= 6)
+                    return "Good Morning,";
+                else if (DateTime.Now.Hour >= 13 && DateTime.Now.Hour <= 17)
+                    return "Good Afternoon,";
+                else
+                    return "Good Night,";
+            }
+        }
 
         public HomePage()
         {
             InitializeComponent();
+            GoToRecommendedShoppingListPageCommand = new GoToRecommendedShoppingListPageCommand();
             DataContext = this;
         }
 

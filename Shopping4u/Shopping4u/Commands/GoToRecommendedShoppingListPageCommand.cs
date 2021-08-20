@@ -11,11 +11,9 @@ namespace Shopping4u.Commands
     public class GoToRecommendedShoppingListPageCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private MainWindow window;
 
-        public GoToRecommendedShoppingListPageCommand(MainWindow mainWindow)
+        public GoToRecommendedShoppingListPageCommand()
         {
-            window = mainWindow;
         }
 
         public bool CanExecute(object parameter)
@@ -25,7 +23,7 @@ namespace Shopping4u.Commands
 
         public void Execute(object parameter)
         {
-            window.GoToRecommendedShoppingListPage();
+            (App.Current.MainWindow as MainWindow).GoToRecommendedShoppingListPage();
         }
     }
 }
