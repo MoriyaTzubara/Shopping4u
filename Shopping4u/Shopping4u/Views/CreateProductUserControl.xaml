@@ -50,7 +50,7 @@
 
                 <!--Product Name-->
                 <Grid Grid.Column="1" Margin="0 0 10 0">
-                    <ComboBox x:Name="Products" 
+                    <ComboBox x:Name="Products" SelectedItem="SelectedProduct"
                              ItemsSource="{Binding Path=Products}" IsTextSearchEnabled="True" FontWeight="Bold">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
@@ -63,7 +63,7 @@
 
                 <!--Branch-->
                 <Grid Grid.Column="2" Margin="10 0 0 0">
-                    <ComboBox x:Name="Branches" ItemsSource="{Binding Path=Branches}" >
+                    <ComboBox x:Name="Branches" SelectedItem="SelectedBranchProduct" ItemsSource="{Binding Path=Branches}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged" >
                                 <i:InvokeCommandAction Command="{Binding SelectBranchProductCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=Branches, Path=SelectedItem}"/>

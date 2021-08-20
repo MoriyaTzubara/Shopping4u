@@ -94,6 +94,7 @@ namespace Shopping4u.ViewModels
                 OnPropertyChanged(); 
             } 
         }
+        public bool changedByScanner { get; set; }
 
         private int branchProductId;
         public int BranchProductId 
@@ -163,7 +164,7 @@ namespace Shopping4u.ViewModels
             UnitPrice = 0;
             SelectedProduct = selectedProduct;
             showProperBranches(selectedProduct.id);
-            ProductSelectedEvent(this, selectedProduct);
+            
         }
 
         public void BranchProductSelected(BranchProduct selectedBranchProduct)
@@ -179,8 +180,12 @@ namespace Shopping4u.ViewModels
         }
         public void ScannedProduct(OrderedProduct orderedProduct)
         {
-            ProductSelected(orderedProduct.GetProduct());
+            changedByScanner = true;
+            Product product = orderedProduct.GetProduct();
+            ProductSelected(product);
+            ProductSelectedEvent(this, product);
             BranchProductSelected(orderedProduct.GetBranchProduct());
+            changedByScanner = false;
         }
         public OrderedProduct EncodeBarcode(string imgUrl)
         {

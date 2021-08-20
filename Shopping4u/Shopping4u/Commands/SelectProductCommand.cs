@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Shopping4u.ViewModels;
 using Shopping4u.Extensions;
 using BE;
+using System.Diagnostics;
 
 namespace Shopping4u.Commands
 {
@@ -29,8 +30,7 @@ namespace Shopping4u.Commands
         public void Execute(object parameter)
         {
             Product product = parameter as Product;
-            
-            if (product != null)
+            if (product != null && !createProductViewModel.changedByScanner)
                 createProductViewModel.ProductSelected(product);
         }
     }
