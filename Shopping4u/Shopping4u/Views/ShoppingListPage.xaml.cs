@@ -28,5 +28,6 @@ namespace Shopping4u
 
             CreateProductCard.Child = new CreateProductUserControl(shoppingListViewModel.CreateProductViewModel);
         }
+
     }
 }

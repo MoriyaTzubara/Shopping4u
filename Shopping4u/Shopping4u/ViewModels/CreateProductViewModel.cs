@@ -136,15 +136,9 @@ namespace Shopping4u.ViewModels
 
 
         public bool CanScanQRCode { get; set; }
-        public bool CanSaveShoppingList { get; set; }
         public string ScanQRCodeVisibility
         {
             get => CanScanQRCode ? "Visible" : "Collapsed";
-            private set { }
-        }
-        public string SaveShoppingListVisibility
-        {
-            get => CanSaveShoppingList ? "Visible" : "Collapsed";
             private set { }
         }
 
@@ -205,9 +199,13 @@ namespace Shopping4u.ViewModels
             if (imgUrl == "")
                 return;
 
-            //MessageBox.Show($"SCAN QR Code {imgUrl}");
-
             OrderedProduct orderedProduct = EncodeBarcode(imgUrl);
+            if (orderedProduct == null)
+            {
+                MessageBox.Show("Not a scannable picture");
+                return;
+            }
+
             ScannedProduct(orderedProduct);
         }
 

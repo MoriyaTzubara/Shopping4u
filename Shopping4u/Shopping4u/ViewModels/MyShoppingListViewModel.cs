@@ -21,7 +21,8 @@ namespace Shopping4u.ViewModels
         {
             this.myShoppingListModel = myShoppingListModel;
             Title = "My Shopping List";
-            CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true, CanSaveShoppingList = true };
+            IsShowSaveList = "Visible";
+            CreateProductViewModel = new CreateProductViewModel() { CanScanQRCode = true };
 
             SaveShoppingListCommand = new SaveShoppingListCommand(this);
         }
@@ -32,24 +33,21 @@ namespace Shopping4u.ViewModels
         {
             myShoppingListModel.CreateProduct(orderedProduct);
             base.CreateProduct(orderedProduct);
-            //MessageBox.Show("CreateProduct @ MyShoppingList");
         }
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
             base.UpdateProduct(orderedProduct);
-            //MessageBox.Show("UpdateProduct @ MyShoppingList");
         }
         public override void DeleteProduct(int orderedProductId)
         {
             myShoppingListModel.DeleteProduct(orderedProductId);
             base.DeleteProduct(orderedProductId);
-            MessageBox.Show("DeleteProduct @ MyShoppingList");
         }
 
         public void SaveShoppingList()
         {
             myShoppingListModel.SaveShoppingList();
-            MessageBox.Show("Save");
+            MessageBox.Show("Saved successfully");
             Clean();
             
 

@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                         Text="{Binding Title}" />
 
@@ -40,7 +40,7 @@
 
 
         </StackPanel>
-        
+
         <Grid Grid.Row="1" Margin="25 0">
 
             <Grid.ColumnDefinitions>
@@ -83,7 +83,7 @@
             <Button Grid.Column="2" Margin="20 0" 
                     Command="{Binding SaveShoppingListCommand}"
                     Style="{StaticResource MaterialDesignFlatButton}"
-                    Visibility="{Binding SaveShoppingListVisibility}">
+                    Visibility="{Binding IsShowSaveList}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20*"/>
@@ -91,7 +91,7 @@
                     </Grid.ColumnDefinitions>
 
                     <materialDesign:PackIcon Kind="CartCheck" Grid.Column="0"/>
-                    <TextBlock Text="Save" Margin="5 0" Grid.Column="1"/>
+                    <TextBlock Text="Save" Margin="5,0,5.333,-0.333" Grid.Column="1" Height="19" VerticalAlignment="Bottom"/>
                 </Grid>
             </Button>
         </Grid>
@@ -102,7 +102,7 @@
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 
                 <StackPanel>
-                    
+
                     <Border x:Name="CreateProductCard" Visibility="{Binding CreateProductVisibility}"/>
 
                     <!-- Products -->
@@ -150,7 +150,7 @@
                         <Run Text="{Binding TotalPrice}"/>
                         <Run Text="$"/>
                     </TextBlock>
-                    
+
                 </StackPanel>
                 <TextBlock Grid.Column="3" VerticalAlignment="Center" />
 
@@ -158,5 +158,5 @@
         </Grid>
 
     </Grid>
-    
+
 </UserControl>

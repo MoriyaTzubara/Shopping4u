@@ -24,6 +24,7 @@ namespace Shopping4u.ViewModels
 
         public ShoppingListModel ShoppingListModel;
 
+
         public ShoppingListViewModel(ShoppingListModel shoppingListModel)
         {
             ShoppingListModel = shoppingListModel;
@@ -53,7 +54,6 @@ namespace Shopping4u.ViewModels
         }
         internal void ExportRecommendedListToPDF()
         {
-            MessageBox.Show("Export to PDF");
 
             PdfDocument pdf = new PdfDocument();
             PdfPage pdfPage = pdf.AddPage();
@@ -67,7 +67,6 @@ namespace Shopping4u.ViewModels
             graph.DrawString("Recommended Shopping List", fontHeader, XBrushes.Purple, 30, 70);
             graph.DrawString($"{format("Product Name", 25)}{format("Branch Name", 25)}{format("Quantity", 25)}{format("UnitPrice", 25)}", fontBold, XBrushes.Black, 40, 150);
 
-
             int i = 1;
             graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
 
@@ -77,7 +76,9 @@ namespace Shopping4u.ViewModels
                 graph.DrawString(item, font, XBrushes.Black, 30, 100 + 40*i);
                 graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
             }
-
+            IBL bl = new BL.BL();
+            graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
+            graph.DrawString($"Total: {totalPrice}$", fontBold, XBrushes.Black, 40, 100 + 40 * i + 100);
 
             string filename = "HelloWorld.pdf";
             pdf.Save(filename);
@@ -110,6 +111,17 @@ namespace Shopping4u.ViewModels
             {
                 isShowCreateProduct = value;
                 CreateProductVisibility = value ? "Visible" : "Collapsed";
+                OnPropertyChanged();
+            }
+        }
+
+        private string isShowSaveList;
+        public string IsShowSaveList
+        {
+            get { return isShowSaveList; }
+            set
+            {
+                isShowSaveList = value;
                 OnPropertyChanged();
             }
         }
