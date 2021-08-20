@@ -61,11 +61,10 @@ namespace Shopping4u.ViewModels
             XFont font = new XFont("Verdana", 10, XFontStyle.Regular);
             XFont fontBold = new XFont("Verdana", 10, XFontStyle.Bold);
             XFont fontHeader = new XFont("Verdana", 18, XFontStyle.Bold);
+            List<string> productsAsString = Products.Select(x => $"   {format(x.ProductName,30)}{format(x.BranchName)}{format(x.Quantity)}{format(x.UnitPrice+"$")}{format(x.UnitPrice * x.Quantity + "$")}").ToList();
 
-            List<string> productsAsString = Products.Select(x => $"   {format(x.ProductName)}{format(x.BranchName)}{format(x.Quantity)}{format(x.UnitPrice+"$")}").ToList();
-
-            graph.DrawString("Recommended Shopping List", fontHeader, XBrushes.Purple, 30, 70);
-            graph.DrawString($"{format("Product Name", 25)}{format("Branch Name", 25)}{format("Quantity", 25)}{format("UnitPrice", 25)}", fontBold, XBrushes.Black, 40, 150);
+            graph.DrawString(Title, fontHeader, XBrushes.Purple, 30, 70);
+            graph.DrawString($"{format("Product Name", 25)}{format("Branch Name", 25)}{format("Quantity", 25)}{format("UnitPrice", 30)}{format("Total", 25)}", fontBold, XBrushes.Black, 40, 150);
 
             int i = 1;
             graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
@@ -74,13 +73,13 @@ namespace Shopping4u.ViewModels
             {
                 i += 1;
                 graph.DrawString(item, font, XBrushes.Black, 30, 100 + 40*i);
-                graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
+                graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 900, 100 + 40 * i + 20);
             }
             IBL bl = new BL.BL();
             graph.DrawLine(new XPen(XColor.FromKnownColor(XKnownColor.Purple)), 0, 100 + 40 * i + 20, 1000, 100 + 40 * i + 20);
-            graph.DrawString($"Total: {totalPrice}$", fontBold, XBrushes.Black, 40, 100 + 40 * i + 100);
-
-            string filename = "HelloWorld.pdf";
+            graph.DrawString($"Total: {totalPrice}$", fontBold, XBrushes.Black, 500, 100 + 40 * i + 50);
+           
+            string filename = $"{Title} {DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss")}.pdf";
             pdf.Save(filename);
 
             Process.Start(filename);
