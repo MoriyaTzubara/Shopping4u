@@ -169,7 +169,13 @@ namespace Shopping4u.ViewModels
                 products[orderedProductIndex].Quantity += orderedProduct.quantity;
             }
             else
-                products.Add(new OrderedProductViewModel(orderedProduct));
+            {
+                var newProducts = new List<OrderedProductViewModel>();
+                newProducts.Add(new OrderedProductViewModel(orderedProduct));
+                newProducts.AddRange(Products.ToList());
+
+                Products = new ObservableCollection<OrderedProductViewModel>(newProducts);
+            }
             NumberOfProducts = products.Count();
             TotalPrice = calculateTotalPrice();
         }
