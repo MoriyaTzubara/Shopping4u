@@ -14,7 +14,7 @@
             <Border Margin="100 180">
                 <StackPanel>
                     <TextBlock Style="{StaticResource MaterialDesignHeadline2TextBlock}"
-                               Text="Good Morning," />
+                               Text="{Binding Greeting}" />
                     <TextBlock Style="{StaticResource MaterialDesignHeadline2TextBlock}"
                                FontWeight="DemiBold"
                                Text="{Binding ConsumerName}" />
@@ -22,6 +22,7 @@
                     <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
                             HorizontalAlignment="Left"
                             Command="{Binding GoToRecommendedShoppingListPageCommand}"
+                            
                             Width="300"
                             Margin="0 40 0 0"
                             materialDesign:RippleAssist.Feedback="#DD000000"
