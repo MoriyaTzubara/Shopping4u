@@ -1116,17 +1116,17 @@ namespace Shopping4u.DAL
         public IDictionary<string, List<string>> GetUsualShoppingsForEachDay(int consumerId,double minPrecent = 0.3)
         {
             IDictionary<string,List<string>> result = new Dictionary<string, List<string>>();
-            string query = $"select dayOfWeek, name, CAST(numOfTimesBuyingProduct AS decimal)/CAST(numOfShoppings AS decimal) as precent " +
-                $"from (select dayname(date) as dayOfWeek, sum(distinct(shoppingListId)) as numOfShoppings " +
-                $"from orderedProduct natural join shoppingList " +
-                $"where consumerId = {consumerId} " +
-                $"group by dayname(date)) as denominator " +
+            string query = $"select dayOfWeek, `name`, numOfTimesBuyingProduct/ counter as precent " +
+                $"from(select dayname(shoppinglist.`date`) as dayOfWeek, count(*) as counter " +
+                $"from shoppinglist where consumerid = {consumerId} " +
+                $"group by dayname(shoppinglist.`date`)) allShoppingInThisDay " +
                 $"natural join " +
-                $"(select dayname(date) as dayOfWeek, name, sum(distinct(shoppingListId)) as numOfTimesBuyingProduct " +
-                $"from orderedProduct natural join shoppingList natural join baseproduct " +
+                $"(select dayname(shoppinglist.`date`) as dayOfWeek, `name`," +
+                $"count(distinct(shoppingListId)) as numOfTimesBuyingProduct " +
+                $"from orderedProduct natural join shoppingList natural join branchproduct natural join baseproduct " +
                 $"where consumerId = {consumerId} " +
-                $"group by dayname(date)) as Numerator " +
-                $"order by dayOfWeek, precent";
+                $"group by dayname(shoppinglist.`date`),`name`) counterForEachProductInEachDay " +
+                $"where numOfTimesBuyingProduct / counter > {minPrecent}";
             if (OpenConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
