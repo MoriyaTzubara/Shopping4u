@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" WindowStyle="None" 
         Background="{x:Null}" AllowsTransparency="True"
+        Icon="Img\cart.png"
         Height="650" Width="1000">
 
     <Grid>

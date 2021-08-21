@@ -61,11 +61,13 @@ namespace Shopping4u
 
         public void GoToShoppingHistoryPage()
         {
+            MainWindowViewModel.shoppingHistoryPage = new ShoppingHistoryPage();
             goToPage(MainWindowViewModel.shoppingHistoryPage);
         }
 
         public void GoToStatisticsPage()
         {
+            MainWindowViewModel.chartsPage = new ChartsPage();
             goToPage(MainWindowViewModel.chartsPage);
         }
 
