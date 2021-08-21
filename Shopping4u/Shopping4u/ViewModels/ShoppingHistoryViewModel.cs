@@ -55,7 +55,7 @@ namespace Shopping4u.ViewModels
 
         public void ViewShoppingList(int id)
         {
-            Products = ShoppingLists.FirstOrDefault(x => x.Id == id).ShoppingList.products.Select(x => new OrderedProductViewModel(x, false)).ToList();
+            Products = ShoppingLists.FirstOrDefault(x => x.Id == id).ShoppingList.products.Select(x => new OrderedProductViewModel(x, false)).Reverse().ToList();
             ViewListVisibility = "Visible";
         }
     }
