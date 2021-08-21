@@ -76,9 +76,7 @@ namespace Shopping4u.ViewModels
         }
 
         public bool SignIn(string email, string password)
-        {
-            MessageBox.Show($"Sign in: email = {email}, password = {password}");
-            
+        {            
             if (signInModel.SignIn(email, password))
             {
                 App.Consumer = signInModel.GetConsumer(email);
