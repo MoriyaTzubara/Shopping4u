@@ -52,7 +52,7 @@
 
 
         <Grid x:Name="ViewListGrid" Background="#F6F6F8" Visibility="{Binding ViewListVisibility}">
-            <Grid Margin="10 20 10 0">
+            <Grid Margin="10 40 10 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="9*"/>
                     <RowDefinition Height="*"/>
@@ -69,7 +69,12 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Button Grid.Row="1" Content="Close" Width="100" Margin="10" Command="{Binding CloseViewShoppingListCommand}"/>
+                <Button Grid.Row="1" Width="100" Margin="10" Command="{Binding CloseViewShoppingListCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Close" VerticalAlignment="Center"></materialDesign:PackIcon>
+                        <TextBlock>Close</TextBlock>
+                    </StackPanel>
+                </Button>
             </Grid>
         </Grid>
         
