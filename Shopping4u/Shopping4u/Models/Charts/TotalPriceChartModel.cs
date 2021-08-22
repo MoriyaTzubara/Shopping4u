@@ -12,18 +12,17 @@ namespace Shopping4u.Models.Charts
 {
     public class TotalPriceChartModel
     {
-        private Dictionary<string, double> result;
+        private Dictionary<string, double> data;
     public IEnumerable<double> getData()
         {
-            // TODO //
             IBL bl = new BL.BL();
-            result = bl.ShoppingsBetweenTwoDatesByMonth(DateTime.Now.AddYears(-1), DateTime.Now, App.Consumer.id);
-            return result.OrderBy(k => Convert.ToDateTime(k.Key)).Select(k => k.Value);
+            data = bl.ShoppingsBetweenTwoDatesByMonth(DateTime.Now.AddYears(-1), DateTime.Now, App.Consumer.id);
+            return data.OrderBy(k => Convert.ToDateTime(k.Key)).Select(k => k.Value);
         }
 
         public string[] getLabels()
         {
-            return result.Keys.Select(k => Convert.ToDateTime(k).ToString("MMMM")).ToArray();
+            return data.Keys.Select(k => Convert.ToDateTime(k).ToString("MMMM")).ToArray();
         }
     }
 }

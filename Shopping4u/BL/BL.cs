@@ -25,7 +25,6 @@ namespace Shopping4u.BL
         {
             if (dal.GetConsumer(consumer.id) != null)
                 return false;
-            //validate email?
             return true;
         }
         public bool SignUp(Consumer consumer)
@@ -67,6 +66,8 @@ namespace Shopping4u.BL
             IBL bl = new BL();
             bl.UpdateProductPicture(downloadUrl, productId);
         }
+        #endregion
+        #region ENCODING
         // encodes the barcodes
         public string EncodeBarcode(string downloadUrl)
         {
