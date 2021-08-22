@@ -40,7 +40,7 @@ namespace Shopping4u.ViewModels.Charts
             productsGroupModel.ProductsBoughtTogetherEvent += ProductsBoughtTogetherHandle;
 
             productsGroupModel.getProductsGroup();
-            showListView = "Collapsed";
+            ShowListView = "Collapsed";
         }
 
         private void ProductsBoughtTogetherHandle(object sender, Dictionary<double, Dictionary<string, string>> productGroups)
@@ -52,7 +52,7 @@ namespace Shopping4u.ViewModels.Charts
             {
                 ProductsGroups.Add(new ProductsGroup($"{group.Key}%", string.Join("\n", group.Value.Select(x => $"* {x.Key} -> {x.Value}"))));
             }
-            showListView = "Visible";
+            ShowListView = "Visible";
         }
     }
 
