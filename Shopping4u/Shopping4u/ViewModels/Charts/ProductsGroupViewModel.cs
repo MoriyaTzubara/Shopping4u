@@ -19,6 +19,12 @@ namespace Shopping4u.ViewModels.Charts
 
         ProductsGroupModel productsGroupModel;
 
+        private string showListView;
+        public string ShowListView
+        {
+            get { return showListView; }
+            set { showListView = value; OnPropertyChanged(); }
+        }
 
         private List<ProductsGroup> productsGroups;
         public List<ProductsGroup> ProductsGroups 
@@ -34,6 +40,7 @@ namespace Shopping4u.ViewModels.Charts
             productsGroupModel.ProductsBoughtTogetherEvent += ProductsBoughtTogetherHandle;
 
             productsGroupModel.getProductsGroup();
+            showListView = "Collapsed";
         }
 
         private void ProductsBoughtTogetherHandle(object sender, Dictionary<double, Dictionary<string, string>> productGroups)
@@ -45,6 +52,7 @@ namespace Shopping4u.ViewModels.Charts
             {
                 ProductsGroups.Add(new ProductsGroup($"{group.Key}%", string.Join("\n", group.Value.Select(x => $"* {x.Key} -> {x.Value}"))));
             }
+            showListView = "Visible";
         }
     }
 
