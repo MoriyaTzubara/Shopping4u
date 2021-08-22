@@ -59,6 +59,8 @@ namespace Shopping4u.ViewModels
             Products = new System.Collections.ObjectModel.ObservableCollection<OrderedProductViewModel>();
             //change
             shoppingListId = myShoppingListModel.NewShoppingList();
+            TotalPrice = 0;
+            NumberOfProducts = 0;
         }
     }
 }
