@@ -294,12 +294,6 @@
     <Resource Include="Img\default-img.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Img\milk.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Img\carts.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Img\cart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

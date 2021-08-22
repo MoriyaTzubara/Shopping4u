@@ -12,7 +12,7 @@ namespace Shopping4u.Models.Charts
         public Dictionary<double, Dictionary<string, string>> getProductsGroup()
         {
             IBL bl = new BL.BL();
-            return bl.ProductsBoughtTogether(App.Consumer.id);
+            return  bl.ProductsBoughtTogether(App.Consumer.id);
         }
 
     }

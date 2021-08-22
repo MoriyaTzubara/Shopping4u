@@ -15,14 +15,13 @@ namespace Shopping4u.ViewModels.Charts
         public ProductsGroupViewModel()
         {
             productsGroupModel = new ProductsGroupModel();
-            var groups = productsGroupModel.getProductsGroup();
+            var groups =  productsGroupModel.getProductsGroup();
             ProductsGroups = new List<ProductsGroup>();
             foreach(var group in groups)
             {
                     ProductsGroups.Add(new ProductsGroup($"{group.Key}%", string.Join("\n", group.Value.Select(x => $"* {x.Key} -> {x.Value}"))));
             }
-        }
-         
+        }        
     }
 
     public class ProductsGroup

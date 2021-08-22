@@ -143,7 +143,6 @@ namespace Shopping4u.DAL
                 return result;
             }
         }
-
         public BranchProduct GetBranchProduct(int branchProductId)
         {
             BranchProduct result = new BranchProduct();
@@ -292,7 +291,8 @@ namespace Shopping4u.DAL
             List<ShoppingList> result = new List<ShoppingList>();
             string query = "SELECT * " +
                 "FROM `shoppinglist` " +
-                $"where approved = {true} and `consumerId` = {consumerId}";
+                $"where approved = {true} and `consumerId` = {consumerId} " +
+                $"order by date";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -726,7 +726,6 @@ namespace Shopping4u.DAL
             }
             return result;
         }
-
         #endregion
         #region INSERT
         public ShoppingList CreateUnapprovedShoppingList(int consumerId)
@@ -754,7 +753,6 @@ namespace Shopping4u.DAL
             }
             return result;
         }
-        //NOT NEEDED
         public void InsertApprovedShoppingList(ShoppingList shoppingList)
         {
             
@@ -1292,19 +1290,27 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> CategoryBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, string categoryName)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            int daysLeft = DateTime.DaysInMonth(start.Year, start.Month) + 1 - start.Day;
-            if (daysLeft != 0)
+            string query = $"SELECT  DATE_FORMAT(date, '%Y-%m') as date, SUM(quantity * unitPrice) AS expenses " +
+                $"FROM (SELECT productId FROM baseProduct WHERE categoryName = '{categoryName}') AS ProductS NATURAL JOIN branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
+                $"GROUP BY  DATE_FORMAT(date, '%Y-%m') " +
+                $"order by  DATE_FORMAT(date, '%Y-%m')";
+            if (OpenConnection() == true)
             {
-                result[start.ToString("yyyy-MM-dd")] = CategoryBetweenTwoDatesByDay(start, start.AddDays(daysLeft), consumerId, categoryName).Sum(s => s.Value);
-                start = start.AddDays(daysLeft);
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey(((string)dataReader["date"])))
+                        result[((string)dataReader["date"])] = 0;
+                    result[((string)dataReader["date"])] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
             }
-            while (start.AddMonths(1) <= end)
-            {
-                result[start.ToString("yyyy-MM-dd")] = CategoryBetweenTwoDatesByDay(start, start.AddMonths(1), consumerId, categoryName).Sum(s => s.Value);
-                start = start.AddMonths(1);
-            }
-            if (start != end)
-                result[start.ToString("yyyy-MM-dd")] = CategoryBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId, categoryName).Sum(s => s.Value);
             return result;
         }
         public Dictionary<string, double> BranchBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int branchId)
@@ -1353,19 +1359,27 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> BranchBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int branchId)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            int daysLeft = DateTime.DaysInMonth(start.Year, start.Month) + 1 - start.Day;
-            if (daysLeft != 0)
+            string query = $"SELECT  DATE_FORMAT(date, '%Y-%m') as date, SUM(quantity * unitPrice) AS expenses " +
+                $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where approved = {true} AND branchId = {branchId} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
+                $"GROUP BY  DATE_FORMAT(date, '%Y-%m') " +
+                $"order by  DATE_FORMAT(date, '%Y-%m')";
+            if (OpenConnection() == true)
             {
-                result[start.ToString("yyyy-MM-dd")] = BranchBetweenTwoDatesByDay(start, start.AddDays(daysLeft), consumerId, branchId).Sum(s => s.Value);
-                start = start.AddDays(daysLeft);
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey(((string)dataReader["date"])))
+                        result[((string)dataReader["date"])] = 0;
+                    result[((string)dataReader["date"])] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
             }
-            while (start.AddMonths(1) <= end)
-            {
-                result[start.ToString("yyyy-MM-dd")] = BranchBetweenTwoDatesByDay(start, start.AddMonths(1), consumerId, branchId).Sum(s => s.Value);
-                start = start.AddMonths(1);
-            }
-            if (start != end)
-                result[start.ToString("yyyy-MM-dd")] = BranchBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId, branchId).Sum(s => s.Value);
             return result;
         }
         public Dictionary<string, double> ProductBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId, int productId)
@@ -1414,19 +1428,27 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> ProductBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId, int productId)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            int daysLeft = DateTime.DaysInMonth(start.Year, start.Month) + 1 - start.Day;
-            if (daysLeft != 0)
+            string query = $"SELECT  DATE_FORMAT(date, '%Y-%m') as date,SUM(quantity) AS counter " +
+                $"FROM branchProduct NATURAL JOIN OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where approved = {true} AND productId = {productId} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
+                $"GROUP BY  DATE_FORMAT(date, '%Y-%m') " +
+                $"order by  DATE_FORMAT(date, '%Y-%m')";
+            if (OpenConnection() == true)
             {
-                result[start.ToString("yyyy-MM-dd")] = ProductBetweenTwoDatesByDay(start, start.AddDays(daysLeft), consumerId, consumerId).Sum(s => s.Value);
-                start = start.AddDays(daysLeft);
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey(((string)dataReader["date"])))
+                        result[(((string)dataReader["date"]))] = 0;
+                    result[((string)dataReader["date"])] += dataReader.GetDouble("counter");
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
             }
-            while (start.AddMonths(1) <= end)
-            {
-                result[start.ToString("yyyy-MM-dd")] = ProductBetweenTwoDatesByDay(start, start.AddMonths(1), consumerId, productId).Sum(s => s.Value);
-                start = start.AddMonths(1);
-            }
-            if (start != end)
-                result[start.ToString("yyyy-MM-dd")] = ProductBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId, productId).Sum(s => s.Value);
             return result;
         }
         public Dictionary<string, double> ShoppingsBetweenTwoDatesByDay(DateTime start, DateTime end, int consumerId)
@@ -1475,19 +1497,27 @@ namespace Shopping4u.DAL
         public Dictionary<string, double> ShoppingsBetweenTwoDatesByMonth(DateTime start, DateTime end, int consumerId)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
-            int daysLeft = DateTime.DaysInMonth(start.Year, start.Month) + 1 - start.Day;
-            if (daysLeft != 0)
+            string query = $"SELECT DATE_FORMAT(date, '%Y-%m') as date ,SUM(quantity * unitPrice) AS expenses " +
+                $"FROM OrderedProduct NATURAL JOIN ShoppingList " +
+                $"where approved = {true} AND {consumerId} = consumerId AND date BETWEEN '{start:yyyy-MM-dd}' AND '{end:yyyy-MM-dd}' " +
+                $"GROUP BY DATE_FORMAT(date, '%Y-%m') " +
+                $"order by DATE_FORMAT(date, '%Y-%m') ";
+            if (OpenConnection() == true)
             {
-                result[start.ToString("yyyy-MM-dd")] = ShoppingsBetweenTwoDatesByDay(start, start.AddDays(daysLeft), consumerId).Sum(s => s.Value);
-                start = start.AddDays(daysLeft);
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    if (!result.ContainsKey(((string)dataReader["date"])))
+                        result[((string)dataReader["date"])] = 0;
+                    result[((string)dataReader["date"])] += (double)dataReader["expenses"];
+                }
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
             }
-            while (start.AddMonths(1) <= end)
-            {
-                result[start.ToString("yyyy-MM-dd")] = ShoppingsBetweenTwoDatesByDay(start, start.AddMonths(1), consumerId).Sum(s => s.Value);
-                start = start.AddMonths(1);
-            }
-            if (start != end)
-                result[start.ToString("yyyy-MM-dd")] = ShoppingsBetweenTwoDatesByDay(start, start.AddDays((int)((end - start).TotalDays)), consumerId).Sum(s => s.Value);
             return result;
         }
         #endregion
