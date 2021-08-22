@@ -48,12 +48,10 @@ namespace BL
 
             HashSet<Rule> rules = GenerateRules(allFrequentItems);
             IList<Rule> strongRules = GetStrongRules(minConfidence, rules, allFrequentItems);
-            Dictionary<string, Dictionary<string, double>> closedItemSets = GetClosedItemSets(allFrequentItems);
             return new Output
             {
                 StrongRules = strongRules,
                 FrequentItems = allFrequentItems,
-                ClosedItemSets = closedItemSets
             };
         }
 
@@ -221,23 +219,6 @@ namespace BL
 
             return true;
         }
-
-        //private IList<string> GetMaximalItemSets(Dictionary<string, Dictionary<string, double>> closedItemSets)
-        //{
-        //    var maximalItemSets = new List<string>();
-
-        //    foreach (var item in closedItemSets)
-        //    {
-        //        Dictionary<string, double> parents = item.Value;
-
-        //        if (parents.Count == 0)
-        //        {
-        //            maximalItemSets.Add(item.Key);
-        //        }
-        //    }
-
-        //    return maximalItemSets;
-        //}
 
         private HashSet<Rule> GenerateRules(ItemsDictionary allFrequentItems)
         {

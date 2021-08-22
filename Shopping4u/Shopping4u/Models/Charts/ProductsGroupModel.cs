@@ -1,4 +1,4 @@
-﻿using Shopping4u.BL;
+using Shopping4u.BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;

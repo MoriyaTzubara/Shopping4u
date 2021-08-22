@@ -39,13 +39,11 @@ namespace Shopping4u.ViewModels.Charts
 
             AggregateBy = AggregateBy.DAY;
 
-            Data = productsChartModel.getData(current.id, AggregateBy.DAY, StartDate, EndDate);
-            setSeriesCollection(Data, AggregateBy);
 
             SelectOptionCommand = new SelectOptionCommand(this);
             selectOption(current);
 
-            Labels = Data.Select(x => x.Key).ToArray();
+            Labels = Data.OrderBy(x => Convert.ToDateTime(x.Key)).Select(x => x.Key).ToArray();
         }
 
         public string Title { get; set; }
@@ -81,6 +79,7 @@ namespace Shopping4u.ViewModels.Charts
         {
             int productId = (option as Product).id;
             Data = getData(productId, AggregateBy, StartDate, EndDate);
+            Labels = Data.OrderBy(k => Convert.ToDateTime(k.Key)).Select(x => x.Key).ToArray();
             setSeriesCollection(Data, AggregateBy);
         }
         public void selectDates(DateTime start, DateTime end)
@@ -90,26 +89,22 @@ namespace Shopping4u.ViewModels.Charts
 
         public Dictionary<string, double> getData(int productId, AggregateBy aggregateBy,DateTime startDate, DateTime endDate)
         {
-            // TODO //
             return productsChartModel.getData(productId, aggregateBy, startDate, endDate);
         }
 
         public IEnumerable<Product> getOption()
         {
-            // TODO //
             return productsChartModel.getOption();
 
         }
 
         public void setSeriesCollection(Dictionary<string, double> data, AggregateBy aggregateBy)
         {
-            // TODO //
-            
             SeriesCollection = new SeriesCollection
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double>(data.Keys.OrderBy(k => ShoppingList.allMonths.ToList().IndexOf(k)).Select(k => data[k])),
+                    Values = new ChartValues<double>(Data.Keys.OrderBy(k => Convert.ToDateTime(k)).Select(x => Data[x])),
                 }
             };
         }
@@ -121,10 +116,7 @@ namespace Shopping4u.ViewModels.Charts
             AggregateBy = aggregateBy;
 
             Data = getData((CurrentOption as Product).id, aggregateBy, startDate, endDate);
-            if (AggregateBy == AggregateBy.MONTH)
-                Labels = data.ToList().OrderBy(k => ShoppingList.allMonths.ToList().IndexOf(k.Key)).Select(k => k.Key).ToArray();
-            else
-                Labels = Data.OrderBy(k => Convert.ToDateTime(k.Key)).Select(x => x.Key).ToArray();
+            Labels = Data.OrderBy(k => Convert.ToDateTime(k.Key)).Select(x => x.Key).ToArray();
             setSeriesCollection(Data, AggregateBy);
         }
     }
