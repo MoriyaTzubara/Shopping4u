@@ -153,6 +153,8 @@ namespace Shopping4u.ViewModels
         {
             if (selectedProduct == null)
                 return;
+            if (Products.ToList().FindIndex(p => p.id == selectedProduct.id) == -1)
+                Products.Add(selectedProduct);
             ImgUrl = selectedProduct.imageUrl;
             Quantity = 1;
             UnitPrice = 0;
