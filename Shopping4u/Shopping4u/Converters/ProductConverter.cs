@@ -40,7 +40,6 @@ namespace Shopping4u.Converters
                 return new OrderedProduct();
             }
         }
-
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             OrderedProduct orderedProduct = value as OrderedProduct;

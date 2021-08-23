@@ -15,6 +15,7 @@ namespace Shopping4u.ViewModels
 {
     public class MainWindowViewModel: INotifyPropertyChanged
     {
+        #region PROPERTIRES
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
@@ -31,9 +32,11 @@ namespace Shopping4u.ViewModels
         public ShoppingListPage myShoppingListPage;
         public ShoppingHistoryPage shoppingHistoryPage;
         public SignInPage signInPage;
-        public ChartsPage chartsPage;
+        public ChartsPage chartsPage;        
+        public ObservableCollection<RecommendtionViewModel> RecommendedProducts { get; set; }
 
-
+        #endregion
+        #region COMMANDS
         private GoToRecommendedShoppingListPageCommand goToRecommendedShoppingListPageCommand;
         public GoToRecommendedShoppingListPageCommand GoToRecommendedShoppingListPageCommand
         {
@@ -82,10 +85,17 @@ namespace Shopping4u.ViewModels
             get { return createProductCommand; }
             set { createProductCommand = value; OnPropertyChanged(); }
         }
+        #endregion
+        #region EVENTS
+        public event EventHandler<RecommendtionViewModel> AddedRecommendtionEvent;        
+        private async void addedRecommendtionHandler(object sender, OrderedProduct orderedProduct)
+        {
+            RecommendtionViewModel recommendtionViewModel = new RecommendtionViewModel(orderedProduct);
 
-
-        public event EventHandler<RecommendtionViewModel> AddedRecommendtionEvent;
-
+            addRecommendation(recommendtionViewModel);
+        }
+        #endregion
+        #region CONSTRUCTOR
         public MainWindowViewModel(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
@@ -100,7 +110,8 @@ namespace Shopping4u.ViewModels
 
             GoToSignInPageCommand = new GoToSignInPageCommand(mainWindow);            
         }
-
+        #endregion
+        #region FUNCTIONS
         private void SignInSuccess(object sender, Consumer consumer)
         {
             myShoppingListPage = new ShoppingListPage(new MyShoppingListViewModel(new MyShoppingListModel()));
@@ -122,20 +133,10 @@ namespace Shopping4u.ViewModels
             homePage.ConsumerName = consumer.firstName;
             GoToHomePageCommand.Execute(null);
         }
-
-        private async void addedRecommendtionHandler(object sender, OrderedProduct orderedProduct)
-        {
-            RecommendtionViewModel recommendtionViewModel = new RecommendtionViewModel(orderedProduct);
-
-            addRecommendation(recommendtionViewModel);
-        }
-
-        public ObservableCollection<RecommendtionViewModel> RecommendedProducts { get; set; }
-
         public async void addRecommendation(RecommendtionViewModel recommendtionViewModel)
         {
             AddedRecommendtionEvent.Invoke(this, recommendtionViewModel);
         }
-
+        #endregion
     }
 }

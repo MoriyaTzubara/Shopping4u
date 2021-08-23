@@ -9,9 +9,10 @@ using LiveCharts.Wpf;
 
 namespace Shopping4u.ViewModels
 {
+    #region PROPERTIRES
     public enum AggregateBy { MONTH=30,WEEK=7,DAY=1};
-  
-    public class ChartsViewModel<T>
-    {
-    }
+    #endregion
+    #region CONSTRUCTOR
+    public class ChartsViewModel<T>{}
+    #endregion
 }

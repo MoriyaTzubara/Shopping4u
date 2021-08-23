@@ -17,69 +17,17 @@ namespace Shopping4u.ViewModels
 {
     public class CreateProductViewModel: IProductViewModel, INotifyPropertyChanged
     {
+        #region PROPERTIRES
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public CreateProductViewModel()
-        {
-            IBL bl = new BL.BL();
-
-            Branches = new ObservableCollection<BranchProductViewModel>();
-            Products = new ObservableCollection<Product>(bl.GetProducts());
-            
-            UpdateQuantityCommand = new UpdateQuantityCommand(this);
-            SelectProductCommand = new SelectProductCommand(this);
-            SelectBranchProductCommand = new SelectBranchProductCommand(this);
-            ScanQRCodeCommand = new ScanQRCodeCommand(this);
-            SlecteImgCommand = new SlecteImgCommand(this);
-            SaveImageProductCommand = new SaveImageProductCommand(this);
-
-            ImgUrl = "";
-            Quantity = 0;
-            UnitPrice = 0;
-
-        }
-
-        public async void SaveImageProduct(string imgUrl, int branchProductId)
-        {
-            IBL bl = new BL.BL();
-            Product product = bl.GetBranchProduct(branchProductId).GetProduct();
-            await BL.BL.StorePicture(imgUrl, product.name, product.id);
-            ImgUrl = bl.GetBranchProduct(branchProductId).GetProduct().imageUrl;
-        }
-
         public ObservableCollection<BranchProductViewModel> Branches { get; set; }
         public ObservableCollection<Product> Products { get; set; }
+        public bool changedByScanner { get; set; }
 
-
-        public UpdateQuantityCommand UpdateQuantityCommand { get; set; }
-        public SelectProductCommand SelectProductCommand { get; set; }
-        public SelectBranchProductCommand SelectBranchProductCommand { get; set; }
-        public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
-        public SlecteImgCommand SlecteImgCommand { get; set; }
-        public SaveImageProductCommand SaveImageProductCommand { get; set; }
-
-        public event EventHandler<BranchProduct> BranchProductSelectedEvent;
-        public event EventHandler<Product> ProductSelectedEvent;
-
-        public OrderedProduct orderedProduct { 
-            get
-            {
-                return new OrderedProduct()
-                {
-                    branchProductId = this.BranchProductId,
-                    quantity = this.Quantity,
-                    unitPrice = this.UnitPrice
-                };
-            }
-            set
-            {
-
-            }
-        }
 
         private string imgUrl;
         public string ImgUrl 
@@ -94,15 +42,14 @@ namespace Shopping4u.ViewModels
                 OnPropertyChanged(); 
             } 
         }
-        public bool changedByScanner { get; set; }
 
         private int branchProductId;
         public int BranchProductId 
         { 
             get { return branchProductId; } 
             set { branchProductId = value; OnPropertyChanged(); }
-        }
-        
+        }       
+
         private int quantity;
         public int Quantity
         { 
@@ -134,7 +81,6 @@ namespace Shopping4u.ViewModels
             set { selectedProduct = value; OnPropertyChanged(); }
         }
 
-
         public bool CanScanQRCode { get; set; }
         public string ScanQRCodeVisibility
         {
@@ -142,13 +88,57 @@ namespace Shopping4u.ViewModels
             private set { }
         }
 
+        #endregion
+        #region CONSTRUCTOR
+        public CreateProductViewModel()
+        {
+            IBL bl = new BL.BL();
+
+            Branches = new ObservableCollection<BranchProductViewModel>();
+            Products = new ObservableCollection<Product>(bl.GetProducts());
+            
+            UpdateQuantityCommand = new UpdateQuantityCommand(this);
+            SelectProductCommand = new SelectProductCommand(this);
+            SelectBranchProductCommand = new SelectBranchProductCommand(this);
+            ScanQRCodeCommand = new ScanQRCodeCommand(this);
+            SlecteImgCommand = new SlecteImgCommand(this);
+            SaveImageProductCommand = new SaveImageProductCommand(this);
+
+            ImgUrl = "";
+            Quantity = 0;
+            UnitPrice = 0;
+
+        }
+        #endregion
+        #region FUNCTIONS
+        public async void SaveImageProduct(string imgUrl, int branchProductId)
+        {
+            IBL bl = new BL.BL();
+            Product product = bl.GetBranchProduct(branchProductId).GetProduct();
+            await BL.BL.StorePicture(imgUrl, product.name, product.id);
+            ImgUrl = bl.GetBranchProduct(branchProductId).GetProduct().imageUrl;
+        }
+        public OrderedProduct orderedProduct { 
+            get
+            {
+                return new OrderedProduct()
+                {
+                    branchProductId = this.BranchProductId,
+                    quantity = this.Quantity,
+                    unitPrice = this.UnitPrice
+                };
+            }
+            set
+            {
+
+            }
+        }
         public void showProperBranches(int productId)
         {
             IBL bl = new BL.BL();
             Branches = new ObservableCollection<BranchProductViewModel>(bl.GetBranchProductsOfSpecificProduct(productId).Select(x=> new BranchProductViewModel(x)));
             OnPropertyChanged("Branches");
         }
-
         public void ProductSelected(Product selectedProduct)
         {
             if (selectedProduct == null)
@@ -162,7 +152,6 @@ namespace Shopping4u.ViewModels
             showProperBranches(selectedProduct.id);
             
         }
-
         public void BranchProductSelected(BranchProduct selectedBranchProduct)
         {
             if (selectedBranchProduct == null)
@@ -210,7 +199,6 @@ namespace Shopping4u.ViewModels
 
             ScannedProduct(orderedProduct);
         }
-
         public void SlectedImage()
         {
             string imgUrl = "";
@@ -227,5 +215,19 @@ namespace Shopping4u.ViewModels
                 return;
             SaveImageProduct(imgUrl,branchProductId);
         }
+        #endregion
+        #region COMMANDS
+        public UpdateQuantityCommand UpdateQuantityCommand { get; set; }
+        public SelectProductCommand SelectProductCommand { get; set; }
+        public SelectBranchProductCommand SelectBranchProductCommand { get; set; }
+        public ScanQRCodeCommand ScanQRCodeCommand { get; set; }
+        public SlecteImgCommand SlecteImgCommand { get; set; }
+        public SaveImageProductCommand SaveImageProductCommand { get; set; }
+        #endregion
+        #region EVENTS
+        public event EventHandler<BranchProduct> BranchProductSelectedEvent;
+        public event EventHandler<Product> ProductSelectedEvent;
+        #endregion
+
     }
 }

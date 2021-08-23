@@ -15,14 +15,45 @@ namespace Shopping4u.ViewModels.Charts
 {
     public class BranchesChartViewModel : ILineChartViewModel, INotifyPropertyChanged
     {
-        private BranchesChartModel BranchsChartModel;
-
+        #region PROPERTIRES
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+
+        private BranchesChartModel BranchsChartModel;
+        public IEnumerable<object> Options { get; set; }
+        public object CurrentOption { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public AggregateBy AggregateBy { get; set; }
+        public string Title { get; set; }
+
+
+        private Dictionary<string, double> data;
+        public Dictionary<string, double> Data
+        {
+            get { return data; }
+            set { data = value; OnPropertyChanged(); }
+        }
+
+        private SeriesCollection seriesCollection;
+        public SeriesCollection SeriesCollection
+        {
+            get { return seriesCollection; }
+            set { seriesCollection = value; OnPropertyChanged(); }
+        }
+
+        private string[] labels;
+        public string[] Labels
+        {
+            get { return labels; }
+            set { labels = value; OnPropertyChanged(); }
+        }
+        #endregion
+        #region CONSTRUCTOR
         public BranchesChartViewModel()
         {
             Title = "Branches";
@@ -43,33 +74,11 @@ namespace Shopping4u.ViewModels.Charts
 
             Labels = Data.OrderBy(x => Convert.ToDateTime(x.Key)).Select(x => x.Key).ToArray();
         }
-
-        private Dictionary<string, double> data;
-        public Dictionary<string, double> Data
-        {
-            get { return data; }
-            set { data = value; OnPropertyChanged(); }
-        }
-
-        private SeriesCollection seriesCollection;
-        public SeriesCollection SeriesCollection
-        {
-            get { return seriesCollection; }
-            set { seriesCollection = value; OnPropertyChanged(); }
-        }
-        public IEnumerable<object> Options { get; set; }
-        public object CurrentOption { get; set; }
-        private string[] labels;
-        public string[] Labels { get { return labels; } set { labels = value; OnPropertyChanged(); } }
-
-
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public AggregateBy AggregateBy { get; set; }
-
+        #endregion
+        #region COMMANDS
         public SelectOptionCommand SelectOptionCommand { get; set; }
-        public string Title { get; set; }
-
+        #endregion
+        #region GET_DATA
         public void selectOption(object option)
         {
             int branchId = (option as Branch).id;
@@ -80,20 +89,16 @@ namespace Shopping4u.ViewModels.Charts
         public void selectDates(DateTime start, DateTime end)
         {
         }
-
         public Dictionary<string, double> getData(int branchId, AggregateBy aggregateBy, DateTime startDate, DateTime endDate)
         {
-            // TODO //
             return BranchsChartModel.getData(branchId, aggregateBy, startDate, endDate);
         }
-
         public IEnumerable<Branch> getOption()
         {
-            // TODO //
             return BranchsChartModel.getOption();
-
         }
-
+        #endregion
+        #region FUNCTIONS
         public void setSeriesCollection(Dictionary<string, double> data, AggregateBy aggregateBy)
         {
                 SeriesCollection = new SeriesCollection
@@ -104,7 +109,6 @@ namespace Shopping4u.ViewModels.Charts
                 }
             };
         } 
-
         public void updateSeriesCollection(DateTime startDate, DateTime endDate, AggregateBy aggregateBy)
         {
             StartDate = startDate;
@@ -115,5 +119,6 @@ namespace Shopping4u.ViewModels.Charts
             Labels = Data.OrderBy(k => Convert.ToDateTime(k.Key)).Select(x => x.Key).ToArray();
             setSeriesCollection(Data,aggregateBy);
         }
+        #endregion
     }
 }

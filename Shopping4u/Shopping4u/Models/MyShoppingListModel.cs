@@ -12,12 +12,17 @@ namespace Shopping4u.Models
 {
     public class MyShoppingListModel : ShoppingListModel
     {
+        #region PROPERTIRES
         public int shoppingListId { get; set; }
+        public IEnumerable<OrderedProduct> Products { get; set; }
+        #endregion
+        #region CONSTRUCTOR
         public MyShoppingListModel()
         {
             Products = getProducts();
         }
-        public IEnumerable<OrderedProduct> Products { get; set; }
+        #endregion
+        #region GET_DATA
         private IEnumerable<OrderedProduct> getProducts()
         {
             IBL bl = new BL.BL();
@@ -26,7 +31,8 @@ namespace Shopping4u.Models
             return shoppingList.products;
 
         }
-
+        #endregion
+        #region FUNCTIONS
         public void CreateProduct(OrderedProduct orderedProduct)
         {
             IBL bl = new BL.BL();
@@ -43,13 +49,11 @@ namespace Shopping4u.Models
             IBL bl = new BL.BL();
             bl.DeleteOrderedProduct(orderedProductId);
         }
-
         public void SaveShoppingList()
         {
             IBL bl = new BL.BL();
             bl.SaveShoppingList(shoppingListId);
         }
-
         public int NewShoppingList()
         {
             IBL bl = new BL.BL();
@@ -58,5 +62,6 @@ namespace Shopping4u.Models
             Products = new List<OrderedProduct>();
             return shoppingListId;
         }
+        #endregion
     }
 }

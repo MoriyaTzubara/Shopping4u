@@ -14,6 +14,7 @@ namespace Shopping4u.ViewModels
 {
     public class RecommendedShoppingListViewModel : ShoppingListViewModel
     {
+        #region CONSTRUCTOR
         public RecommendedShoppingListViewModel(ReccomendedShoppingListModel reccomendedShoppingListModel): base(reccomendedShoppingListModel)
         {
             Title = "Recommended Shopping List";
@@ -23,7 +24,8 @@ namespace Shopping4u.ViewModels
             };
             IsShowSaveList = "Collapsed";
         }
-
+        #endregion
+        #region FUNCTIONS
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             base.CreateProduct(orderedProduct);
@@ -36,7 +38,6 @@ namespace Shopping4u.ViewModels
 
 
         }
-
         public override void UpdateProduct(OrderedProduct orderedProduct)
         {
             base.UpdateProduct(orderedProduct);
@@ -45,10 +46,6 @@ namespace Shopping4u.ViewModels
         {
             base.DeleteProduct(productId);
         }
-
-        public event EventHandler<OrderedProduct> AddedRecommendtionEvent;
-
-
         private async void tryRecommend(IEnumerable<OrderedProductViewModel> products)
         {
             Thread.Sleep(5000);
@@ -62,5 +59,9 @@ namespace Shopping4u.ViewModels
                 AddedRecommendtionEvent.Invoke(this, bl.ConvertProductToOrderedProduct(result.ToList()[0]));
 
         }
+        #endregion
+        #region EVENTS
+        public event EventHandler<OrderedProduct> AddedRecommendtionEvent;
+        #endregion
     }
 }

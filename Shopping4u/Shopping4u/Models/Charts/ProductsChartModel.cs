@@ -11,9 +11,9 @@ namespace Shopping4u.Models.Charts
 {
     public class ProductsChartModel : ILineChartModel<Product,int>
     {
+        #region GET_DATA
         public Dictionary<string, double> getData(int productId, AggregateBy aggregateBy,DateTime startDate, DateTime endDate)
         {
-            // TODO //
             IBL bl = new BL.BL();
             switch (aggregateBy)
             {
@@ -28,12 +28,11 @@ namespace Shopping4u.Models.Charts
             }
             return new Dictionary<string, double>();
         }
-
         public IEnumerable<Product> getOption()
         {
-            // TODO //
             IBL bl = new BL.BL();
             return bl.GetProducts();
         }
+        #endregion
     }
 }

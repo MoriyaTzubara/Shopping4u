@@ -85,9 +85,9 @@ namespace Shopping4u.BL
         #endregion
         #region APRIORI
         bool DoesProductExistsInList(List<OrderedProduct> ordered, int productId);
-        IEnumerable<Product> AprioriRecommender(List<OrderedProduct> orderedProducts, double minSupport = 0.1, double minConfidence = 0.7);
-        Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.1, double minConfidence = 0.7);
-        IDictionary<List<Product>, double> ProductsThatGoTogether(double minConfidence = 0.01);
+        IEnumerable<Product> AprioriRecommender(List<OrderedProduct> orderedProducts, double minSupport = 0.3, double minConfidence = 0.65);
+        Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.3, double minConfidence = 0.65);
+        IDictionary<List<Product>, double> ProductsThatGoTogether(double minConfidence = 0.65);
         #endregion
         #region CONVERT
         OrderedProduct ConvertProductToOrderedProduct(Product product);

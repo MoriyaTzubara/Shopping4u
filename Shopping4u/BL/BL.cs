@@ -431,7 +431,7 @@ namespace Shopping4u.BL
             return result;
         }
 
-        public Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.5, double minConfidence = 0.7)
+        public Dictionary<double, Dictionary<string, string>> ProductsBoughtTogether(int consumerId, double minSupport = 0.3, double minConfidence = 0.65)
         {
             IApriori apriori = new Apriori();
             Output rules = apriori.ProcessTransaction(minSupport, minConfidence, GetProductsIdInList(), GetShoppingLists());

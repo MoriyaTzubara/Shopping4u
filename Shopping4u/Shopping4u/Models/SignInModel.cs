@@ -10,19 +10,17 @@ namespace Shopping4u.Models
 {
     public class SignInModel
     {
+        #region FUNCTIONS
         public bool SignIn(string email, string password)
         {
             IBL bl = new BL.BL();
-            // TODO //
             return bl.SignIn(email, password);
         }
-
         public Consumer GetConsumer(string email)
         {
             IBL bl = new BL.BL();
             return bl.GetConsumer(email);
-            // TODO //
-            //return new Consumer();
         }
+        #endregion
     }
 }
