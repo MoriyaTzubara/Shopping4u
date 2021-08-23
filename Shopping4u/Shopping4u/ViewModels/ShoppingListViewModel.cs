@@ -22,9 +22,7 @@ namespace Shopping4u.ViewModels
     public abstract class ShoppingListViewModel : INotifyPropertyChanged
     {
 
-        public ShoppingListModel ShoppingListModel;
-
-
+        #region CONSTRUCTOR
         public ShoppingListViewModel(ShoppingListModel shoppingListModel)
         {
             ShoppingListModel = shoppingListModel;
@@ -45,12 +43,31 @@ namespace Shopping4u.ViewModels
             TotalPrice = calculateTotalPrice();
             shoppingListId = shoppingListModel.shoppingListId;
         }
+        #endregion
 
+        #region COMMANDS
+        public ShowCreateProductCommand ShowCreateProductCommand { get; set; }
+        public CreateProductCommand CreateProductCommand { get; set; }
+        public UpdateProductCommand UpdateProductCommand { get; set; }
+        public DeleteProductCommand DeleteProductCommand { get; set; }
+        public ExportRecommendedListToPDFCommand ExportRecommendedListToPDFCommand { get; set; }
+        #endregion
 
+        #region FUNCTIONS
+
+        private double calculateTotalPrice()
+        {
+            return Products.Sum(x => x.orderedProduct.unitPrice * x.Quantity);
+        }
         private string format(object obj, int len=30)
         {
             string str = obj.ToString();
             return str + string.Concat(Enumerable.Repeat(" ", len - str.Length));
+        }
+        
+        public void ShowCreateProduct(bool isShow)
+        {
+            IsShowCreateProduct = isShow;
         }
         internal void ExportRecommendedListToPDF()
         {
@@ -84,77 +101,6 @@ namespace Shopping4u.ViewModels
 
             Process.Start(filename);
         }
-
-
-        public ShowCreateProductCommand ShowCreateProductCommand { get; set; }
-        public CreateProductCommand CreateProductCommand { get; set; }
-        public UpdateProductCommand UpdateProductCommand { get; set; }
-        public DeleteProductCommand DeleteProductCommand { get; set; }
-        public ExportRecommendedListToPDFCommand ExportRecommendedListToPDFCommand { get; set; }
-
-
-        public ProductConverter ProductConverter { get; set; }
-
-        public void ShowCreateProduct(bool isShow)
-        {
-            IsShowCreateProduct = isShow;
-        }
-
-
-        public CreateProductViewModel CreateProductViewModel { get; set; }
-
-        private bool isShowCreateProduct;
-        public bool IsShowCreateProduct {
-            get { return isShowCreateProduct; }
-            set
-            {
-                isShowCreateProduct = value;
-                CreateProductVisibility = value ? "Visible" : "Collapsed";
-                OnPropertyChanged();
-            }
-        }
-
-        private string isShowSaveList;
-        public string IsShowSaveList
-        {
-            get { return isShowSaveList; }
-            set
-            {
-                isShowSaveList = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string createProductVisibility;
-        public string CreateProductVisibility
-        {
-            get { return createProductVisibility; }
-            set {
-                createProductVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-        public string Title { get; set; }
-        public int shoppingListId;
-
-        private ObservableCollection<OrderedProductViewModel> products;
-        public ObservableCollection<OrderedProductViewModel> Products
-        {
-            get
-            {
-                return products;
-            }
-            set
-            {
-                products = value;
-                OnPropertyChanged();
-            }
-        }
-
         public IEnumerable<OrderedProductViewModel> GetProducts() {
             return ShoppingListModel.Products.Select(x => new OrderedProductViewModel(x));
         }
@@ -194,9 +140,55 @@ namespace Shopping4u.ViewModels
             TotalPrice = calculateTotalPrice();
             ShoppingListModel.UpdateProduct(orderedProduct);
         }
+
+        #endregion
+
+        #region PROPERTIRES
+        public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public ShoppingListModel ShoppingListModel;
+        
+        public ProductConverter ProductConverter { get; set; }
+        public CreateProductViewModel CreateProductViewModel { get; set; }
+
+        public int shoppingListId;
+
+        public string Title { get; set; }
+
+        private bool isShowCreateProduct;
+        public bool IsShowCreateProduct {
+            get { return isShowCreateProduct; }
+            set
+            {
+                isShowCreateProduct = value;
+                CreateProductVisibility = value ? "Visible" : "Collapsed";
+                OnPropertyChanged();
+            }
+        }
+
+        private string isShowSaveList;
+        public string IsShowSaveList
+        {
+            get { return isShowSaveList; }
+            set
+            {
+                isShowSaveList = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string createProductVisibility;
+        public string CreateProductVisibility
+        {
+            get { return createProductVisibility; }
+            set {
+                createProductVisibility = value;
+                OnPropertyChanged();
+            }
         }
 
         private int numberOfProducts;
@@ -209,7 +201,6 @@ namespace Shopping4u.ViewModels
                 OnPropertyChanged();
             }
         }
-
 
         private double totalPrice { get; set; }
         public double  TotalPrice 
@@ -224,10 +215,21 @@ namespace Shopping4u.ViewModels
                 OnPropertyChanged();
             }
         }
-        private double calculateTotalPrice()
+
+        private ObservableCollection<OrderedProductViewModel> products;
+        public ObservableCollection<OrderedProductViewModel> Products
         {
-            return Products.Sum(x => x.orderedProduct.unitPrice * x.Quantity);
+            get
+            {
+                return products;
+            }
+            set
+            {
+                products = value;
+                OnPropertyChanged();
+            }
         }
+        #endregion
 
     }
 }

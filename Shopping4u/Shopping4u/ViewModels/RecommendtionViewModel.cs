@@ -12,8 +12,7 @@ namespace Shopping4u.ViewModels
 {
     public class RecommendtionViewModel
     {
-        public OrderedProduct orderedProduct { get; set; }
-
+        #region CONSTRUCTOR
         public RecommendtionViewModel(OrderedProduct orderedProduct)
         {
             this.orderedProduct = orderedProduct;
@@ -22,12 +21,19 @@ namespace Shopping4u.ViewModels
             ImgUrl = orderedProduct.GetProduct().imageUrl;
             IgnoreRecommendationCommand = new IgnoreRecommendationCommand();
         }
+        #endregion
 
+        #region COMMANDS
         public IgnoreRecommendationCommand IgnoreRecommendationCommand { get; set; }
+        #endregion
 
+        #region PROPERTIRES
+        public OrderedProduct orderedProduct { get; set; }
+        
         public string Id { get; set; }
         public string ProductName { get; set; }
         public string ImgUrl { get; set; }
+        #endregion
 
     }
 }
