@@ -13,37 +13,11 @@ namespace Shopping4u.ViewModels
 {
     public class ShoppingHistoryViewModel: INotifyPropertyChanged
     {
-        public IEnumerable<HistoryShoppingListViewModel> ShoppingLists { get; set; }
-
-        private IEnumerable<OrderedProductViewModel> products;
-        public IEnumerable<OrderedProductViewModel> Products
-        {
-            get { return products; }
-            set { products = value; OnPropertyChanged(); }
-        }
-
-        public ViewShoppingListCommand ViewShoppingListCommand { get; set; }
-        public CloseViewShoppingListCommand CloseViewShoppingListCommand { get; set; }
-
+        #region PROPERTIRES
         public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void CloseViewShoppingList()
-        {
-            ViewListVisibility = "Collapsed";
-        }
-
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public ShoppingHistoryViewModel()
-        {
-            IBL bl = new BL.BL();
-            ShoppingLists = bl.GetConsumerHistory(App.Consumer.id).Select(x => new HistoryShoppingListViewModel(x)).ToList();
-            ViewShoppingListCommand = new ViewShoppingListCommand(this);
-            CloseViewShoppingListCommand = new CloseViewShoppingListCommand(this);
-            ViewListVisibility = "Collapsed";
         }
 
         private string viewListVisibility;
@@ -53,11 +27,43 @@ namespace Shopping4u.ViewModels
             set { viewListVisibility = value; OnPropertyChanged(); }
         }
 
+        public IEnumerable<HistoryShoppingListViewModel> ShoppingLists { get; set; }
+
+        private IEnumerable<OrderedProductViewModel> products;
+        public IEnumerable<OrderedProductViewModel> Products
+        {
+            get { return products; }
+            set { products = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        #region COMMANDS
+        public ViewShoppingListCommand ViewShoppingListCommand { get; set; }
+        public CloseViewShoppingListCommand CloseViewShoppingListCommand { get; set; }
+        #endregion
+
+        #region CONSTRUCTOR
+        public ShoppingHistoryViewModel()
+        {
+            IBL bl = new BL.BL();
+            ShoppingLists = bl.GetConsumerHistory(App.Consumer.id).Select(x => new HistoryShoppingListViewModel(x)).ToList();
+            ViewShoppingListCommand = new ViewShoppingListCommand(this);
+            CloseViewShoppingListCommand = new CloseViewShoppingListCommand(this);
+            ViewListVisibility = "Collapsed";
+        }
+        #endregion
+
+        #region FUNCTIONS
+        internal void CloseViewShoppingList()
+        {
+            ViewListVisibility = "Collapsed";
+        }
         public void ViewShoppingList(int id)
         {
             Products = ShoppingLists.FirstOrDefault(x => x.Id == id).ShoppingList.products.Select(x => new OrderedProductViewModel(x, false)).Reverse().ToList();
             ViewListVisibility = "Visible";
         }
+        #endregion
     }
 
     public class HistoryShoppingListViewModel

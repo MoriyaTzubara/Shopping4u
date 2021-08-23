@@ -14,67 +14,20 @@ namespace Shopping4u.ViewModels
 {
     public class SignInViewModel: INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
 
-
-        private SignInModel signInModel;
-
+        #region EVENTS
         public event EventHandler<Consumer> SignInSuccessEvent;
+        #endregion
 
+        #region COMMANDS
         public SignInCommand SignInCommand { get; set; }
+        #endregion
 
-
+        #region FUNCTIONS
         public void SetCanSignIn(bool result)
         {
             ErrorMessage = result ? "" : "Please fill both email and password";
         }
-
-        private bool canSignIn;
-
-        public bool CanSignIn
-        {
-            get { return canSignIn; }
-            set { canSignIn = value; OnPropertyChanged(); }
-        }
-   
-
-        private string errorMessage;
-        
-        public string ErrorMessage 
-        { 
-            get { return errorMessage; }
-            set { errorMessage = value; OnPropertyChanged(); }
-        }
-
-        private string password;
-
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
-
-        private string email;
-
-        public string Email
-        {
-            get { return email; }
-            set { email = value; }
-        }
-
-
-
-        public SignInViewModel()
-        {
-            signInModel = new SignInModel();
-            SignInCommand = new SignInCommand(this);
-            CanSignIn = true;
-        }
-
         public bool SignIn(string email, string password)
         {            
             if (signInModel.SignIn(email, password))
@@ -87,5 +40,53 @@ namespace Shopping4u.ViewModels
             ErrorMessage = "Invalid username or password";
             return false;
         }
+        #endregion
+
+        #region PROPERTIRES
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        private SignInModel signInModel;
+
+        private bool canSignIn;
+        public bool CanSignIn
+        {
+            get { return canSignIn; }
+            set { canSignIn = value; OnPropertyChanged(); }
+        }
+   
+        private string errorMessage;
+        public string ErrorMessage 
+        { 
+            get { return errorMessage; }
+            set { errorMessage = value; OnPropertyChanged(); }
+        }
+
+        private string password;
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
+
+        private string email;
+        public string Email
+        {
+            get { return email; }
+            set { email = value; }
+        }
+        #endregion
+
+        #region CONSTRUCTOR
+        public SignInViewModel()
+        {
+            signInModel = new SignInModel();
+            SignInCommand = new SignInCommand(this);
+            CanSignIn = true;
+        }
+        #endregion
+
     }
 }
