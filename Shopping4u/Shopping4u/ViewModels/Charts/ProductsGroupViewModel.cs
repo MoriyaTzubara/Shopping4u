@@ -11,13 +11,16 @@ namespace Shopping4u.ViewModels.Charts
 {
     public class ProductsGroupViewModel : INotifyPropertyChanged
     {
+        #region PROPERTIRES
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+
         ProductsGroupModel productsGroupModel;
+
 
         private string showListView;
         public string ShowListView
@@ -32,7 +35,8 @@ namespace Shopping4u.ViewModels.Charts
             get { return productsGroups; }
             set { productsGroups = value; OnPropertyChanged(); }
         }
-
+        #endregion
+        #region CONSTRUCTOR
         public ProductsGroupViewModel()
         {
             productsGroupModel = new ProductsGroupModel();
@@ -42,7 +46,8 @@ namespace Shopping4u.ViewModels.Charts
             productsGroupModel.getProductsGroup();
             ShowListView = "Collapsed";
         }
-
+        #endregion
+        #region EVENTS
         private void ProductsBoughtTogetherHandle(object sender, Dictionary<double, Dictionary<string, string>> productGroups)
         {
             var groups = productGroups;
@@ -54,10 +59,12 @@ namespace Shopping4u.ViewModels.Charts
             }
             ShowListView = "Visible";
         }
+        #endregion
     }
 
     public class ProductsGroup
     {
+        #region CONSTRUCTOR
         public ProductsGroup()
         {
             Probability = "";
@@ -69,8 +76,11 @@ namespace Shopping4u.ViewModels.Charts
             Groups = groups;
 
         }
+        #endregion
+        #region PROPERTIRES
         public string Probability { get; set; }
         public string Groups { get; set; }
+        #endregion
     }
 
 }

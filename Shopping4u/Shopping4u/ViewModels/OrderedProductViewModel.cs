@@ -16,15 +16,34 @@ namespace Shopping4u.ViewModels
 {
     public class OrderedProductViewModel: IProductViewModel, INotifyPropertyChanged
     {
-
+        #region PROPERTIRES
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public OrderedProduct orderedProduct;
 
+        public OrderedProduct orderedProduct;
+        public int Id { get; set; }
+        public double UnitPrice { get; set; } 
+        public int BranchProductId { get; set; }
+        public string ImgUrl { get; set; }
+        public string BranchName { get; set; }        
+        public string ProductName { get; set; }
+        public bool IsNotReadOnly { get; set; }
+        public int ShoppingListId { get; set; }
+  
+        
+        private int quantity;
+        public int Quantity
+        {
+            get { return quantity;}
+            set { quantity = value; OnPropertyChanged();}
+        }        
+        public bool IsReadOnly { get { return !IsNotReadOnly; } set { } }
+        #endregion
+        #region CONSTRUCTOR
         public OrderedProductViewModel(OrderedProduct orderedProduct, bool isNotReadOnly = true)
         {
             this.orderedProduct = orderedProduct;
@@ -41,34 +60,9 @@ namespace Shopping4u.ViewModels
             ProductName = orderedProduct.GetProduct().name;
             IsNotReadOnly = isNotReadOnly;
         }
-
-
+        #endregion
+        #region COMMANDS
         public UpdateQuantityCommand UpdateQuantityCommand { get; set; }
-
-
-        public int Id { get; set; }
-        
-        public int ShoppingListId { get; set; }
-        
-        private int quantity;
-        public int Quantity
-        {
-            get { return quantity;}
-            set { quantity = value; OnPropertyChanged();}
-        }        
-        
-        public double UnitPrice { get; set; }
-        
-        public int BranchProductId { get; set; }
-
-        public string ImgUrl { get; set; }
-
-        public string BranchName { get; set; }
-        
-        public string ProductName { get; set; }
-
-        public bool IsNotReadOnly { get; set; }
-        public bool IsReadOnly { get { return !IsNotReadOnly; } set { } }
-
+        #endregion
     }
 }

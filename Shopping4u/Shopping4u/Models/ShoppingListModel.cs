@@ -11,10 +11,14 @@ namespace Shopping4u.Models
 {
     public interface ShoppingListModel
     {
+        #region PROPERTIRES
         IEnumerable<OrderedProduct> Products { get; set; }
         int shoppingListId { get; set; }
+        #endregion
+        #region FUNCTIONS
         void CreateProduct(OrderedProduct orderedProduct);
         void UpdateProduct(OrderedProduct orderedProduct);
         void DeleteProduct(int productId);
+        #endregion
     }
 }

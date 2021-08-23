@@ -10,11 +10,17 @@ namespace Shopping4u.ViewModels
 {
     public class ChartsPageViewModel
     {
+        #region PROPERTIRES
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public AggregateBy AggregateBy { get; set; }
         public string AggregateStr { get { return AggregateBy.ToString(); } set { } }
 
+        public ILineChartViewModel ProductsChartViewModel;
+        public ILineChartViewModel BranchesChartViewModel;
+        public ILineChartViewModel CategoriesChartViewModel;
+        #endregion
+        #region CONSTRUCTOR
         public ChartsPageViewModel()
         {
             SetAggregateByCommand = new SetAggregateByCommand(this);
@@ -29,11 +35,13 @@ namespace Shopping4u.ViewModels
             StartDate = DateTime.Now.AddMonths(-1);
             EndDate = DateTime.Now;
         }
-
+        #endregion
+        #region COMMANDS
         public SetAggregateByCommand SetAggregateByCommand { get; set; }
         public SetStartDateCommand SetStartDateCommand { get; set; }
         public SetEndDateCommand SetEndDateCommand { get; set; }
-
+        #endregion
+        #region FUNCTIONS
         public void SetAggregateBy(AggregateBy aggregateBy)
         {
             AggregateBy = aggregateBy;
@@ -55,9 +63,7 @@ namespace Shopping4u.ViewModels
             BranchesChartViewModel.updateSeriesCollection(StartDate, EndDate, AggregateBy);
             CategoriesChartViewModel.updateSeriesCollection(StartDate, EndDate, AggregateBy);
         }
+        #endregion
 
-        public ILineChartViewModel ProductsChartViewModel;
-        public ILineChartViewModel BranchesChartViewModel;
-        public ILineChartViewModel CategoriesChartViewModel;
     }
 }

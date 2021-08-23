@@ -11,12 +11,17 @@ namespace Shopping4u.Models
 {
     public class ReccomendedShoppingListModel : ShoppingListModel
     {
+        #region PROPERTIRES
+        public int shoppingListId { get; set; }
+        public IEnumerable<OrderedProduct> Products { get; set; }
+        #endregion
+        #region CONSTRUCTOR
         public ReccomendedShoppingListModel()
         {
             Products = getProducts();
         }
-        public int shoppingListId { get; set; }
-        public IEnumerable<OrderedProduct> Products { get; set; }
+        #endregion
+        #region GET_DATA
         private IEnumerable<OrderedProduct> getProducts()
         {
             IBL bl = new BL.BL();
@@ -25,7 +30,8 @@ namespace Shopping4u.Models
                 return new List<OrderedProduct>();
             return products.Select(x => x.ToOrderedProduct());
         }
-
+        #endregion
+        #region FUNCTIONS
         public void CreateProduct(OrderedProduct orderedProduct)
         {
         }
@@ -35,5 +41,6 @@ namespace Shopping4u.Models
         public void UpdateProduct(OrderedProduct orderedProduct)
         {
         }
+        #endregion
     }
 }

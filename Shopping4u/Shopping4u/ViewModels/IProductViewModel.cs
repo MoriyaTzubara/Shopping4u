@@ -9,8 +9,10 @@ namespace Shopping4u.ViewModels
 {
     public interface IProductViewModel
     {
+        #region PROPERTIRES
         string ImgUrl { get; set; }
         int Quantity { get; set; }
         double UnitPrice { get; set; }
+        #endregion
     }
 }

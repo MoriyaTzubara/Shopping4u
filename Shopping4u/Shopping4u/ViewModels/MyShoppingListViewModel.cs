@@ -15,8 +15,10 @@ namespace Shopping4u.ViewModels
 {
     public class MyShoppingListViewModel : ShoppingListViewModel
     {
+        #region PROPERTIRES
         private MyShoppingListModel myShoppingListModel;
-
+        #endregion
+        #region CONSTRUCTOR
         public MyShoppingListViewModel(MyShoppingListModel myShoppingListModel): base(myShoppingListModel)
         {
             this.myShoppingListModel = myShoppingListModel;
@@ -26,9 +28,11 @@ namespace Shopping4u.ViewModels
 
             SaveShoppingListCommand = new SaveShoppingListCommand(this);
         }
-
+        #endregion
+        #region COMMANDS
         public SaveShoppingListCommand SaveShoppingListCommand { get; set; }
-        
+        #endregion
+        #region FUNCTIONS
         public override void CreateProduct(OrderedProduct orderedProduct)
         {
             myShoppingListModel.CreateProduct(orderedProduct);
@@ -43,24 +47,20 @@ namespace Shopping4u.ViewModels
             myShoppingListModel.DeleteProduct(orderedProductId);
             base.DeleteProduct(orderedProductId);
         }
-
         public void SaveShoppingList()
         {
             myShoppingListModel.SaveShoppingList();
             MessageBox.Show("Saved successfully");
-            Clean();
-            
+            Clean();           
 
         }
-
         private void Clean()
         {
-            
             Products = new System.Collections.ObjectModel.ObservableCollection<OrderedProductViewModel>();
-            //change
             shoppingListId = myShoppingListModel.NewShoppingList();
             TotalPrice = 0;
             NumberOfProducts = 0;
         }
+        #endregion
     }
 }

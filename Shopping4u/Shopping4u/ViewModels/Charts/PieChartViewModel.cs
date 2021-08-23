@@ -11,6 +11,10 @@ namespace Shopping4u.ViewModels
 {
     public class PieChartViewModel
     {
+        #region PROPERTIRES
+        public SeriesCollection SeriesCollection { get; private set; }
+        #endregion
+        #region CONSTRUCTOR
         public PieChartViewModel(PieChartModel pieChartModel)
         {
             SeriesCollection = new SeriesCollection();
@@ -24,13 +28,14 @@ namespace Shopping4u.ViewModels
                 });
             };
         }
-
-        public SeriesCollection SeriesCollection { get; private set; }
+        #endregion
     }
 
     public class TitleValue
     {
+        #region PROPERTIRES
         public string title;
         public double value;
-    } 
+        #endregion
+    }
 }

@@ -10,12 +10,15 @@ using BE;
 namespace Shopping4u.Models
 {
     public class RecommendtionModel
-    { 
+    {
+        #region PROPERTIRES
         public OrderedProduct OrderedProduct { get; set; }
-        
+        #endregion
+        #region CONSTRUCTOR
         public RecommendtionModel(OrderedProduct product)
         {
             this.OrderedProduct = product;
         }
+        #endregion
     }
 }

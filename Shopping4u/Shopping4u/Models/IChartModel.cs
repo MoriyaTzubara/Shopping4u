@@ -8,8 +8,10 @@ namespace Shopping4u.Models
 {
     public interface IChartModel<T>
     {
+        #region PROPERTIRES
         string Title { get; set; }
         IEnumerable<T> Data {get; set;}
+        #endregion
 
     }
 }

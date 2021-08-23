@@ -26,7 +26,6 @@ namespace Shopping4u.Converters
                 Password = password
             };
         }
-
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             if (value == null)

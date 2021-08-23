@@ -12,6 +12,7 @@ namespace Shopping4u.ViewModels
 {
     public interface ILineChartViewModel
     {
+        #region PROPERTIRES
         string Title { get; set; }
         Dictionary<string, double> Data { get; set; }
         SeriesCollection SeriesCollection { get; set; }
@@ -22,13 +23,15 @@ namespace Shopping4u.ViewModels
 
         DateTime StartDate { get; set; }
         DateTime EndDate { get; set; }
-
+        #endregion
+        #region COMMANDS
         SelectOptionCommand SelectOptionCommand { get; set; }
-
+        #endregion
+        #region FUNCTIONS
         void selectOption(object option);
         void selectDates(DateTime start, DateTime end);
-
         void setSeriesCollection(Dictionary<string, double> data, AggregateBy aggregateBy);
         void updateSeriesCollection(DateTime startDate, DateTime endDate, AggregateBy aggregateBy);
+        #endregion
     }
 }

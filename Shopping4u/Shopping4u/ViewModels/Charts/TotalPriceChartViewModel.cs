@@ -11,13 +11,20 @@ namespace Shopping4u.ViewModels.Charts
 {
     public class TotalPriceChartViewModel
     {
+        #region PROPERTIRES
         TotalPriceChartModel totalPriceChartModel;
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> Formatter { get; set; }
+        #endregion
+        #region CONSTRUCTOR
         public TotalPriceChartViewModel()
         {
             totalPriceChartModel = new TotalPriceChartModel();
             setSeriesCollection();
         }
-
+        #endregion
+        #region FUNCTIONS
         public void setSeriesCollection()
         {
             SeriesCollection = new SeriesCollection
@@ -32,9 +39,7 @@ namespace Shopping4u.ViewModels.Charts
             Formatter = value => $"{value}$";
 
         }
+        #endregion
 
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }
     }
 }

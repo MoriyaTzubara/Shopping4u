@@ -10,7 +10,9 @@ namespace Shopping4u.Models
 {
     public class MainWindowModel
     {
+        #region PROPERTIRES
         public int NumberOfProductsInMyShoppingList { get; set; }
         public IEnumerable<OrderedProduct> recommendedProducts { get; set; }
+        #endregion
     }
 }
